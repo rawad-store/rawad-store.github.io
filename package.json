@@ -1,0 +1,7 @@
+{
+  "homepage": "https://rawad-store.github.io/rawad-store",
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  }
+}
