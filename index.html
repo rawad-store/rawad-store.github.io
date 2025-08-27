@@ -5,24 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مكتبة الرواد - الصوة | متجر الكتب والمستلزمات المدرسية</title>
     <meta name="description" content="متجر مكتبة الرواد - أكبر مجموعة من الكتب الدراسية والمستلزمات المكتبية بأفضل الأسعار">
+    
     <!-- Meta Tags for Social Media Sharing -->
-<meta property="og:title" content="مكتبة الرواد -الصوة | متجر الكتب والمستلزمات المدرسية">
-<meta property="og:description" content="مكتبة الرواد توفر أكبر مجموعة من الكتب الدراسية والمستلزمات المكتبية. اطلب خدمات الطباعة والتصوير واستلمها بسهولة .">
-<meta property="og:image" content="https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/preview.jpg">
-<meta property="og:url" content="https://rawad-store.github.io/">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="ar_AR">
+    <meta property="og:title" content="مكتبة الرواد -الصوة | متجر الكتب والمستلزمات المدرسية">
+    <meta property="og:description" content="مكتبة الرواد توفر أكبر مجموعة من الكتب الدراسية والمستلزمات المكتبية. اطلب خدمات الطباعة والتصوير واستلمها بسهولة .">
+    <meta property="og:image" content="https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/preview.jpg">
+    <meta property="og:url" content="https://rawad-store.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_AR">
 
-<!-- Twitter Card Tags -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="مكتبة الرواد - الصوة | متجر الكتب والمستلزمات المدرسية">
-<meta name="twitter:description" content="أكبر مجموعة من الكتب الدراسية والمستلزمات المكتبية.">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/preview.jpg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="مكتبة الرواد - الصوة | متجر الكتب والمستلزمات المدرسية">
+    <meta name="twitter:description" content="أكبر مجموعة من الكتب الدراسية والمستلزمات المكتبية.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/preview.jpg">
+    
+    <!-- Preload critical resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
     <style>
+        /* CSS Variables for consistent theming */
         :root {
             --primary-color: #1e3d59;
             --secondary-color: #ff6b35;
@@ -51,6 +56,7 @@
             --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
             --border-radius: 12px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --header-height: 80px;
         }
 
         * {
@@ -196,6 +202,7 @@
         .social-links {
             display: flex;
             gap: 1rem;
+            align-items: center;
         }
 
         .social-link {
@@ -242,11 +249,17 @@
             z-index: 1;
         }
 
+        .location-text {
+            color: white;
+            margin: 0 10px;
+            font-size: 0.9rem;
+        }
+
         /* Enhanced Main Header */
         .header-main {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            padding: 1.5rem 0;
+            padding: 1rem 0;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
@@ -274,15 +287,15 @@
         }
 
         .logo-img {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: var(--border-radius);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: bold;
             box-shadow: 0 8px 25px rgba(30, 61, 89, 0.3);
             position: relative;
@@ -309,7 +322,7 @@
 
         .logo-text h1 {
             color: var(--primary-color);
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             margin-bottom: 0.3rem;
             font-weight: 700;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -320,7 +333,7 @@
 
         .logo-text p {
             color: var(--gray-600);
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 500;
         }
 
@@ -350,7 +363,7 @@
 
         .search-input {
             width: 100%;
-            padding: 1rem 4rem 1rem 1.5rem;
+            padding: 0.9rem 4rem 0.9rem 1.5rem;
             border: none;
             border-radius: 50px;
             font-size: 1rem;
@@ -376,8 +389,8 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
@@ -449,7 +462,7 @@
         .whatsapp-header {
             background: linear-gradient(135deg, var(--whatsapp-color), #20a558);
             color: white;
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 50px;
             text-decoration: none;
             display: flex;
@@ -517,7 +530,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 1.2rem 1.8rem;
+            padding: 1rem 1.5rem;
             color: white;
             text-decoration: none;
             transition: var(--transition);
@@ -552,7 +565,7 @@
         }
 
         .nav-link i {
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         /* Enhanced Dropdown */
@@ -562,7 +575,7 @@
             right: 0;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            min-width: 280px;
+            min-width: 250px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
             border-radius: var(--border-radius);
             overflow: hidden;
@@ -617,7 +630,7 @@
         .hero {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
-            padding: 5rem 0;
+            padding: 4rem 0;
             margin-bottom: 3rem;
             position: relative;
             overflow: hidden;
@@ -641,8 +654,8 @@
         }
 
         .hero h2 {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 1.2rem;
             font-weight: 900;
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             animation: heroTitleSlide 1s ease-out;
@@ -660,8 +673,8 @@
         }
 
         .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
             opacity: 0.95;
             max-width: 600px;
             margin-left: auto;
@@ -682,7 +695,7 @@
 
         .hero-cta {
             display: flex;
-            gap: 1.5rem;
+            gap: 1.2rem;
             justify-content: center;
             flex-wrap: wrap;
             animation: heroCTASlide 1s ease-out 0.6s both;
@@ -701,13 +714,13 @@
 
         /* Enhanced Sections */
         .section {
-            margin: 4rem 0;
+            margin: 3rem 0;
             position: relative;
         }
 
         .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
+            font-size: 2rem;
+            margin-bottom: 2.5rem;
             color: var(--primary-color);
             text-align: center;
             font-weight: 700;
@@ -731,16 +744,16 @@
         /* Enhanced Categories */
         .categories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
 
         .category-card {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(20px);
             border-radius: var(--border-radius);
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             transition: var(--transition);
@@ -766,22 +779,22 @@
         }
 
         .category-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-8px) scale(1.02);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             border-color: var(--primary-color);
         }
 
         .category-icon {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
+            margin: 0 auto 1.2rem;
             color: white;
-            font-size: 2rem;
+            font-size: 1.8rem;
             box-shadow: 0 8px 25px rgba(30, 61, 89, 0.3);
             transition: var(--transition);
         }
@@ -793,14 +806,14 @@
 
         .category-card h3 {
             color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
             font-weight: 600;
         }
 
         .category-card p {
             color: var(--gray-600);
-            font-size: 1rem;
+            font-size: 0.9rem;
             line-height: 1.6;
         }
 
@@ -810,7 +823,7 @@
             background: none;
             border: none;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
             padding: 0.5rem;
             border-radius: var(--border-radius);
@@ -821,108 +834,563 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-        /* Enhanced Responsive Design */
-        @media (max-width: 768px) {
-            .header-main .container {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            .search-bar {
-                margin: 0;
-                max-width: 100%;
-                order: 3;
-            }
-
-            .nav-menu {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: linear-gradient(135deg, var(--primary-color), #2a5a87);
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-                border-radius: 0 0 var(--border-radius) var(--border-radius);
-            }
-
-            .nav-menu.active {
-                display: flex;
-            }
-
-            .mobile-menu-toggle {
-                display: block;
-            }
-
-            .hero h2 {
-                font-size: 2.2rem;
-            }
-
-            .hero p {
-                font-size: 1.1rem;
-            }
-
-            .categories-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 1.5rem;
-            }
-
-            .header-actions {
-                gap: 1rem;
-            }
-
-            .whatsapp-header {
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
-            }
-
-            .contact-info {
-                gap: 1rem;
-                font-size: 0.8rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
+        /* Enhanced Product Card Styles */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
         }
 
-        @media (max-width: 480px) {
-            .hero h2 {
-                font-size: 1.8rem;
-            }
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
 
-            .hero p {
-                font-size: 1rem;
-            }
+        .product-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
 
-            .hero-cta {
-                flex-direction: column;
-                align-items: center;
-            }
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--gray-100), #e3f2fd);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--gray-400);
+            position: relative;
+            overflow: hidden;
+        }
 
-            .categories-grid {
-                grid-template-columns: 1fr;
-            }
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, var(--secondary-color), #ff8c5a);
+            color: white;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
 
-            .header-top .container {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
+        .product-info {
+            padding: 1.2rem;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.7rem;
+            height: 2.6rem;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 0.7rem;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: var(--warning-color);
+            font-size: 0.9rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.7rem;
+        }
+
+        .add-to-cart {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);
+        }
+
+        .add-to-cart:hover {
+            background: linear-gradient(135deg, var(--secondary-color), #ff8c5a);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .wishlist-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid var(--gray-300);
+            color: var(--gray-600);
+            width: 45px;
+            height: 45px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .wishlist-btn:hover,
+        .wishlist-btn.active {
+            background: linear-gradient(135deg, var(--danger-color), #e74c3c);
+            color: white;
+            border-color: var(--danger-color);
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        /* Enhanced Filter Buttons */
+        .products-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .filter-btn {
+            padding: 0.7rem 1.3rem;
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .filter-btn:hover {
+            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);
+        }
+
+        /* Enhanced Service Cards */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 0 10px 30px rgba(30, 61, 89, 0.3);
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 40px rgba(30, 61, 89, 0.4);
+        }
+
+        .service-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .service-card p {
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        /* Enhanced Offers Section */
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .offer-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+        }
+
+        .offer-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .offer-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .offer-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .offer-card p {
+            margin-bottom: 1.2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .offer-badge {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        /* Enhanced Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .contact-card {
+            text-align: center;
+        }
+
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--whatsapp-color), #20a558);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+            transition: var(--transition);
+        }
+
+        .contact-card:nth-child(2) .contact-icon {
+            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+        }
+
+        .contact-card:nth-child(3) .contact-icon {
+            background: linear-gradient(135deg, var(--info-color), #20a2b8);
+        }
+
+        .contact-card:nth-child(4) .contact-icon {
+            background: linear-gradient(135deg, var(--secondary-color), #ff8c5a);
+        }
+
+        .contact-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .contact-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .contact-card a {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .contact-card a:hover {
+            color: var(--secondary-color);
+        }
+
+        .contact-card p {
+            margin-top: 0.5rem;
+            color: var(--gray-600);
+        }
+
+        /* Working Hours */
+        .hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .hour-card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .hour-icon {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .hour-card h5 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .hour-card p {
+            color: var(--gray-700);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Social Media */
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--facebook-color), #1565c0);
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            font-size: 1.3rem;
+            transition: var(--transition);
+            box-shadow: 0 8px 25px rgba(24, 119, 242, 0.3);
+        }
+
+        .social-card:nth-child(2) {
+            background: linear-gradient(135deg, var(--whatsapp-color), #20a558);
+        }
+
+        .social-card:nth-child(3) {
+            background: linear-gradient(135deg, var(--instagram-color), #c13584);
+        }
+
+        .social-card:hover {
+            transform: translateY(-5px) scale(1.1);
+        }
+
+        /* Footer */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo-img {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .footer-logo-text h4 {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            font-weight: 700;
+        }
+
+        .footer-logo-text p {
+            color: var(--gray-300);
+            font-size: 0.8rem;
+        }
+
+        .footer-links h4 {
+            color: var(--accent-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.7rem;
+        }
+
+        .footer-links a {
+            color: var(--gray-300);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+        .footer-links i {
+            font-size: 0.7rem;
+        }
+
+        .footer-contact h4 {
+            color: var(--accent-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .footer-contact ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-contact li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+
+        .footer-contact i {
+            color: var(--accent-color);
+            margin-top: 0.2rem;
+            font-size: 1rem;
+        }
+
+        .footer-contact strong {
+            color: white;
+        }
+
+        .footer-contact span, 
+        .footer-contact a {
+            color: var(--gray-300);
+            text-decoration: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-700);
+            color: var(--gray-400);
+        }
+
+        .footer-bottom p {
+            margin-bottom: 1rem;
+        }
+
+        .policy-links {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .policy-links a {
+            color: #2c5cc7;
+            text-decoration: none;
+            margin: 0 10px;
         }
 
         /* Floating WhatsApp Enhanced */
         .whatsapp-float {
             position: fixed;
-            width: 70px;
-            height: 70px;
-            bottom: 30px;
-            right: 30px;
+            width: 60px;
+            height: 60px;
+            bottom: 25px;
+            right: 25px;
             background: linear-gradient(135deg, var(--whatsapp-color), #20a558);
             color: white;
             border-radius: 50%;
             text-align: center;
-            font-size: 2rem;
+            font-size: 1.8rem;
             box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
             z-index: 1000;
             display: flex;
@@ -950,6 +1418,36 @@
             transform: scale(1.1) translateY(-5px);
             box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6);
             animation: none;
+        }
+
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(30, 61, 89, 0.4);
+        }
+
+        .scroll-to-top.show {
+            display: flex;
         }
 
         /* Loading and Animation States */
@@ -1005,6 +1503,438 @@
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
         }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: scale(0.7);
+            transition: all 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .modal-header h3 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-600);
+            transition: var(--transition);
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger-color);
+            transform: scale(1.1);
+        }
+
+        /* Cart Item Styles */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-bottom: 1px solid var(--gray-200);
+            transition: var(--transition);
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            background: rgba(248, 249, 250, 0.5);
+        }
+
+        .cart-item:hover {
+            background: rgba(248, 249, 250, 0.8);
+            transform: translateX(5px);
+        }
+
+        .cart-item-image {
+            width: 50px;
+            height: 50px;
+            background: var(--gray-100);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 1rem;
+            font-size: 1.3rem;
+            color: var(--gray-400);
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--gray-800);
+        }
+
+        .cart-item-price {
+            color: var(--gray-600);
+            font-size: 0.8rem;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quantity-btn {
+            background: var(--gray-200);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .quantity-btn.plus {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .quantity-btn.plus:hover {
+            background: var(--secondary-color);
+        }
+
+        .quantity-display {
+            min-width: 35px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--primary-color);
+        }
+
+        .cart-item-total {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1rem;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 350px;
+            font-weight: 500;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-success {
+            background: linear-gradient(135deg, var(--success-color), #34ce57);
+            color: white;
+        }
+
+        .notification-info {
+            background: linear-gradient(135deg, var(--info-color), #20a2b8);
+            color: white;
+        }
+
+        .notification-warning {
+            background: linear-gradient(135deg, var(--warning-color), #ffca28);
+            color: var(--dark-color);
+        }
+
+        .notification-error {
+            background: linear-gradient(135deg, var(--danger-color), #e74c3c);
+            color: white;
+        }
+
+        /* Loading Overlay */
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Search Suggestions */
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: none;
+        }
+
+        .search-suggestion {
+            padding: 0.8rem 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .search-suggestion:hover {
+            background: rgba(30, 61, 89, 0.05);
+            color: var(--primary-color);
+        }
+
+        .search-suggestion:last-child {
+            border-bottom: none;
+        }
+
+        /* Enhanced Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-main .container {
+                flex-direction: column;
+                gap: 1.2rem;
+            }
+
+            .search-bar {
+                margin: 0;
+                max-width: 100%;
+                order: 3;
+            }
+
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                border-radius: 0 0 var(--border-radius) var(--border-radius);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1.2rem;
+            }
+
+            .header-actions {
+                gap: 1rem;
+            }
+
+            .whatsapp-header {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .contact-info {
+                gap: 1rem;
+                font-size: 0.8rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h2 {
+                font-size: 1.6rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-top .container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+            }
+            
+            .wishlist-btn {
+                width: 100%;
+            }
+            
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 1.5rem;
+            }
+            
+            .scroll-to-top {
+                bottom: 85px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1034,11 +1964,11 @@
                 </a>
                 <a href="https://www.instagram.com/tarekyahiaalmoghrapy?igsh=MW5teXV6NGg5aTk1aQ==" class="social-link instagram" target="_blank" rel="noopener">
                     <i class="fab fa-instagram"></i>
-                 </a>
-                     <p>أمام سنترال الصوة - بالمجمع</p>
-                    <a href="https://maps.app.goo.gl/AYcYJXjYipwdSgRQA" target="_blank" class="location-icon" title="الموقع على الخريطة">
+                </a>
+                <span class="location-text">أمام سنترال الصوة - بالمجمع</span>
+                <a href="https://maps.app.goo.gl/AYcYJXjYipwdSgRQA" target="_blank" class="social-link" title="الموقع على الخريطة" style="background: var(--info-color);">
                     <i class="fas fa-map-marker-alt"></i>
-               </a>
+                </a>
             </div>
         </div>
     </div>
@@ -1052,6 +1982,7 @@
                 </div>
                 <div class="logo-text">
                     <h1>مكتبة الرواد</h1>
+                    <p>متجر الكتب والمستلزمات المدرسية</p>
                 </div>
             </div>
 
@@ -1061,11 +1992,12 @@
                     <button class="search-btn" onclick="performSearch()">
                         <i class="fas fa-search"></i>
                     </button>
+                    <div class="search-suggestions" id="searchSuggestions"></div>
                 </div>
             </div>
 
             <div class="header-actions">
-                <a href="#" class="header-action" onclick="showWishlist()">
+                <a href="#" class="header-action" onclick="showWishlistModal()">
                     <div class="icon-container">
                         <i class="fas fa-heart"></i>
                         <span class="badge" id="wishlistCount">0</span>
@@ -1203,10 +2135,373 @@
         </div>
     </section>
 
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section-title">منتجاتنا المميزة</h2>
+            
+            <div class="products-filter">
+                <button class="filter-btn active" onclick="filterProducts('all')">الكل</button>
+                <button class="filter-btn" onclick="filterProducts('books')">الكتب</button>
+                <button class="filter-btn" onclick="filterProducts('stationery')">المستلزمات</button>
+                <button class="filter-btn" onclick="filterProducts('bags')">الحقائب</button>
+                <button class="filter-btn" onclick="filterProducts('gifts')">الهدايا</button>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+        <div class="container">
+            <h2 class="section-title">خدماتنا المتكاملة</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-print"></i>
+                    </div>
+                    <h3>الطباعة والتصوير</h3>
+                    <p>خدمات طباعة عالية الجودة ملونة وأبيض وأسود، تصوير المستندات بأحدث الأجهزة وأفضل الأسعار</p>
+                    <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدمات الطباعة والتصوير" class="btn btn-primary" target="_blank" rel="noopener">
+                        <i class="fas fa-whatsapp"></i>
+                        استفسر الآن
+                    </a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>التوصيل المجاني</h3>
+                    <p>خدمة التوصيل المجاني داخل الصوة للطلبات أكثر من 1000 جنيه، مع ضمان وصول طلبك في أسرع وقت</p>
+                    <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدمة التوصيل" class="btn btn-success" target="_blank" rel="noopener">
+                        <i class="fas fa-whatsapp"></i>
+                        استفسر الآن
+                    </a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>خدمات الدفع</h3>
+                    <p>سداد الفواتير، شحن الرصيد، والتحويلات المالية بأمان وسرعة مع أفضل العمولات</p>
+                    <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدمات الدفع" class="btn btn-primary" target="_blank" rel="noopener">
+                        <i class="fas fa-whatsapp"></i>
+                        استفسر الآن
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Offers Section -->
+    <section class="section" id="offers" style="background: linear-gradient(135deg, var(--secondary-color), #ff8c5a); color: white; padding: 4rem 0; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1000 1000\"><defs><radialGradient id=\"offer-gradient\"><stop offset=\"0%\" stop-color=\"rgba(255,255,255,0.1)\"/><stop offset=\"100%\" stop-color=\"transparent\"/></radialGradient></defs><circle cx=\"100\" cy=\"100\" r=\"200\" fill=\"url(%23offer-gradient)\"/><circle cx=\"900\" cy=\"900\" r=\"300\" fill=\"url(%23offer-gradient)\"/></svg>'); opacity: 0.3;"></div>
+        <div class="container" style="position: relative; z-index: 1;">
+            <h2 class="section-title">عروضنا الحصرية</h2>
+            <div class="offers-grid">
+                <div class="offer-card">
+                    <div class="offer-icon">🎒</div>
+                    <h3>عرض العودة للمدارس</h3>
+                    <p>خصم خاص على جميع الحقائب المدرسية والمستلزمات</p>
+                    <div class="offer-badge">لفترة محدودة</div>
+                </div>
+                
+                <div class="offer-card">
+                    <div class="offer-icon">📚</div>
+                    <h3>عرض الكتب الدراسية</h3>
+                    <p>عروض خاصة لعملائنا الدائمين</p>
+                    <div class="offer-badge">عرض لفترة محدودة</div>
+                </div>
+                
+                <div class="offer-card">
+                    <div class="offer-icon">🎁</div>
+                    <h3>عرض التوصيل المجاني</h3>
+                    <p>توصيل مجاني لجميع الطلبات أكثر من 1000 جنيه</p>
+                    <div class="offer-badge">دائماً متاح</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن العروض" class="btn btn-success" target="_blank" rel="noopener">
+                    <i class="fas fa-whatsapp"></i>
+                    استفسر الآن
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title">تواصل معنا</h2>
+            
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h4>واتساب</h4>
+                    <a href="https://wa.me/+201126630356" target="_blank" rel="noopener">+20 1126630356</a>
+                    <p>للاستفسارات السريعة</p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h4>الهاتف</h4>
+                    <a href="tel:+201126630356">+20 1126630356</a>
+                    <p>للمكالمات المباشرة</p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h4>العنوان</h4>
+                    <p>أمام سنترال الصوة - المجمع<br>محافظة الشرقية، أبوحماد</p>
+                    <a href="https://maps.app.goo.gl/AYcYJXjYipwdSgRQA" target="_blank" class="btn btn-outline-primary" style="margin-top: 0.5rem;">
+                        <i class="fas fa-map"></i> عرض على الخريطة
+                    </a>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h4>البريد الإلكتروني</h4>
+                    <a href="mailto:tarek500500@gmail.com">tarek500500@gmail.com</a>
+                    <p>للاستفسارات الرسمية</p>
+                </div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, var(--gray-100), #e3f2fd); border-radius: var(--border-radius); padding: 2.5rem; margin-bottom: 2.5rem;">
+                <h4 style="margin-bottom: 1.5rem; color: var(--primary-color); font-size: 1.3rem; font-weight: 600; text-align: center;">ساعات العمل</h4>
+                <div class="hours-grid">
+                    <div class="hour-card">
+                        <div class="hour-icon">
+                            <i class="fas fa-calendar-week"></i>
+                        </div>
+                        <h5>السبت - الخميس</h5>
+                        <p>7:00 ص - 10:00 م</p>
+                    </div>
+                    <div class="hour-card">
+                        <div class="hour-icon">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <h5>الجمعة</h5>
+                        <p>2:00 ظ - 10:00 م</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <h4 style="margin-bottom: 1.5rem; color: var(--primary-color); font-size: 1.3rem; font-weight: 600;">تابعونا على وسائل التواصل الاجتماعي</h4>
+                <div class="social-grid">
+                    <a href="https://www.facebook.com/share/18bfjxRbHH" class="social-card" target="_blank" rel="noopener">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://wa.me/+201126630356" class="social-card" target="_blank" rel="noopener">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="https://www.instagram.com/tarekyahiaalmoghrapy?igsh=MW5teXV6NGg5aTk1aQ==" class="social-card" target="_blank" rel="noopener">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+<footer style="background: linear-gradient(135deg, var(--dark-color), #495057); color: white; padding: 4rem 0 2rem; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 20\"><defs><pattern id=\"footer-pattern\" width=\"100\" height=\"20\" patternUnits=\"userSpaceOnUse\"><circle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/></pattern></defs><rect width=\"100\" height=\"20\" fill=\"url(%23footer-pattern)\"/></svg>'); opacity: 0.3;"></div>
+        <div class="container" style="position: relative; z-index: 1;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; margin-bottom: 3rem;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: bold;">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div>
+                            <h4>مكتبة الرواد - الصوة</h4>
+                            <p>متجرك الموثوق للكتب والمستلزمات</p>
+                        </div>
+                    </div>
+                    <p style="color: var(--gray-300); line-height: 1.8; margin-bottom: 1.5rem;">
+                        متجرك الموثوق للكتب والمستلزمات المدرسية. نقدم أفضل المنتجات بأسعار تنافسية وخدمة عملاء متميزة منذ سنوات عديدة.
+                    </p>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="https://www.facebook.com/share/18bfjxRbHH" style="color: var(--gray-300); font-size: 1.3rem; transition: var(--transition);" target="_blank" rel="noopener">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://wa.me/+201126630356" style="color: var(--gray-300); font-size: 1.3rem; transition: var(--transition);" target="_blank" rel="noopener">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.instagram.com/tarekyahiaalmoghrapy?igsh=MW5teXV6NGg5aTk1aQ==" style="color: var(--gray-300); font-size: 1.3rem; transition: var(--transition);" target="_blank" rel="noopener">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="#home"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+                        <li><a href="#categories"><i class="fas fa-chevron-left"></i> التصنيفات</a></li>
+                        <li><a href="#products"><i class="fas fa-chevron-left"></i> المنتجات</a></li>
+                        <li><a href="#services"><i class="fas fa-chevron-left"></i> الخدمات</a></li>
+                        <li><a href="#offers"><i class="fas fa-chevron-left"></i> العروض</a></li>
+                        <li><a href="#contact"><i class="fas fa-chevron-left"></i> اتصل بنا</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>خدمات العملاء</h4>
+                    <ul>
+                        <li><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن سياسة الإرجاع" target="_blank" rel="noopener"><i class="fas fa-chevron-left"></i> سياسة الإرجاع</a></li>
+                        <li><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن الشحن والتوصيل" target="_blank" rel="noopener"><i class="fas fa-chevron-left"></i> الشحن والتوصيل</a></li>
+                        <li><a href="https://wa.me/+201126630356?text=لدي سؤال، أريد المساعدة" target="_blank" rel="noopener"><i class="fas fa-chevron-left"></i> الأسئلة الشائعة</a></li>
+                        <li><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن طرق الدفع" target="_blank" rel="noopener"><i class="fas fa-chevron-left"></i> طرق الدفع</a></li>
+                        <li><a href="https://wa.me/+201126630356?text=أريد التواصل مع خدمة العملاء" target="_blank" rel="noopener"><i class="fas fa-chevron-left"></i> خدمة العملاء</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h4>معلومات الاتصال</h4>
+                    <ul>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <strong>العنوان:</strong><br>
+                                <span>أمام سنترال الصوة - بالمجمع<br>محافظة الشرقية، أبوحماد</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <strong>الهاتف:</strong><br>
+                                <a href="tel:+201126630356">+20 1126630356</a>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <strong>البريد الإلكتروني:</strong><br>
+                                <a href="mailto:tarek500500@gmail.com">tarek500500@gmail.com</a>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>ساعات العمل:</strong><br>
+                                <span>السبت - الخميس: 7 ص - 10م<br>الجمعة: 2ظ - 10م</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 مكتبة الرواد - الصوة. جميع الحقوق محفوظة.</p>
+                <p style="font-size: 0.9rem;">تم التطوير بواسطة فريق التقنية المتخصص | صُمم بعناية لتجربة مستخدم مميزة</p>
+                
+                <div class="policy-links">
+                    <a href="https://rawad-store.github.io/privacy.html">سياسة الخصوصية</a> |
+                    <a href="https://rawad-store.github.io/terms.html">شروط الخدمة</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <!-- Floating WhatsApp -->
     <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدماتكم" class="whatsapp-float" target="_blank" rel="noopener">
         <i class="fab fa-whatsapp"></i>
     </a>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTop" onclick="scrollToTop()">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>
+                    <i class="fas fa-shopping-cart"></i>
+                    سلة التسوق
+                </h3>
+                <button class="close-modal" onclick="closeCart()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="cartItems">
+                <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                    <i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                    <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">سلة التسوق فارغة</h4>
+                    <p style="margin-bottom: 1.5rem;">ابدأ بإضافة منتجات إلى سلتك</p>
+                    <button class="btn btn-primary" onclick="closeCart()">
+                        <i class="fas fa-shopping-bag"></i>
+                        متابعة التسوق
+                    </button>
+                </div>
+            </div>
+            <div id="cartFooter" style="display: none;">
+                <div style="padding: 1.2rem; border-top: 2px solid var(--gray-200); text-align: center; background: rgba(248, 249, 250, 0.8); border-radius: 0 0 var(--border-radius) var(--border-radius); margin: 0 -2rem -2rem -2rem;">
+                    <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.2rem; color: var(--primary-color);">
+                        الإجمالي: <span id="cartTotal" style="color: var(--secondary-color);">0</span> جنيه
+                    </div>
+                    <button class="btn btn-success" style="width: 100%; margin-bottom: 0.8rem; font-size: 1rem; padding: 0.8rem;" onclick="checkout()">
+                        <i class="fab fa-whatsapp"></i>
+                        إتمام الطلب عبر واتساب
+                    </button>
+                    <button class="btn btn-outline-primary" style="width: 100%;" onclick="clearCart()">
+                        <i class="fas fa-trash"></i>
+                        إفراغ السلة
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div class="modal" id="wishlistModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>
+                    <i class="fas fa-heart" style="color: var(--danger-color);"></i>
+                    المفضلة
+                </h3>
+                <button class="close-modal" onclick="closeWishlist()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="wishlistItems">
+                <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                    <i class="fas fa-heart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; color: var(--danger-color);"></i>
+                    <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">المفضلة فارغة</h4>
+                    <p style="margin-bottom: 1.5rem;">أضف منتجات إلى مفضلتك لتجدها هنا</p>
+                    <button class="btn btn-primary" onclick="closeWishlist()">
+                        <i class="fas fa-shopping-bag"></i>
+                        تصفح المنتجات
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay">
+        <div style="text-align: center;">
+            <div class="loading-spinner"></div>
+            <p style="color: var(--primary-color); font-weight: 600;">جاري التحميل...</p>
+        </div>
+    </div>
 
     <script>
         // Enhanced JavaScript functionality
@@ -1222,6 +2517,7 @@
             updateCartCount();
             updateWishlistCount();
             initializeAnimations();
+            initializeEventListeners();
         });
 
         function initializeApp() {
@@ -1256,9 +2552,90 @@
                 });
             }, observerOptions);
 
-            // Observe all category cards
-            document.querySelectorAll('.category-card').forEach(card => {
-                observer.observe(card);
+            // Observe all elements with animation class
+            document.querySelectorAll('.category-card, .service-card, .product-card, .offer-card').forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        function initializeEventListeners() {
+            // Search input events
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', handleSearchInput);
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+
+            // Scroll event for scroll-to-top button
+            window.addEventListener('scroll', function() {
+                const scrollToTopBtn = document.getElementById('scrollToTop');
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.classList.add('show');
+                } else {
+                    scrollToTopBtn.classList.remove('show');
+                }
+            });
+
+            // Close modals when clicking outside
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('modal')) {
+                    closeCart();
+                    closeWishlist();
+                }
+                
+                // Hide search suggestions when clicking outside
+                if (!e.target.closest('.search-container')) {
+                    hideSearchSuggestions();
+                }
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        
+                        // Update active nav link
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        
+                        if (this.classList.contains('nav-link')) {
+                            this.classList.add('active');
+                        }
+                    }
+                });
+            });
+
+            // Scroll spy functionality
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section[id]');
+                const navLinks = document.querySelectorAll('.nav-link');
+                
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
             });
         }
 
@@ -1330,9 +2707,13 @@
             if (filteredProducts.length === 0) {
                 grid.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);">
-                        <i class="fas fa-box-open" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                        <h3>لا توجد منتجات في هذا التصنيف حالياً</h3>
-                        <p>سيتم إضافة منتجات جديدة قريباً</p>
+                        <i class="fas fa-box-open" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لا توجد منتجات في هذا التصنيف حالياً</h3>
+                        <p style="margin-bottom: 1.5rem;">سيتم إضافة منتجات جديدة قريباً</p>
+                        <a href="https://wa.me/+201126630356?text=أريد الاستفسار عن المنتجات المتاحة" class="btn btn-primary" target="_blank" rel="noopener">
+                            <i class="fab fa-whatsapp"></i>
+                            استفسر عن المنتجات
+                        </a>
                     </div>
                 `;
                 return;
@@ -1351,31 +2732,47 @@
                             <div class="stars">
                                 ${'★'.repeat(product.rating)}${'☆'.repeat(5-product.rating)}
                             </div>
-                            <span>(${product.rating}.0)</span>
+                            <span style="color: var(--gray-600); font-size: 0.9rem;">(${product.rating}.0)</span>
                         </div>
-                        <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1rem; line-height: 1.5;">${product.description}</p>
+                        <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1.2rem; line-height: 1.5;">${product.description}</p>
                         <div class="product-actions">
                             <button class="add-to-cart" onclick="addToCart(${product.id})">
                                 <i class="fas fa-cart-plus"></i> أضف للسلة
                             </button>
                             <button class="wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}" 
-                                    onclick="toggleWishlist(${product.id})">
+                                    onclick="toggleWishlist(${product.id})" title="${isInWishlist(product.id) ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">
                                 <i class="fas fa-heart"></i>
                             </button>
                         </div>
                     </div>
                 </div>
             `).join('');
+
+            // Add animation to new products
+            setTimeout(() => {
+                document.querySelectorAll('.product-card').forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(30px)';
+                        card.style.transition = 'all 0.6s ease';
+                        
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, index * 100);
+                });
+            }, 100);
         }
 
         function getCategoryIcon(category) {
             const icons = {
-                'books': '<i class="fas fa-book" style="font-size: 3rem; color: var(--primary-color);"></i>',
-                'stationery': '<i class="fas fa-pen" style="font-size: 3rem; color: var(--secondary-color);"></i>',
-                'bags': '<i class="fas fa-briefcase" style="font-size: 3rem; color: var(--success-color);"></i>',
-                'gifts': '<i class="fas fa-gift" style="font-size: 3rem; color: var(--warning-color);"></i>'
+                'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: var(--primary-color);"></i>',
+                'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: var(--secondary-color);"></i>',
+                'bags': '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: var(--success-color);"></i>',
+                'gifts': '<i class="fas fa-gift" style="font-size: 2.5rem; color: var(--warning-color);"></i>'
             };
-            return icons[category] || '<i class="fas fa-box" style="font-size: 3rem; color: var(--gray-400);"></i>';
+            return icons[category] || '<i class="fas fa-box" style="font-size: 2.5rem; color: var(--gray-400);"></i>';
         }
 
         function filterProducts(category) {
@@ -1409,6 +2806,65 @@
             return names[category] || category;
         }
 
+        function handleSearchInput(e) {
+            clearTimeout(window.searchTimeout);
+            const searchTerm = e.target.value.toLowerCase().trim();
+            
+            if (searchTerm.length > 0) {
+                window.searchTimeout = setTimeout(() => {
+                    showSearchSuggestions(searchTerm);
+                }, 300);
+            } else {
+                hideSearchSuggestions();
+            }
+        }
+
+        function showSearchSuggestions(searchTerm) {
+            const suggestions = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm)
+            ).slice(0, 5);
+
+            const suggestionsContainer = document.getElementById('searchSuggestions');
+            if (!suggestionsContainer) return;
+
+            if (suggestions.length > 0) {
+                suggestionsContainer.innerHTML = suggestions.map(product => `
+                    <div class="search-suggestion" onclick="selectSearchSuggestion('${product.name}')">
+                        <div style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: var(--gray-100); border-radius: 50%; font-size: 0.8rem;">
+                            ${getCategoryIcon(product.category)}
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: var(--gray-800);">${product.name}</div>
+                            <div style="font-size: 0.8rem; color: var(--gray-600);">${product.price} جنيه</div>
+                        </div>
+                    </div>
+                `).join('');
+                suggestionsContainer.style.display = 'block';
+            } else {
+                suggestionsContainer.innerHTML = `
+                    <div class="search-suggestion" style="justify-content: center; color: var(--gray-500);">
+                        <i class="fas fa-search" style="margin-left: 0.5rem;"></i>
+                        <span>لا توجد نتائج</span>
+                    </div>
+                `;
+                suggestionsContainer.style.display = 'block';
+            }
+        }
+
+        function hideSearchSuggestions() {
+            const suggestionsContainer = document.getElementById('searchSuggestions');
+            if (suggestionsContainer) {
+                suggestionsContainer.style.display = 'none';
+            }
+        }
+
+        function selectSearchSuggestion(productName) {
+            document.getElementById('searchInput').value = productName;
+            hideSearchSuggestions();
+            performSearch();
+        }
+
         function performSearch() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             if (searchTerm === '') {
@@ -1427,10 +2883,10 @@
             if (filteredProducts.length === 0) {
                 grid.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);">
-                        <i class="fas fa-search" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                        <h3>لم يتم العثور على منتجات تطابق "${searchTerm}"</h3>
-                        <p>جرب البحث بكلمات مختلفة أو تصفح التصنيفات</p>
-                        <button class="btn btn-primary" onclick="clearSearch()" style="margin-top: 1rem;">
+                        <i class="fas fa-search" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لم يتم العثور على منتجات تطابق "${searchTerm}"</h3>
+                        <p style="margin-bottom: 1.5rem;">جرب البحث بكلمات مختلفة أو تصفح التصنيفات</p>
+                        <button class="btn btn-primary" onclick="clearSearch()">
                             <i class="fas fa-undo"></i> عرض جميع المنتجات
                         </button>
                     </div>
@@ -1449,15 +2905,15 @@
                                 <div class="stars">
                                     ${'★'.repeat(product.rating)}${'☆'.repeat(5-product.rating)}
                                 </div>
-                                <span>(${product.rating}.0)</span>
+                                <span style="color: var(--gray-600); font-size: 0.9rem;">(${product.rating}.0)</span>
                             </div>
-                            <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1rem; line-height: 1.5;">${product.description}</p>
+                            <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1.2rem; line-height: 1.5;">${product.description}</p>
                             <div class="product-actions">
                                 <button class="add-to-cart" onclick="addToCart(${product.id})">
                                     <i class="fas fa-cart-plus"></i> أضف للسلة
                                 </button>
                                 <button class="wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}" 
-                                        onclick="toggleWishlist(${product.id})">
+                                        onclick="toggleWishlist(${product.id})" title="${isInWishlist(product.id) ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">
                                     <i class="fas fa-heart"></i>
                                 </button>
                             </div>
@@ -1477,13 +2933,6 @@
             document.getElementById('searchInput').value = '';
             loadProducts(currentFilter);
         }
-
-        // Add enter key support for search
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
 
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
@@ -1508,6 +2957,32 @@
                 setTimeout(() => {
                     cartIcon.parentElement.style.animation = '';
                 }, 600);
+            }
+        }
+
+        function removeFromCart(productId) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex > -1) {
+                if (cart[itemIndex].quantity > 1) {
+                    cart[itemIndex].quantity -= 1;
+                } else {
+                    cart.splice(itemIndex, 1);
+                }
+                updateCartCount();
+                updateCartDisplay();
+                saveToLocalStorage();
+            }
+        }
+
+        function clearCart() {
+            if (cart.length === 0) return;
+            
+            if (confirm('هل أنت متأكد من إفراغ السلة؟')) {
+                cart = [];
+                updateCartCount();
+                updateCartDisplay();
+                saveToLocalStorage();
+                showNotification('تم إفراغ السلة', 'info');
             }
         }
 
@@ -1563,1167 +3038,6 @@
         }
 
         function showCart() {
-            // This would open a cart modal - simplified for this demo
-            if (cart.length === 0) {
-                showNotification('سلة التسوق فارغة', 'info');
-                return;
-            }
-            
-            let message = "مرحباً، أريد طلب المنتجات التالية:\n\n";
-            let total = 0;
-            
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                message += `• ${item.name}\n  الكمية: ${item.quantity}\n  السعر: ${itemTotal} جنيه\n\n`;
-            });
-            
-            message += `الإجمالي: ${total} جنيه\n\nشكراً لكم`;
-            
-            const whatsappUrl = `https://wa.me/+201126630356?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-        }
-
-        function showWishlist() {
-            const wishlistProducts = products.filter(p => wishlist.includes(p.id));
-            if (wishlistProducts.length === 0) {
-                showNotification('المفضلة فارغة', 'info');
-                return;
-            }
-            
-            // Filter products to show only wishlist items
-            const grid = document.getElementById('productsGrid');
-            if (!grid) return;
-
-            grid.innerHTML = wishlistProducts.map(product => `
-                <div class="product-card fade-in" data-category="${product.category}">
-                    <div class="product-image">
-                        ${getCategoryIcon(product.category)}
-                        ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
-                        <div class="product-price">${product.price} جنيه</div>
-                        <div class="product-rating">
-                            <div class="stars">
-                                ${'★'.repeat(product.rating)}${'☆'.repeat(5-product.rating)}
-                            </div>
-                            <span>(${product.rating}.0)</span>
-                        </div>
-                        <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1rem; line-height: 1.5;">${product.description}</p>
-                        <div class="product-actions">
-                            <button class="add-to-cart" onclick="addToCart(${product.id})">
-                                <i class="fas fa-cart-plus"></i> أضف للسلة
-                            </button>
-                            <button class="wishlist-btn active" onclick="toggleWishlist(${product.id})">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-            
-            // Scroll to products section
-            const productsSection = document.querySelector('#products');
-            if (productsSection) {
-                productsSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        function toggleMobileMenu() {
-            const navMenu = document.getElementById('navMenu');
-            if (navMenu) {
-                navMenu.classList.toggle('active');
-            }
-        }
-
-        function saveToLocalStorage() {
-            localStorage.setItem('rawad-cart', JSON.stringify(cart));
-            localStorage.setItem('rawad-wishlist', JSON.stringify(wishlist));
-        }
-
-        function showNotification(message, type = 'info') {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className = `notification notification-${type}`;
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${type === 'success' ? 'var(--success-color)' : type === 'info' ? 'var(--info-color)' : 'var(--warning-color)'};
-                color: white;
-                padding: 1rem 1.5rem;
-                border-radius: var(--border-radius);
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-                z-index: 10000;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-                max-width: 300px;
-                font-weight: 500;
-            `;
-            
-            notification.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'info' ? 'info-circle' : 'exclamation-triangle'}"></i>
-                    <span>${message}</span>
-                </div>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            // Animate in
-            setTimeout(() => {
-                notification.style.transform = 'translateX(0)';
-            }, 100);
-            
-            // Remove after 3 seconds
-            setTimeout(() => {
-                notification.style.transform = 'translateX(100%)';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 300);
-            }, 3000);
-        }
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    
-                    // Update active nav link
-                    document.querySelectorAll('.nav-link').forEach(link => {
-                        link.classList.remove('active');
-                    });
-                    
-                    if (this.classList.contains('nav-link')) {
-                        this.classList.add('active');
-                    }
-                }
-            });
-        });
-
-        // Add scroll spy functionality
-        window.addEventListener('scroll', function() {
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('.nav-link');
-            
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (pageYOffset >= sectionTop - 200) {
-                    current = section.getAttribute('id');
-                }
-            });
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + current) {
-                    link.classList.add('active');
-                }
-            });
-        });
-    </script>
-</body>
-</html>
-
-
-    <!-- Products Section -->
-    <section class="section" id="products" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); padding: 4rem 0; margin: 3rem 0; border-radius: var(--border-radius); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);">
-        <div class="container">
-            <h2 class="section-title">منتجاتنا المميزة</h2>
-            
-            <div class="products-filter" style="display: flex; justify-content: center; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;">
-                <button class="filter-btn active" onclick="filterProducts('all')" style="padding: 0.75rem 1.5rem; background: linear-gradient(135deg, var(--primary-color), #2a5a87); color: white; border: none; border-radius: 50px; cursor: pointer; transition: var(--transition); font-weight: 600; box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);">الكل</button>
-                <button class="filter-btn" onclick="filterProducts('books')" style="padding: 0.75rem 1.5rem; background: transparent; color: var(--primary-color); border: 2px solid var(--primary-color); border-radius: 50px; cursor: pointer; transition: var(--transition); font-weight: 600;">الكتب</button>
-                <button class="filter-btn" onclick="filterProducts('stationery')" style="padding: 0.75rem 1.5rem; background: transparent; color: var(--primary-color); border: 2px solid var(--primary-color); border-radius: 50px; cursor: pointer; transition: var(--transition); font-weight: 600;">المستلزمات</button>
-                <button class="filter-btn" onclick="filterProducts('bags')" style="padding: 0.75rem 1.5rem; background: transparent; color: var(--primary-color); border: 2px solid var(--primary-color); border-radius: 50px; cursor: pointer; transition: var(--transition); font-weight: 600;">الحقائب</button>
-                <button class="filter-btn" onclick="filterProducts('gifts')" style="padding: 0.75rem 1.5rem; background: transparent; color: var(--primary-color); border: 2px solid var(--primary-color); border-radius: 50px; cursor: pointer; transition: var(--transition); font-weight: 600;">الهدايا</button>
-            </div>
-
-            <div class="products-grid" id="productsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem;">
-                <!-- Products will be loaded here by JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="section" id="services" style="background: linear-gradient(135deg, var(--gray-100), #e3f2fd); padding: 4rem 0;">
-        <div class="container">
-            <h2 class="section-title">خدماتنا المتكاملة</h2>
-            <div class="services-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem;">
-                <div class="service-card" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: var(--border-radius); padding: 2.5rem; text-align: center; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1); transition: var(--transition); border: 1px solid rgba(255, 255, 255, 0.2); position: relative; overflow: hidden;">
-                    <div class="service-icon" style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; color: white; font-size: 2.5rem; box-shadow: 0 10px 30px rgba(30, 61, 89, 0.3); transition: var(--transition);">
-                        <i class="fas fa-print"></i>
-                    </div>
-                    <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 700;">الطباعة والتصوير</h3>
-                    <p style="color: var(--gray-600); line-height: 1.8; margin-bottom: 2rem; font-size: 1.1rem;">خدمات طباعة عالية الجودة ملونة وأبيض وأسود، تصوير المستندات بأحدث الأجهزة وأفضل الأسعار</p>
-                    <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدمات الطباعة والتصوير" class="btn btn-primary" target="_blank" rel="noopener">
-                        <i class="fas fa-whatsapp"></i>
-                        استفسر الآن
-                    </a>
-                </div>
-                
-                <div class="service-card" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: var(--border-radius); padding: 2.5rem; text-align: center; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1); transition: var(--transition); border: 1px solid rgba(255, 255, 255, 0.2); position: relative; overflow: hidden;">
-                    <div class="service-icon" style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--success-color), #34ce57); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; color: white; font-size: 2.5rem; box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3); transition: var(--transition);">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 700;">التوصيل المجاني</h3>
-                    <p style="color: var(--gray-600); line-height: 1.8; margin-bottom: 2rem; font-size: 1.1rem;">خدمة التوصيل المجاني داخل الصوة للطلبات أكثر من 1000 جنيه، مع ضمان وصول طلبك في أسرع وقت</p>
-                    <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدمة التوصيل" class="btn btn-success" target="_blank" rel="noopener">
-                        <i class="fas fa-whatsapp"></i>
-                        استفسر الآن
-                    </a>
-                </div>
-                
-                <div class="service-card" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: var(--border-radius); padding: 2.5rem; text-align: center; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1); transition: var(--transition); border: 1px solid rgba(255, 255, 255, 0.2); position: relative; overflow: hidden;">
-                    <div class="service-icon" style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--warning-color), #ffca28); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; color: var(--dark-color); font-size: 2.5rem; box-shadow: 0 10px 30px rgba(255, 193, 7, 0.3); transition: var(--transition);">
-                        <i class="fas fa-credit-card"></i>
-                    </div>
-                    <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 700;">خدمات الدفع</h3>
-                    <p style="color: var(--gray-600); line-height: 1.8; margin-bottom: 2rem; font-size: 1.1rem;">سداد الفواتير، شحن الرصيد، والتحويلات المالية بأمان وسرعة مع أفضل العمولات</p>
-                    <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدمات الدفع" class="btn btn-primary" target="_blank" rel="noopener">
-                        <i class="fas fa-whatsapp"></i>
-                      استفسر الآن
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Offers Section -->
-    <section class="section" id="offers" style="background: linear-gradient(135deg, var(--secondary-color), #ff8c5a); color: white; padding: 4rem 0; position: relative; overflow: hidden;">
-        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1000 1000\"><defs><radialGradient id=\"offer-gradient\"><stop offset=\"0%\" stop-color=\"rgba(255,255,255,0.1)\"/><stop offset=\"100%\" stop-color=\"transparent\"/></radialGradient></defs><circle cx=\"100\" cy=\"100\" r=\"200\" fill=\"url(%23offer-gradient)\"/><circle cx=\"900\" cy=\"900\" r=\"300\" fill=\"url(%23offer-gradient)\"/></svg>'); opacity: 0.3;"></div>
-        <div class="container" style="position: relative; z-index: 1;">
-            <h2 class="section-title" style="color: white; margin-bottom: 3rem;">عروضنا الحصرية</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-                <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); border-radius: var(--border-radius); padding: 2rem; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); transition: var(--transition);">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🎒</div>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem; font-weight: 700;">عرض العودة للمدارس</h3>
-                    <p style="margin-bottom: 1.5rem; opacity: 0.9; line-height: 1.6;">خصم خاص على جميع الحقائب المدرسية والمستلزمات</p>
-                    <div style="background: rgba(255, 255, 255, 0.2); border-radius: 50px; padding: 0.5rem 1rem; display: inline-block; font-weight: 600;">لفترة محدودة</div>
-                </div>
-                
-                <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); border-radius: var(--border-radius); padding: 2rem; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); transition: var(--transition);">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">📚</div>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem; font-weight: 700;">عرض الكتب الدراسية</h3>
-                    <p style="margin-bottom: 1.5rem; opacity: 0.9; line-height: 1.6;">عروض خاصة لعملائنا الدائمين</p>
-                    <div style="background: rgba(255, 255, 255, 0.2); border-radius: 50px; padding: 0.5rem 1rem; display: inline-block; font-weight: 600;">عرض لفترة محدودة</div>
-                </div>
-                
-                <div style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(20px); border-radius: var(--border-radius); padding: 2rem; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); transition: var(--transition);">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🎁</div>
-                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem; font-weight: 700;">عرض التوصيل المجاني</h3>
-                    <p style="margin-bottom: 1.5rem; opacity: 0.9; line-height: 1.6;">توصيل مجاني لجميع الطلبات أكثر من 1000 جنيه</p>
-                    <div style="background: rgba(255, 255, 255, 0.2); border-radius: 50px; padding: 0.5rem 1rem; display: inline-block; font-weight: 600;">دائماً متاح</div>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 3rem;">
-                <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار  " class="btn btn-success" target="_blank" rel="noopener">
-                        <i class="fas fa-whatsapp"></i>
-                        استفسر الآن
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="section" id="contact" style="padding: 4rem 0;">
-        <div class="container">
-            <div style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: var(--border-radius); padding: 4rem; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1); text-align: center; border: 1px solid rgba(255, 255, 255, 0.2);">
-                <h2 class="section-title">تواصل معنا</h2>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; margin-bottom: 3rem;">
-                    <div style="text-align: center;">
-                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--whatsapp-color), #20a558); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: white; font-size: 2rem; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3); transition: var(--transition);">
-                            <i class="fab fa-whatsapp"></i>
-                        </div>
-                        <h4 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--primary-color); font-weight: 600;">واتساب</h4>
-                        <a href="https://wa.me/+201126630356" style="color: var(--primary-color); font-weight: 600; font-size: 1.1rem; text-decoration: none; transition: var(--transition);" target="_blank" rel="noopener">+20 1126630356</a>
-                        <p style="margin-top: 0.5rem; color: var(--gray-600);">للاستفسارات السريعة</p>
-                    </div>
-                    
-                    <div style="text-align: center;">
-                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-color), #2a5a87); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: white; font-size: 2rem; box-shadow: 0 10px 30px rgba(30, 61, 89, 0.3); transition: var(--transition);">
-                            <i class="fas fa-phone"></i>
-                        </div>
-                        <h4 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--primary-color); font-weight: 600;">الهاتف</h4>
-                        <a href="tel:+201126630356" style="color: var(--primary-color); font-weight: 600; font-size: 1.1rem; text-decoration: none; transition: var(--transition);">+20 1126630356</a>
-                        <p style="margin-top: 0.5rem; color: var(--gray-600);">للمكالمات المباشرة</p>
-                    </div>
-                    
-                    <div style="text-align: center;">
-                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--info-color), #20a2b8); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: white; font-size: 2rem; box-shadow: 0 10px 30px rgba(23, 162, 184, 0.3); transition: var(--transition);">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <h4 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--primary-color); font-weight: 600;">العنوان</h4>
-                        <p style="color: var(--gray-600); font-size: 1.1rem; line-height: 1.6;">أمام سنترال الصوة - المجمع<br>محافظة الشرقية، أبوحماد</p>
-                        <a href="https://maps.app.goo.gl/AYcYJXjYipwdSgRQA" target="_blank" class="location-icon" title="الموقع على الخريطة">
-                        <i class="fas fa-map-marker-alt"></i>
-                        </a>
-                    </div>
-                    
-                    <div style="text-align: center;">
-                        <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--secondary-color), #ff8c5a); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: white; font-size: 2rem; box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3); transition: var(--transition);">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <h4 style="font-size: 1.3rem; margin-bottom: 1rem; color: var(--primary-color); font-weight: 600;">البريد الإلكتروني</h4>
-                        <a href="mailto:tarek500500@gmail.com" style="color: var(--primary-color); font-weight: 600; font-size: 1.1rem; text-decoration: none; transition: var(--transition);">tarek500500@gmail.com</a>
-                        <p style="margin-top: 0.5rem; color: var(--gray-600);">للاستفسارات الرسمية</p>
-                    </div>
-                </div>
-                
-                <div style="background: linear-gradient(135deg, var(--gray-100), #e3f2fd); border-radius: var(--border-radius); padding: 3rem; margin-bottom: 3rem;">
-                    <h4 style="margin-bottom: 2rem; color: var(--primary-color); font-size: 1.5rem; font-weight: 600;">ساعات العمل</h4>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-                        <div style="text-align: center;">
-                            <div style="background: rgba(255, 255, 255, 0.8); border-radius: var(--border-radius); padding: 1.5rem; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);">
-                                <i class="fas fa-calendar-week" style="font-size: 2rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
-                                <h5 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 600;">السبت - الخميس</h5>
-                                <p style="color: var(--gray-700); font-size: 1.1rem; font-weight: 500;">7:00 ص - 10:00 م</p>
-                            </div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="background: rgba(255, 255, 255, 0.8); border-radius: var(--border-radius); padding: 1.5rem; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);">
-                                <i class="fas fa-calendar-day" style="font-size: 2rem; color: var(--secondary-color); margin-bottom: 1rem;"></i>
-                                <h5 style="color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 600;">الجمعة</h5>
-                                <p style="color: var(--gray-700); font-size: 1.1rem; font-weight: 500;">2:00 ظ - 10:00 م</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="text-align: center;">
-                    <h4 style="margin-bottom: 2rem; color: var(--primary-color); font-size: 1.5rem; font-weight: 600;">تابعونا على وسائل التواصل الاجتماعي</h4>
-                    <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
-                        <a href="https://www.facebook.com/share/18bfjxRbHH" style="display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; background: linear-gradient(135deg, var(--facebook-color), #1565c0); color: white; border-radius: 50%; text-decoration: none; font-size: 1.5rem; transition: var(--transition); box-shadow: 0 8px 25px rgba(24, 119, 242, 0.3);" target="_blank" rel="noopener">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://wa.me/+201126630356" style="display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; background: linear-gradient(135deg, var(--whatsapp-color), #20a558); color: white; border-radius: 50%; text-decoration: none; font-size: 1.5rem; transition: var(--transition); box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);" target="_blank" rel="noopener">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                        <a href="https://www.instagram.com/tarekyahiaalmoghrapy?igsh=MW5teXV6NGg5aTk1aQ==" style="display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; background: linear-gradient(135deg, var(--instagram-color), #c13584); color: white; border-radius: 50%; text-decoration: none; font-size: 1.5rem; transition: var(--transition); box-shadow: 0 8px 25px rgba(228, 64, 95, 0.3);" target="_blank" rel="noopener">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer style="background: linear-gradient(135deg, var(--dark-color), #495057); color: white; padding: 4rem 0 2rem; position: relative; overflow: hidden;">
-        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 20\"><defs><pattern id=\"footer-pattern\" width=\"100\" height=\"20\" patternUnits=\"userSpaceOnUse\"><circle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/></pattern></defs><rect width=\"100\" height=\"20\" fill=\"url(%23footer-pattern)\"/></svg>'); opacity: 0.3;"></div>
-        <div class="container" style="position: relative; z-index: 1;">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; margin-bottom: 3rem;">
-                <div>
-                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
-                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: bold;">
-                            <i class="fas fa-book-open"></i>
-                        </div>
-                        <div>
-                            <h4 style="color: var(--accent-color); font-size: 1.3rem; margin-bottom: 0.3rem; font-weight: 700;">مكتبة الرواد - الصوة</h4>
-                            <p style="color: var(--gray-300); font-size: 0.9rem;">متجرك الموثوق للكتب والمستلزمات</p>
-                        </div>
-                    </div>
-                    <p style="color: var(--gray-300); line-height: 1.8; margin-bottom: 2rem;">
-                        متجرك الموثوق للكتب والمستلزمات المدرسية. نقدم أفضل المنتجات بأسعار تنافسية وخدمة عملاء متميزة منذ سنوات عديدة.
-                    </p>
-                    <div style="display: flex; gap: 1rem;">
-                        <a href="https://www.facebook.com/share/18bfjxRbHH" style="color: var(--gray-300); font-size: 1.5rem; transition: var(--transition);" target="_blank" rel="noopener">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://wa.me/+201126630356" style="color: var(--gray-300); font-size: 1.5rem; transition: var(--transition);" target="_blank" rel="noopener">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                        <a href="https://https://www.instagram.com/tarekyahiaalmoghrapy?igsh=MW5teXV6NGg5aTk1aQ==" style="color: var(--gray-300); font-size: 1.5rem; transition: var(--transition);" target="_blank" rel="noopener">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h4 style="color: var(--accent-color); margin-bottom: 1.5rem; font-size: 1.2rem; font-weight: 600;">روابط سريعة</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 0.8rem;"><a href="#home" style="color: var(--gray-300); text-decoration: none; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i> الرئيسية</a></li>
-                        <li style="margin-bottom: 0.8rem;"><a href="#categories" style="color: var(--gray-300); text-decoration: none; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i> التصنيفات</a></li>
-                        <li style="margin-bottom: 0.8rem;"><a href="#products" style="color: var(--gray-300); text-decoration: none; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i> المنتجات</a></li>
-                        <li style="margin-bottom: 0.8rem;"><a href="#services" style="color: var(--gray-300); text-decoration: none; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i> الخدمات</a></li>
-                        <li style="margin-bottom: 0.8rem;"><a href="#offers" style="color: var(--gray-300); text-decoration: none; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i> العروض</a></li>
-                        <li style="margin-bottom: 0.8rem;"><a href="#contact" style="color: var(--gray-300); text-decoration: none; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i> اتصل بنا</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 style="color: var(--accent-color); margin-bottom: 1.5rem; font-size: 1.2rem; font-weight: 600;">خدمات العملاء</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 0.8rem;"><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن سياسة الإرجاع" style="color: var(--gray-300); text-decoration: none; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem;" target="_blank" rel="noopener"><i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i> سياسة الإرجاع</a></li>
-                        <li style="margin-bottom: 0.8rem;"><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن الشحن والتوصيل" style="color: var(--gray-300); text-decoration: none; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem;" target="_blank" rel="noopener"><i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i> الشحن والتوصيل</a></li>
-                        <li style="margin-bottom: 0.8rem;"><a href="https://wa.me/+201126630356?text=لدي سؤال، أريد المساعدة" style="color: var(--gray-300); text-decoration: none; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem;" target="_blank" rel="noopener"><i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i> الأسئلة الشائعة</a></li>
-                        <li style="margin-bottom: 0.8rem;"><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن طرق الدفع" style="color: var(--gray-300); text-decoration: none; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem;" target="_blank" rel="noopener"><i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i> طرق الدفع</a></li>
-                        <li style="margin-bottom: 0.8rem;"><a href="https://wa.me/+201126630356?text=أريد التواصل مع خدمة العملاء" style="color: var(--gray-300); text-decoration: none; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem;" target="_blank" rel="noopener"><i class="fas fa-chevron-left" style="font-size: 0.8rem;"></i> خدمة العملاء</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 style="color: var(--accent-color); margin-bottom: 1.5rem; font-size: 1.2rem; font-weight: 600;">معلومات الاتصال</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.8rem;">
-                            <i class="fas fa-map-marker-alt" style="color: var(--accent-color); margin-top: 0.2rem; font-size: 1.1rem;"></i>
-                            <div>
-                                <strong style="color: white;">العنوان:</strong><br>
-                                <span style="color: var(--gray-300);">أمام سنترال الصوة - بالمجمع<br>محافظة الشرقية، أبوحماد</span>
-                                <a href="https://maps.app.goo.gl/AYcYJXjYipwdSgRQA" target="_blank" class="location-icon" title="الموقع على الخريطة">
-                                <i class="fas fa-map-marker-alt"></i>
-                                </a>
-                             </div>
-                        </li>
-                        <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem;">
-                            <i class="fas fa-phone" style="color: var(--accent-color); font-size: 1.1rem;"></i>
-                            <div>
-                                <strong style="color: white;">الهاتف:</strong><br>
-                                <a href="tel:+201126630356" style="color: var(--gray-300); text-decoration: none;">+20 1126630356</a>
-                            </div>
-                        </li>
-                        <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem;">
-                            <i class="fas fa-envelope" style="color: var(--accent-color); font-size: 1.1rem;"></i>
-                            <div>
-                                <strong style="color: white;">البريد الإلكتروني:</strong><br>
-                                <a href="mailto:tarek500500@gmail.com" style="color: var(--gray-300); text-decoration: none;">tarek500500@gmail.com</a>
-                            </div>
-                        </li>
-                        <li style="display: flex; align-items: center; gap: 0.8rem;">
-                            <i class="fas fa-clock" style="color: var(--accent-color); font-size: 1.1rem;"></i>
-                            <div>
-                                <strong style="color: white;">ساعات العمل:</strong><br>
-                                <span style="color: var(--gray-300);">السبت - الخميس: 7 ص - 10م<br>الجمعة: 2ظ - 10م</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div style="text-align: center; padding-top: 2rem; border-top: 1px solid var(--gray-700); color: var(--gray-400);">
-                <p style="margin-bottom: 1rem; direction: rtl; text-align: center;"> &copy; 2025 مكتبة الرواد - الصوة. جميع الحقوق محفوظة.
-                <p style="font-size: 0.9rem;">تم التطوير بواسطة فريق التقنية المتخصص | صُمم بعناية لتجربة مستخدم مميزة</p>
-            </div>
-            
-                <div class="policy-links" style="text-align: center; margin: 15px 0;">
-                <a href="https://rawad-store.github.io/privacy.html" style="color: #2c5cc7; text-decoration: none; margin: 0 10px;">سياسة الخصوصية</a> |
-                <a href="https://rawad-store.github.io/terms.html" style="color: #2c5cc7; text-decoration: none; margin: 0 10px;">شروط الخدمة</a>
-            </div>
-            </footer>
-
-    <style>
-        /* Enhanced Product Card Styles */
-        .product-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        .product-image {
-            height: 220px;
-            background: linear-gradient(135deg, var(--gray-100), #e3f2fd);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: var(--gray-400);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: linear-gradient(135deg, var(--secondary-color), #ff8c5a);
-            color: white;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
-        }
-
-        .product-info {
-            padding: 1.5rem;
-        }
-
-        .product-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--gray-800);
-            margin-bottom: 0.8rem;
-            height: 2.8rem;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            line-height: 1.4;
-        }
-
-        .product-price {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--secondary-color);
-            margin-bottom: 0.8rem;
-        }
-
-        .product-rating {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .stars {
-            color: var(--warning-color);
-            font-size: 1rem;
-        }
-
-        .product-actions {
-            display: flex;
-            gap: 0.8rem;
-        }
-
-        .add-to-cart {
-            flex: 1;
-            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
-            color: white;
-            border: none;
-            padding: 0.8rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.95rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);
-        }
-
-        .add-to-cart:hover {
-            background: linear-gradient(135deg, var(--secondary-color), #ff8c5a);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-        }
-
-        .wishlist-btn {
-            background: rgba(255, 255, 255, 0.8);
-            border: 2px solid var(--gray-300);
-            color: var(--gray-600);
-            width: 50px;
-            height: 50px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .wishlist-btn:hover,
-        .wishlist-btn.active {
-            background: linear-gradient(135deg, var(--danger-color), #e74c3c);
-            color: white;
-            border-color: var(--danger-color);
-            transform: scale(1.1);
-            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
-        }
-
-        /* Enhanced Filter Buttons */
-        .filter-btn {
-            transition: var(--transition);
-        }
-
-        .filter-btn:hover {
-            background: linear-gradient(135deg, var(--primary-color), #2a5a87) !important;
-            color: white !important;
-            border-color: var(--primary-color) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);
-        }
-
-        .filter-btn.active {
-            background: linear-gradient(135deg, var(--primary-color), #2a5a87) !important;
-            color: white !important;
-            border-color: var(--primary-color) !important;
-            box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);
-        }
-
-        /* Enhanced Service Cards */
-        .service-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.15);
-        }
-
-        .service-card:hover .service-icon {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 15px 40px rgba(30, 61, 89, 0.4);
-        }
-
-        /* Enhanced Footer Links */
-        footer a:hover {
-            color: var(--accent-color) !important;
-            transform: translateX(5px);
-        }
-
-        /* Enhanced Social Links */
-        .social-links a:hover {
-            transform: translateY(-3px) scale(1.15);
-        }
-
-        /* Enhanced Contact Section Hover Effects */
-        #contact .service-icon:hover {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        /* Enhanced Responsive Design */
-        @media (max-width: 768px) {
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
-                gap: 1.5rem !important;
-            }
-
-            .product-card {
-                margin-bottom: 1rem;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr !important;
-                gap: 2rem !important;
-            }
-
-            .filter-btn {
-                padding: 0.6rem 1.2rem !important;
-                font-size: 0.9rem !important;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .products-grid {
-                grid-template-columns: 1fr !important;
-            }
-
-            .product-info {
-                padding: 1.2rem !important;
-            }
-
-            .product-actions {
-                flex-direction: column !important;
-                gap: 0.8rem !important;
-            }
-
-            .wishlist-btn {
-                width: 100% !important;
-                height: 45px !important;
-            }
-        }
-    </style>
-
-    <script>
-        // Enhanced filter button functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Update filter button styles
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            filterButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    filterButtons.forEach(b => {
-                        b.classList.remove('active');
-                        b.style.background = 'transparent';
-                        b.style.color = 'var(--primary-color)';
-                        b.style.borderColor = 'var(--primary-color)';
-                    });
-                    
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                    this.style.background = 'linear-gradient(135deg, var(--primary-color), #2a5a87)';
-                    this.style.color = 'white';
-                    this.style.borderColor = 'var(--primary-color)';
-                });
-            });
-
-            // Initialize products display
-            loadProducts();
-        });
-
-        // Enhanced product loading with better styling
-        function loadProducts(category = 'all') {
-            const grid = document.getElementById('productsGrid');
-            if (!grid) return;
-
-            let filteredProducts = category === 'all' ? products : products.filter(p => p.category === category);
-
-            if (filteredProducts.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--gray-500);">
-                        <div style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px); border-radius: var(--border-radius); padding: 3rem; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);">
-                            <i class="fas fa-box-open" style="font-size: 5rem; margin-bottom: 2rem; opacity: 0.5; color: var(--gray-400);"></i>
-                            <h3 style="color: var(--primary-color); margin-bottom: 1rem; font-size: 1.5rem;">لا توجد منتجات في هذا التصنيف حالياً</h3>
-                            <p style="color: var(--gray-600); margin-bottom: 2rem;">سيتم إضافة منتجات جديدة قريباً</p>
-                            <a href="https://wa.me/+201126630356?text=أريد الاستفسار عن المنتجات المتاحة" class="btn btn-primary" target="_blank" rel="noopener">
-                                <i class="fab fa-whatsapp"></i>
-                                استفسر عن المنتجات
-                            </a>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-
-            grid.innerHTML = filteredProducts.map(product => `
-                <div class="product-card fade-in" data-category="${product.category}">
-                    <div class="product-image">
-                        ${getCategoryIcon(product.category)}
-                        ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
-                        <div class="product-price">${product.price} جنيه</div>
-                        <div class="product-rating">
-                            <div class="stars">
-                                ${'★'.repeat(product.rating)}${'☆'.repeat(5-product.rating)}
-                            </div>
-                            <span style="color: var(--gray-600); font-size: 0.9rem;">(${product.rating}.0)</span>
-                        </div>
-                        <p style="font-size: 0.95rem; color: var(--gray-600); margin-bottom: 1.5rem; line-height: 1.6;">${product.description}</p>
-                        <div class="product-actions">
-                            <button class="add-to-cart" onclick="addToCart(${product.id})">
-                                <i class="fas fa-cart-plus"></i> أضف للسلة
-                            </button>
-                            <button class="wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}" 
-                                    onclick="toggleWishlist(${product.id})" title="${isInWishlist(product.id) ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-
-            // Add animation to new products
-            setTimeout(() => {
-                document.querySelectorAll('.product-card').forEach((card, index) => {
-                    setTimeout(() => {
-                        card.style.opacity = '0';
-                        card.style.transform = 'translateY(30px)';
-                        card.style.transition = 'all 0.6s ease';
-                        
-                        setTimeout(() => {
-                            card.style.opacity = '1';
-                            card.style.transform = 'translateY(0)';
-                        }, 50);
-                    }, index * 100);
-                });
-            }, 100);
-        }
-    </script>
-
-
-    <!-- Cart Modal -->
-    <div class="modal" id="cartModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; backdrop-filter: blur(5px);">
-        <div class="modal-content" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: var(--border-radius); padding: 2rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2);">
-            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gray-200);">
-                <h3 style="color: var(--primary-color); font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                    <i class="fas fa-shopping-cart"></i>
-                    سلة التسوق
-                </h3>
-                <button class="close-modal" onclick="closeCart()" style="background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--gray-600); transition: var(--transition); padding: 0.5rem; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div id="cartItems">
-                <div style="text-align: center; padding: 3rem; color: var(--gray-500);">
-                    <i class="fas fa-shopping-cart" style="font-size: 4rem; margin-bottom: 1.5rem; opacity: 0.5;"></i>
-                    <h4 style="margin-bottom: 1rem; color: var(--primary-color);">سلة التسوق فارغة</h4>
-                    <p style="margin-bottom: 2rem;">ابدأ بإضافة منتجات إلى سلتك</p>
-                    <button class="btn btn-primary" onclick="closeCart()">
-                        <i class="fas fa-shopping-bag"></i>
-                        متابعة التسوق
-                    </button>
-                </div>
-            </div>
-            <div id="cartFooter" style="display: none;">
-                <div style="padding: 1.5rem; border-top: 2px solid var(--gray-200); text-align: center; background: rgba(248, 249, 250, 0.8); border-radius: 0 0 var(--border-radius) var(--border-radius); margin: 0 -2rem -2rem -2rem;">
-                    <div style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--primary-color);">
-                        الإجمالي: <span id="cartTotal" style="color: var(--secondary-color);">0</span> جنيه
-                    </div>
-                    <button class="btn btn-success" style="width: 100%; margin-bottom: 1rem; font-size: 1.1rem; padding: 1rem;" onclick="checkout()">
-                        <i class="fab fa-whatsapp"></i>
-                        إتمام الطلب عبر واتساب
-                    </button>
-                    <button class="btn btn-outline-primary" style="width: 100%;" onclick="clearCart()">
-                        <i class="fas fa-trash"></i>
-                        إفراغ السلة
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Wishlist Modal -->
-    <div class="modal" id="wishlistModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; backdrop-filter: blur(5px);">
-        <div class="modal-content" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: var(--border-radius); padding: 2rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2);">
-            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 2px solid var(--gray-200);">
-                <h3 style="color: var(--primary-color); font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                    <i class="fas fa-heart" style="color: var(--danger-color);"></i>
-                    المفضلة
-                </h3>
-                <button class="close-modal" onclick="closeWishlist()" style="background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--gray-600); transition: var(--transition); padding: 0.5rem; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div id="wishlistItems">
-                <div style="text-align: center; padding: 3rem; color: var(--gray-500);">
-                    <i class="fas fa-heart" style="font-size: 4rem; margin-bottom: 1.5rem; opacity: 0.5; color: var(--danger-color);"></i>
-                    <h4 style="margin-bottom: 1rem; color: var(--primary-color);">المفضلة فارغة</h4>
-                    <p style="margin-bottom: 2rem;">أضف منتجات إلى مفضلتك لتجدها هنا</p>
-                    <button class="btn btn-primary" onclick="closeWishlist()">
-                        <i class="fas fa-shopping-bag"></i>
-                        تصفح المنتجات
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Loading Overlay -->
-    <div id="loadingOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); z-index: 9999; display: none; align-items: center; justify-content: center;">
-        <div style="text-align: center;">
-            <div style="width: 60px; height: 60px; border: 4px solid var(--gray-200); border-top: 4px solid var(--primary-color); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>
-            <p style="color: var(--primary-color); font-weight: 600;">جاري التحميل...</p>
-        </div>
-    </div>
-
-    <style>
-        /* Enhanced Modal Styles */
-        .modal.active {
-            opacity: 1 !important;
-            visibility: visible !important;
-        }
-
-        .modal-content {
-            transform: scale(0.7);
-            transition: all 0.3s ease;
-        }
-
-        .modal.active .modal-content {
-            transform: scale(1);
-        }
-
-        .close-modal:hover {
-            background: rgba(220, 53, 69, 0.1) !important;
-            color: var(--danger-color) !important;
-            transform: scale(1.1);
-        }
-
-        /* Enhanced Cart Item Styles */
-        .cart-item {
-            display: flex;
-            align-items: center;
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--gray-200);
-            transition: var(--transition);
-            border-radius: var(--border-radius);
-            margin-bottom: 1rem;
-            background: rgba(248, 249, 250, 0.5);
-        }
-
-        .cart-item:hover {
-            background: rgba(248, 249, 250, 0.8);
-            transform: translateX(5px);
-        }
-
-        .cart-item-image {
-            width: 60px;
-            height: 60px;
-            background: var(--gray-100);
-            border-radius: var(--border-radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 1rem;
-            font-size: 1.5rem;
-            color: var(--gray-400);
-        }
-
-        .cart-item-info {
-            flex: 1;
-        }
-
-        .cart-item-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--gray-800);
-        }
-
-        .cart-item-price {
-            color: var(--gray-600);
-            font-size: 0.9rem;
-        }
-
-        .cart-item-controls {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .quantity-btn {
-            background: var(--gray-200);
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-        }
-
-        .quantity-btn:hover {
-            background: var(--primary-color);
-            color: white;
-            transform: scale(1.1);
-        }
-
-        .quantity-btn.plus {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .quantity-btn.plus:hover {
-            background: var(--secondary-color);
-        }
-
-        .quantity-display {
-            min-width: 40px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: var(--primary-color);
-        }
-
-        .cart-item-total {
-            font-weight: 700;
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            min-width: 80px;
-            text-align: center;
-        }
-
-        /* Enhanced Notification Styles */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            z-index: 10000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            max-width: 350px;
-            font-weight: 500;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification-success {
-            background: linear-gradient(135deg, var(--success-color), #34ce57);
-            color: white;
-        }
-
-        .notification-info {
-            background: linear-gradient(135deg, var(--info-color), #20a2b8);
-            color: white;
-        }
-
-        .notification-warning {
-            background: linear-gradient(135deg, var(--warning-color), #ffca28);
-            color: var(--dark-color);
-        }
-
-        .notification-error {
-            background: linear-gradient(135deg, var(--danger-color), #e74c3c);
-            color: white;
-        }
-
-        /* Enhanced Loading Animation */
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Enhanced Bounce Animation for Cart */
-        @keyframes bounce {
-            0%, 20%, 60%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            80% { transform: translateY(-5px); }
-        }
-
-        /* Enhanced Pulse Animation */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* Enhanced Scroll to Top Button */
-        .scroll-to-top {
-            position: fixed;
-            bottom: 120px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: var(--transition);
-            z-index: 1000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);
-        }
-
-        .scroll-to-top:hover {
-            transform: translateY(-3px) scale(1.1);
-            box-shadow: 0 8px 25px rgba(30, 61, 89, 0.4);
-        }
-
-        .scroll-to-top.show {
-            display: flex;
-        }
-
-        /* Enhanced Search Suggestions */
-        .search-suggestions {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 0 0 var(--border-radius) var(--border-radius);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            max-height: 300px;
-            overflow-y: auto;
-            display: none;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-top: none;
-        }
-
-        .search-suggestion {
-            padding: 1rem 1.5rem;
-            cursor: pointer;
-            transition: var(--transition);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .search-suggestion:hover {
-            background: rgba(30, 61, 89, 0.05);
-            color: var(--primary-color);
-        }
-
-        .search-suggestion:last-child {
-            border-bottom: none;
-        }
-
-        /* Enhanced Mobile Optimizations */
-        @media (max-width: 768px) {
-            .modal-content {
-                margin: 1rem;
-                max-height: 90vh;
-            }
-
-            .cart-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-
-            .cart-item-controls {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .notification {
-                right: 10px;
-                left: 10px;
-                max-width: none;
-            }
-
-            .whatsapp-float {
-                width: 60px;
-                height: 60px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 1.8rem;
-            }
-
-            .scroll-to-top {
-                bottom: 100px;
-                right: 20px;
-                width: 45px;
-                height: 45px;
-            }
-        }
-    </style>
-
-    <!-- Scroll to Top Button -->
-    <button class="scroll-to-top" id="scrollToTop" onclick="scrollToTop()">
-        <i class="fas fa-chevron-up"></i>
-    </button>
-
-    <script>
-        // Enhanced JavaScript functionality
-        
-        // Show/Hide Cart Modal
-        function showCart() {
             updateCartDisplay();
             document.getElementById('cartModal').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -2734,29 +3048,16 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Show/Hide Wishlist Modal
-        function showWishlistModal() {
-            updateWishlistDisplay();
-            document.getElementById('wishlistModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeWishlist() {
-            document.getElementById('wishlistModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Enhanced Cart Display
         function updateCartDisplay() {
             const cartItems = document.getElementById('cartItems');
             const cartFooter = document.getElementById('cartFooter');
             
             if (cart.length === 0) {
                 cartItems.innerHTML = `
-                    <div style="text-align: center; padding: 3rem; color: var(--gray-500);">
-                        <i class="fas fa-shopping-cart" style="font-size: 4rem; margin-bottom: 1.5rem; opacity: 0.5;"></i>
-                        <h4 style="margin-bottom: 1rem; color: var(--primary-color);">سلة التسوق فارغة</h4>
-                        <p style="margin-bottom: 2rem;">ابدأ بإضافة منتجات إلى سلتك</p>
+                    <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                        <i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">سلة التسوق فارغة</h4>
+                        <p style="margin-bottom: 1.5rem;">ابدأ بإضافة منتجات إلى سلتك</p>
                         <button class="btn btn-primary" onclick="closeCart()">
                             <i class="fas fa-shopping-bag"></i>
                             متابعة التسوق
@@ -2791,17 +3092,27 @@
             }
         }
 
-        // Enhanced Wishlist Display
+        function showWishlistModal() {
+            updateWishlistDisplay();
+            document.getElementById('wishlistModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeWishlist() {
+            document.getElementById('wishlistModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
         function updateWishlistDisplay() {
             const wishlistItems = document.getElementById('wishlistItems');
             const wishlistProducts = products.filter(p => wishlist.includes(p.id));
             
             if (wishlistProducts.length === 0) {
                 wishlistItems.innerHTML = `
-                    <div style="text-align: center; padding: 3rem; color: var(--gray-500);">
-                        <i class="fas fa-heart" style="font-size: 4rem; margin-bottom: 1.5rem; opacity: 0.5; color: var(--danger-color);"></i>
-                        <h4 style="margin-bottom: 1rem; color: var(--primary-color);">المفضلة فارغة</h4>
-                        <p style="margin-bottom: 2rem;">أضف منتجات إلى مفضلتك لتجدها هنا</p>
+                    <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                        <i class="fas fa-heart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; color: var(--danger-color);"></i>
+                        <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">المفضلة فارغة</h4>
+                        <p style="margin-bottom: 1.5rem;">أضف منتجات إلى مفضلتك لتجدها هنا</p>
                         <button class="btn btn-primary" onclick="closeWishlist()">
                             <i class="fas fa-shopping-bag"></i>
                             تصفح المنتجات
@@ -2833,35 +3144,6 @@
             }
         }
 
-        // Enhanced Remove from Cart
-        function removeFromCart(productId) {
-            const itemIndex = cart.findIndex(item => item.id === productId);
-            if (itemIndex > -1) {
-                if (cart[itemIndex].quantity > 1) {
-                    cart[itemIndex].quantity -= 1;
-                } else {
-                    cart.splice(itemIndex, 1);
-                }
-                updateCartCount();
-                updateCartDisplay();
-                saveToLocalStorage();
-            }
-        }
-
-        // Clear Cart
-        function clearCart() {
-            if (cart.length === 0) return;
-            
-            if (confirm('هل أنت متأكد من إفراغ السلة؟')) {
-                cart = [];
-                updateCartCount();
-                updateCartDisplay();
-                saveToLocalStorage();
-                showNotification('تم إفراغ السلة', 'info');
-            }
-        }
-
-        // Enhanced Checkout
         function checkout() {
             if (cart.length === 0) return;
             
@@ -2890,21 +3172,25 @@
             }, 1000);
         }
 
-        // Enhanced Wishlist Override
-        function showWishlist() {
-            showWishlistModal();
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const toggleBtn = document.querySelector('.mobile-menu-toggle');
+            
+            navMenu.classList.toggle('active');
+            
+            // Animate hamburger icon
+            if (navMenu.classList.contains('active')) {
+                toggleBtn.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
         }
 
-        // Loading Functions
-        function showLoading() {
-            document.getElementById('loadingOverlay').style.display = 'flex';
+        function saveToLocalStorage() {
+            localStorage.setItem('rawad-cart', JSON.stringify(cart));
+            localStorage.setItem('rawad-wishlist', JSON.stringify(wishlist));
         }
 
-        function hideLoading() {
-            document.getElementById('loadingOverlay').style.display = 'none';
-        }
-
-        // Enhanced Notification System
         function showNotification(message, type = 'info') {
             // Remove existing notifications
             document.querySelectorAll('.notification').forEach(n => n.remove());
@@ -2944,7 +3230,6 @@
             }, 4000);
         }
 
-        // Scroll to Top Functionality
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
@@ -2952,136 +3237,21 @@
             });
         }
 
-        // Show/Hide Scroll to Top Button
-        window.addEventListener('scroll', function() {
-            const scrollToTopBtn = document.getElementById('scrollToTop');
-            if (window.pageYOffset > 300) {
-                scrollToTopBtn.classList.add('show');
-            } else {
-                scrollToTopBtn.classList.remove('show');
-            }
-        });
-
-        // Enhanced Search with Suggestions
-        let searchTimeout;
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            clearTimeout(searchTimeout);
-            const searchTerm = e.target.value.toLowerCase().trim();
-            
-            if (searchTerm.length > 0) {
-                searchTimeout = setTimeout(() => {
-                    showSearchSuggestions(searchTerm);
-                }, 300);
-            } else {
-                hideSearchSuggestions();
-            }
-        });
-
-        function showSearchSuggestions(searchTerm) {
-            const suggestions = products.filter(product => 
-                product.name.toLowerCase().includes(searchTerm) ||
-                product.description.toLowerCase().includes(searchTerm)
-            ).slice(0, 5);
-
-            if (suggestions.length > 0) {
-                let suggestionsHTML = suggestions.map(product => `
-                    <div class="search-suggestion" onclick="selectSearchSuggestion('${product.name}')">
-                        <div style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: var(--gray-100); border-radius: 50%; font-size: 0.8rem;">
-                            ${getCategoryIcon(product.category)}
-                        </div>
-                        <div>
-                            <div style="font-weight: 600; color: var(--gray-800);">${product.name}</div>
-                            <div style="font-size: 0.8rem; color: var(--gray-600);">${product.price} جنيه</div>
-                        </div>
-                    </div>
-                `).join('');
-
-                // Create suggestions container if it doesn't exist
-                let suggestionsContainer = document.querySelector('.search-suggestions');
-                if (!suggestionsContainer) {
-                    suggestionsContainer = document.createElement('div');
-                    suggestionsContainer.className = 'search-suggestions';
-                    document.querySelector('.search-container').appendChild(suggestionsContainer);
-                }
-
-                suggestionsContainer.innerHTML = suggestionsHTML;
-                suggestionsContainer.style.display = 'block';
-            }
+        function showLoading() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
         }
 
-        function hideSearchSuggestions() {
-            const suggestionsContainer = document.querySelector('.search-suggestions');
-            if (suggestionsContainer) {
-                suggestionsContainer.style.display = 'none';
-            }
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
         }
 
-        function selectSearchSuggestion(productName) {
-            document.getElementById('searchInput').value = productName;
-            hideSearchSuggestions();
-            performSearch();
-        }
-
-        // Hide suggestions when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.search-container')) {
-                hideSearchSuggestions();
-            }
-        });
-
-        // Enhanced Mobile Menu
-        function toggleMobileMenu() {
-            const navMenu = document.getElementById('navMenu');
-            const toggleBtn = document.querySelector('.mobile-menu-toggle');
-            
-            navMenu.classList.toggle('active');
-            
-            // Animate hamburger icon
-            if (navMenu.classList.contains('active')) {
-                toggleBtn.innerHTML = '<i class="fas fa-times"></i>';
-            } else {
-                toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            }
-        }
-
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function() {
-                const navMenu = document.getElementById('navMenu');
-                const toggleBtn = document.querySelector('.mobile-menu-toggle');
-                
-                if (navMenu.classList.contains('active')) {
-                    navMenu.classList.remove('active');
-                    toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                }
-            });
-        });
-
-        // Enhanced Page Load Animation
-        window.addEventListener('load', function() {
-            // Animate elements on page load
-            const animateElements = document.querySelectorAll('.category-card, .service-card');
-            animateElements.forEach((element, index) => {
-                setTimeout(() => {
-                    element.style.opacity = '0';
-                    element.style.transform = 'translateY(30px)';
-                    element.style.transition = 'all 0.6s ease';
-                    
-                    setTimeout(() => {
-                        element.style.opacity = '1';
-                        element.style.transform = 'translateY(0)';
-                    }, 100);
-                }, index * 150);
-            });
-        });
-
-        // Enhanced Error Handling
+        // Error Handling
         window.addEventListener('error', function(e) {
             console.error('خطأ في الصفحة:', e.error);
             showNotification('حدث خطأ غير متوقع. يرجى إعادة تحميل الصفحة.', 'error');
         });
 
-        // Enhanced Performance Monitoring
+        // Performance Monitoring
         if ('performance' in window) {
             window.addEventListener('load', function() {
                 setTimeout(() => {
@@ -3091,3 +3261,5 @@
             });
         }
     </script>
+</body>
+</html>
