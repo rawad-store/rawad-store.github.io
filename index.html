@@ -772,7 +772,6 @@
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
             transition: left 0.6s;
-            z-index: 1;
         }
 
         .category-card:hover::before {
@@ -798,8 +797,6 @@
             font-size: 1.8rem;
             box-shadow: 0 8px 25px rgba(30, 61, 89, 0.3);
             transition: var(--transition);
-            position: relative;
-            z-index: 2;
         }
 
         .category-card:hover .category-icon {
@@ -812,16 +809,12 @@
             margin-bottom: 0.8rem;
             font-size: 1.2rem;
             font-weight: 600;
-            position: relative;
-            z-index: 2;
         }
 
         .category-card p {
             color: var(--gray-600);
             font-size: 0.9rem;
             line-height: 1.6;
-            position: relative;
-            z-index: 2;
         }
 
         /* Mobile Menu Toggle */
@@ -876,17 +869,6 @@
             overflow: hidden;
         }
 
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-
-        .product-card:hover .product-image img {
-            transform: scale(1.1);
-        }
-
         .product-badge {
             position: absolute;
             top: 12px;
@@ -898,7 +880,6 @@
             font-size: 0.7rem;
             font-weight: 600;
             box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
-            z-index: 3;
         }
 
         .product-info {
@@ -1816,170 +1797,6 @@
             border-bottom: none;
         }
 
-        /* Admin Panel Styles */
-        .admin-panel {
-            position: fixed;
-            top: 50%;
-            right: 0;
-            transform: translateY(-50%);
-            background: var(--primary-color);
-            color: white;
-            padding: 1rem;
-            border-radius: 10px 0 0 10px;
-            z-index: 10000;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .admin-panel:hover {
-            background: var(--secondary-color);
-            padding-right: 1.5rem;
-        }
-
-        .admin-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-
-        .admin-modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .admin-content {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
-            transform: scale(0.7);
-            transition: all 0.3s ease;
-        }
-
-        .admin-modal.active .admin-content {
-            transform: scale(1);
-        }
-
-        .admin-tabs {
-            display: flex;
-            border-bottom: 2px solid var(--gray-200);
-            margin-bottom: 1.5rem;
-        }
-
-        .admin-tab {
-            padding: 1rem 1.5rem;
-            cursor: pointer;
-            transition: var(--transition);
-            border-bottom: 3px solid transparent;
-        }
-
-        .admin-tab.active {
-            border-bottom-color: var(--primary-color);
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        .admin-form {
-            display: grid;
-            gap: 1.2rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            color: var(--gray-800);
-        }
-
-        .form-control {
-            padding: 0.8rem 1rem;
-            border: 2px solid var(--gray-300);
-            border-radius: var(--border-radius);
-            font-family: inherit;
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(30, 61, 89, 0.1);
-        }
-
-        .image-upload {
-            border: 2px dashed var(--gray-400);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .image-upload:hover {
-            border-color: var(--primary-color);
-            background: rgba(30, 61, 89, 0.05);
-        }
-
-        .image-preview {
-            max-width: 100%;
-            max-height: 200px;
-            margin-top: 1rem;
-            border-radius: var(--border-radius);
-            display: none;
-        }
-
-        .products-list {
-            display: grid;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .product-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            border: 1px solid var(--gray-300);
-            border-radius: var(--border-radius);
-            background: var(--gray-100);
-        }
-
-        .product-item img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: var(--border-radius);
-            margin-left: 1rem;
-        }
-
-        .product-info {
-            flex: 1;
-        }
-
-        .product-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
         /* Enhanced Responsive Design */
         @media (max-width: 1024px) {
             .hero h2 {
@@ -2065,18 +1882,6 @@
             .footer-grid {
                 grid-template-columns: 1fr;
             }
-
-            .admin-content {
-                padding: 1.5rem;
-            }
-
-            .admin-tabs {
-                flex-wrap: wrap;
-            }
-
-            .admin-tab {
-                padding: 0.8rem 1rem;
-            }
         }
 
         @media (max-width: 480px) {
@@ -2128,14 +1933,6 @@
                 right: 20px;
                 width: 40px;
                 height: 40px;
-            }
-
-            .admin-content {
-                padding: 1rem;
-            }
-
-            .admin-tabs {
-                flex-direction: column;
             }
         }
     </style>
@@ -2557,7 +2354,7 @@
                 <div class="footer-links">
                     <h4>خدمات العملاء</h4>
                     <ul>
-                        <li><a href="https://rawad-store.github.io/terms.html"أريد الاستفسار عن سياسة الإرجاع" target="_blank" rel="noopener"><i class="fas fa-chevron-left"></i> سياسة الإرجاع</a></li>
+                        <li><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن سياسة الإرجاع" target="_blank" rel="noopener"><i class="fas fa-chevron-left"></i> سياسة الإرجاع</a></li>
                         <li><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن الشحن والتوصيل" target="_blank" rel="noopener"><i class="fas fa-chevron-left"></i> الشحن والتوصيل</a></li>
                         <li><a href="https://wa.me/+201126630356?text=لدي سؤال، أريد المساعدة" target="_blank" rel="noopener"><i class="fas fa-chevron-left"></i> الأسئلة الشائعة</a></li>
                         <li><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن طرق الدفع" target="_blank" rel="noopener"><i class="fas fa-chevron-left"></i> طرق الدفع</a></li>
@@ -2581,7 +2378,7 @@
                         <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem;">
                             <i class="fas fa-phone" style="color: var(--accent-color); font-size: 1.1rem;"></i>
                             <div>
-                                <strong style="color: white;"> الهاتف:</strong><br>
+                                <strong style="color: white;">الهاتف:</strong><br>
                                 <a href="tel:+201126630356" style="color: var(--gray-300); text-decoration: none;">+20 1126630356</a>
                             </div>
                         </li>
@@ -2607,7 +2404,7 @@
                 <p>&copy; 2025 مكتبة الرواد - الصوة. جميع الحقوق محفوظة.</p>
                 <p style="font-size: 0.9rem;">تم التطوير بواسطة فريق التقنية المتخصص | صُمم بعناية لتجربة مستخدم مميزة</p>
                 
-                <div class="policy-links" style="color: #ffffff;"> 
+                 <div class="policy-links" style="color: #ffffff;"> 
                     <a href="https://rawad-store.github.io/privacy.html" style="color: #ffffff;">سياسة الخصوصية</a> | 
                     <a href="https://rawad-store.github.io/terms.html" style="color: #ffffff;">شروط الخدمة</a> 
                 </div>
@@ -2624,11 +2421,6 @@
     <button class="scroll-to-top" id="scrollToTop" onclick="scrollToTop()">
         <i class="fas fa-chevron-up"></i>
     </button>
-
-    <!-- Admin Panel Button -->
-    <div class="admin-panel" onclick="showAdminModal()">
-        <i class="fas fa-cog"></i>
-    </div>
 
     <!-- Cart Modal -->
     <div class="modal" id="cartModal">
@@ -2697,87 +2489,6 @@
         </div>
     </div>
 
-    <!-- Admin Modal -->
-    <div class="admin-modal" id="adminModal">
-        <div class="admin-content">
-            <div class="modal-header">
-                <h3>
-                    <i class="fas fa-cog"></i>
-                    لوحة إدارة المتجر
-                </h3>
-                <button class="close-modal" onclick="closeAdminModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="admin-tabs">
-                <div class="admin-tab active" onclick="switchAdminTab('products')">إدارة المنتجات</div>
-                <div class="admin-tab" onclick="switchAdminTab('categories')">إدارة التصنيفات</div>
-                <div class="admin-tab" onclick="switchAdminTab('settings')">الإعدادات</div>
-            </div>
-            
-            <div id="adminProductsTab" class="admin-tab-content">
-                <h4 style="margin-bottom: 1.2rem; color: var(--primary-color);">إضافة منتج جديد</h4>
-                <div class="admin-form">
-                    <div class="form-group">
-                        <label for="productName">اسم المنتج</label>
-                        <input type="text" id="productName" class="form-control" placeholder="أدخل اسم المنتج">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="productPrice">سعر المنتج (جنيه)</label>
-                        <input type="number" id="productPrice" class="form-control" placeholder="أدخل السعر">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="productCategory">التصنيف</label>
-                        <select id="productCategory" class="form-control">
-                            <option value="books">الكتب الدراسية</option>
-                            <option value="stationery">المستلزمات المكتبية</option>
-                            <option value="bags">الحقائب المدرسية</option>
-                            <option value="gifts">الهدايا</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="productDescription">وصف المنتج</label>
-                        <textarea id="productDescription" class="form-control" rows="3" placeholder="أدخل وصف المنتج"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>صورة المنتج</label>
-                        <div class="image-upload" onclick="document.getElementById('productImage').click()">
-                            <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: var(--gray-400); margin-bottom: 0.5rem;"></i>
-                            <p>انقر لرفع صورة أو اسحبها هنا</p>
-                            <input type="file" id="productImage" accept="image/*" style="display: none;" onchange="previewImage(this)">
-                            <img id="imagePreview" class="image-preview">
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-primary" onclick="addProduct()">
-                        <i class="fas fa-plus"></i>
-                        إضافة المنتج
-                    </button>
-                </div>
-                
-                <h4 style="margin-bottom: 1.2rem; margin-top: 2rem; color: var(--primary-color);">المنتجات الحالية</h4>
-                <div class="products-list" id="adminProductsList">
-                    <!-- Products will be listed here -->
-                </div>
-            </div>
-            
-            <div id="adminCategoriesTab" class="admin-tab-content" style="display: none;">
-                <h4 style="margin-bottom: 1.2rem; color: var(--primary-color);">إدارة التصنيفات</h4>
-                <p>هنا يمكنك إدارة التصنيفات الخاصة بالمتجر.</p>
-            </div>
-            
-            <div id="adminSettingsTab" class="admin-tab-content" style="display: none;">
-                <h4 style="margin-bottom: 1.2rem; color: var(--primary-color);">إعدادات المتجر</h4>
-                <p>هنا يمكنك تعديل إعدادات المتجر العامة.</p>
-            </div>
-        </div>
-    </div>
-
     <!-- Loading Overlay -->
     <div id="loadingOverlay">
         <div style="text-align: center;">
@@ -2792,7 +2503,6 @@
         let cart = [];
         let wishlist = [];
         let products = [];
-        let nextProductId = 7; // Starting from 7 because we have 6 default products
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
@@ -2802,15 +2512,12 @@
             updateWishlistCount();
             initializeAnimations();
             initializeEventListeners();
-            loadAdminProducts();
         });
 
         function initializeApp() {
             // Load saved data from localStorage
             const savedCart = localStorage.getItem('rawad-cart');
             const savedWishlist = localStorage.getItem('rawad-wishlist');
-            const savedProducts = localStorage.getItem('rawad-products');
-            const savedNextId = localStorage.getItem('rawad-nextId');
             
             if (savedCart) {
                 cart = JSON.parse(savedCart);
@@ -2819,81 +2526,9 @@
             if (savedWishlist) {
                 wishlist = JSON.parse(savedWishlist);
             }
-            
-            if (savedProducts) {
-                products = JSON.parse(savedProducts);
-            }
-            
-            if (savedNextId) {
-                nextProductId = parseInt(savedNextId);
-            } else {
-                products = getDefaultProducts();
-            }
-        }
 
-        function getDefaultProducts() {
-            return [
-                {
-                    id: 1,
-                    name: "كتب دراسية ومراجع",
-                    price: 0,
-                    category: "books",
-                    description: "جميع المراحل الدراسية - طبعة حديثة",
-                    rating: 5,
-                    badge: "جديد",
-                    image: null
-                },
-                {
-                    id: 2,
-                    name: "مجموعة أقلام متنوعة",
-                    price: 0,
-                    category: "stationery",
-                    description: "مجموعة أقلام عالية الجودة - متنوع",
-                    rating: 4,
-                    badge: "الأكثر مبيعاً",
-                    image: null
-                },
-                {
-                    id: 3,
-                    name: "حقيبة مدرسية - تصميم عصري",
-                    price: 0,
-                    category: "bags",
-                    description: "حقيبة مدرسية بتصميم عصري ومقاومة للماء",
-                    rating: 5,
-                    badge: "مميز",
-                    image: null
-                },
-                {
-                    id: 4,
-                    name: "دفتر ملاحظات ",
-                    price: 0,
-                    category: "stationery",
-                    description: "دفتر ملاحظات متنوع",
-                    rating: 4,
-                    badge: "",
-                    image: null
-                },
-                {
-                    id: 5,
-                    name: "كشكول وكراس",
-                    price: 0,
-                    category: "books",
-                    description: "تشكيلات متنوعة ومميزة",
-                    rating: 5,
-                    badge: "",
-                    image: null
-                },
-                {
-                    id: 6,
-                    name: "هدايا قيمة",
-                    price: 0,
-                    category: "gifts",
-                    description: "هدايا مميزة ومتنوعة",
-                    rating: 5,
-                    badge: "مميز",
-                    image: null
-                }
-            ];
+            // Initialize products
+            products = getDefaultProducts();
         }
 
         function initializeAnimations() {
@@ -2944,7 +2579,6 @@
                 if (e.target.classList.contains('modal')) {
                     closeCart();
                     closeWishlist();
-                    closeAdminModal();
                 }
                 
                 // Hide search suggestions when clicking outside
@@ -2997,32 +2631,65 @@
                     }
                 });
             });
+        }
 
-            // Drag and drop for image upload
-            const imageUpload = document.querySelector('.image-upload');
-            if (imageUpload) {
-                imageUpload.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                    this.style.borderColor = 'var(--primary-color)';
-                    this.style.background = 'rgba(30, 61, 89, 0.1)';
-                });
-
-                imageUpload.addEventListener('dragleave', function() {
-                    this.style.borderColor = 'var(--gray-400)';
-                    this.style.background = '';
-                });
-
-                imageUpload.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    this.style.borderColor = 'var(--gray-400)';
-                    this.style.background = '';
-                    
-                    const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                        handleImageUpload(files[0]);
-                    }
-                });
-            }
+        function getDefaultProducts() {
+            return [
+                {
+                    id: 1,
+                    name: "كتب دراسية ومراجع",
+                    price: 0,
+                    category: "books",
+                    description: "جميع المراحل الدراسية - طبعة حديثة",
+                    rating: 5,
+                    badge: "جديد"
+                },
+                {
+                    id: 2,
+                    name: "مجموعة أقلام متنوعة",
+                    price: 0,
+                    category: "stationery",
+                    description: "مجموعة أقلام عالية الجودة - متنوع",
+                    rating: 4,
+                    badge: "الأكثر مبيعاً"
+                },
+                {
+                    id: 3,
+                    name: "حقيبة مدرسية - تصميم عصري",
+                    price: 0,
+                    category: "bags",
+                    description: "حقيبة مدرسية بتصميم عصري ومقاومة للماء",
+                    rating: 5,
+                    badge: "مميز"
+                },
+                {
+                    id: 4,
+                    name: "دفتر ملاحظات ",
+                    price: 0,
+                    category: "stationery",
+                    description: "دفتر ملاحظات متنوع",
+                    rating: 4,
+                    badge: ""
+                },
+                {
+                    id: 5,
+                    name: "كشكول وكراس",
+                    price: 0,
+                    category: "books",
+                    description: "تشكيلات متنوعة ومميزة",
+                    rating: 5,
+                    badge: ""
+                },
+                {
+                    id: 6,
+                    name: "هدايا قيمة",
+                    price: 0,
+                    category: "gifts",
+                    description: "هدايا مميزة ومتنوعة",
+                    rating: 5,
+                    badge: "مميز"
+                }
+            ];
         }
 
         function loadProducts(category = 'all') {
@@ -3049,7 +2716,7 @@
             grid.innerHTML = filteredProducts.map(product => `
                 <div class="product-card fade-in" data-category="${product.category}">
                     <div class="product-image">
-                        ${product.image ? `<img src="${product.image}" alt="${product.name}">` : getCategoryIcon(product.category)}
+                        ${getCategoryIcon(product.category)}
                         ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
                     </div>
                     <div class="product-info">
@@ -3222,7 +2889,7 @@
                 grid.innerHTML = filteredProducts.map(product => `
                     <div class="product-card fade-in" data-category="${product.category}">
                         <div class="product-image">
-                            ${product.image ? `<img src="${product.image}" alt="${product.name}">` : getCategoryIcon(product.category)}
+                            ${getCategoryIcon(product.category)}
                             ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
                         </div>
                         <div class="product-info">
@@ -3388,7 +3055,7 @@
                         <button class="btn btn-primary" onclick="closeCart()">
                             <i class="fas fa-shopping-bag"></i>
                             متابعة التسوق
-                            </button>
+                        </button>
                     </div>
                 `;
                 cartFooter.style.display = 'none';
@@ -3396,7 +3063,7 @@
                 cartItems.innerHTML = cart.map(item => `
                     <div class="cart-item">
                         <div class="cart-item-image">
-                            ${item.image ? `<img src="${item.image}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--border-radius);">` : getCategoryIcon(item.category)}
+                            ${getCategoryIcon(item.category)}
                         </div>
                         <div class="cart-item-info">
                             <div class="cart-item-title">${item.name}</div>
@@ -3450,7 +3117,7 @@
                 wishlistItems.innerHTML = wishlistProducts.map(item => `
                     <div class="cart-item">
                         <div class="cart-item-image">
-                            ${item.image ? `<img src="${item.image}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--border-radius);">` : getCategoryIcon(item.category)}
+                            ${getCategoryIcon(item.category)}
                         </div>
                         <div class="cart-item-info">
                             <div class="cart-item-title">${item.name}</div>
@@ -3516,8 +3183,6 @@
         function saveToLocalStorage() {
             localStorage.setItem('rawad-cart', JSON.stringify(cart));
             localStorage.setItem('rawad-wishlist', JSON.stringify(wishlist));
-            localStorage.setItem('rawad-products', JSON.stringify(products));
-            localStorage.setItem('rawad-nextId', nextProductId.toString());
         }
 
         function showNotification(message, type = 'info') {
@@ -3572,170 +3237,6 @@
 
         function hideLoading() {
             document.getElementById('loadingOverlay').style.display = 'none';
-        }
-
-        // Admin Panel Functions
-        function showAdminModal() {
-            document.getElementById('adminModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeAdminModal() {
-            document.getElementById('adminModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function switchAdminTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.admin-tab-content').forEach(tab => {
-                tab.style.display = 'none';
-            });
-            
-            // Show selected tab
-            document.getElementById(`admin${tabName.charAt(0).toUpperCase() + tabName.slice(1)}Tab`).style.display = 'block';
-            
-            // Update active tab
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            event.currentTarget.classList.add('active');
-        }
-
-        function previewImage(input) {
-            const preview = document.getElementById('imagePreview');
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function handleImageUpload(file) {
-            if (file && file.type.match('image.*')) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const preview = document.getElementById('imagePreview');
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                    document.getElementById('productImage').files = file;
-                }
-                reader.readAsDataURL(file);
-            } else {
-                showNotification('الرجاء اختيار صورة فقط', 'error');
-            }
-        }
-
-        function addProduct() {
-            const name = document.getElementById('productName').value;
-            const price = document.getElementById('productPrice').value;
-            const category = document.getElementById('productCategory').value;
-            const description = document.getElementById('productDescription').value;
-            const imageInput = document.getElementById('productImage');
-            
-            if (!name || !price || !description) {
-                showNotification('الرجاء ملء جميع الحقول المطلوبة', 'error');
-                return;
-            }
-            
-            const newProduct = {
-                id: nextProductId++,
-                name,
-                price: parseFloat(price),
-                category,
-                description,
-                rating: 4,
-                badge: "جديد",
-                image: null
-            };
-            
-            // Handle image upload
-            if (imageInput.files && imageInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    newProduct.image = e.target.result;
-                    products.push(newProduct);
-                    saveToLocalStorage();
-                    loadProducts(currentFilter);
-                    loadAdminProducts();
-                    resetProductForm();
-                    showNotification('تم إضافة المنتج بنجاح', 'success');
-                }
-                reader.readAsDataURL(imageInput.files[0]);
-            } else {
-                products.push(newProduct);
-                saveToLocalStorage();
-                loadProducts(currentFilter);
-                loadAdminProducts();
-                resetProductForm();
-                showNotification('تم إضافة المنتج بنجاح', 'success');
-            }
-        }
-
-        function resetProductForm() {
-            document.getElementById('productName').value = '';
-            document.getElementById('productPrice').value = '';
-            document.getElementById('productCategory').value = 'books';
-            document.getElementById('productDescription').value = '';
-            document.getElementById('productImage').value = '';
-            document.getElementById('imagePreview').style.display = 'none';
-        }
-
-        function loadAdminProducts() {
-            const productsList = document.getElementById('adminProductsList');
-            if (!productsList) return;
-            
-            productsList.innerHTML = products.map(product => `
-                <div class="product-item">
-                    ${product.image ? `<img src="${product.image}" alt="${product.name}">` : getCategoryIcon(product.category)}
-                    <div class="product-info">
-                        <h4>${product.name}</h4>
-                        <p>${product.price} جنيه - ${getCategoryName(product.category)}</p>
-                    </div>
-                    <div class="product-actions">
-                        <button class="btn btn-outline-primary" onclick="editProduct(${product.id})">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-outline-danger" onclick="deleteProduct(${product.id})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function editProduct(id) {
-            const product = products.find(p => p.id === id);
-            if (!product) return;
-            
-            document.getElementById('productName').value = product.name;
-            document.getElementById('productPrice').value = product.price;
-            document.getElementById('productCategory').value = product.category;
-            document.getElementById('productDescription').value = product.description;
-            
-            if (product.image) {
-                const preview = document.getElementById('imagePreview');
-                preview.src = product.image;
-                preview.style.display = 'block';
-            }
-            
-            showNotification('يمكنك تعديل المنتج في النموذج أعلاه', 'info');
-        }
-
-        function deleteProduct(id) {
-            if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
-                const index = products.findIndex(p => p.id === id);
-                if (index > -1) {
-                    products.splice(index, 1);
-                    saveToLocalStorage();
-                    loadProducts(currentFilter);
-                    loadAdminProducts();
-                    showNotification('تم حذف المنتج بنجاح', 'success');
-                }
-            }
         }
        
         // Performance Monitoring
