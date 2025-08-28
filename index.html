@@ -2520,10 +2520,10 @@
         });
 
         function initializeApp() {
-            // Load saved data from localStorage
-            const savedCart = localStorage.getItem('rawad-cart');
-            const savedWishlist = localStorage.getItem('rawad-wishlist');
-            
+            // Load saved data from // حفظ المنتجات في localStorage إذا لم تكن موجودة
+            if (!localStorage.getItem('rawad-products')) {
+                localStorage.setItem('rawad-products', JSON.stringify(products));
+            }
             if (savedCart) {
                 cart = JSON.parse(savedCart);
             }
@@ -2639,63 +2639,72 @@
         }
 
         function getDefaultProducts() {
-            return [
-                {
-                    id: 1,
-                    name: "كتب دراسية ومراجع",
-                    price: 0,
-                    category: "books",
-                    description: "جميع المراحل الدراسية - طبعة حديثة",
-                    rating: 5,
-                    badge: "جديد"
-                },
-                {
-                    id: 2,
-                    name: "مجموعة أقلام متنوعة",
-                    price: 0,
-                    category: "stationery",
-                    description: "مجموعة أقلام عالية الجودة - متنوع",
-                    rating: 4,
-                    badge: "الأكثر مبيعاً"
-                },
-                {
-                    id: 3,
-                    name: "حقيبة مدرسية - تصميم عصري",
-                    price: 0,
-                    category: "bags",
-                    description: "حقيبة مدرسية بتصميم عصري ومقاومة للماء",
-                    rating: 5,
-                    badge: "مميز"
-                },
-                {
-                    id: 4,
-                    name: "دفتر ملاحظات ",
-                    price: 0,
-                    category: "stationery",
-                    description: "دفتر ملاحظات متنوع",
-                    rating: 4,
-                    badge: ""
-                },
-                {
-                    id: 5,
-                    name: "كشكول وكراس",
-                    price: 0,
-                    category: "books",
-                    description: "تشكيلات متنوعة ومميزة",
-                    rating: 5,
-                    badge: ""
-                },
-                {
-                    id: 6,
-                    name: "هدايا قيمة",
-                    price: 0,
-                    category: "gifts",
-                    description: "هدايا مميزة ومتنوعة",
-                    rating: 5,
-                    badge: "مميز"
-                }
-            ];
+        function getDefaultProducts() {
+    // محاولة تحميل المنتجات من localStorage
+    const savedProducts = localStorage.getItem('rawad-products');
+    
+    if (savedProducts) {
+        return JSON.parse(savedProducts);
+    }
+    
+    // إذا لم توجد منتجات محفوظة، استخدم المنتجات الافتراضية
+    return [
+        {
+            id: 1,
+            name: "كتب دراسية ومراجع",
+            price: 0,
+            category: "books",
+            description: "جميع المراحل الدراسية - طبعة حديثة",
+            rating: 5,
+            badge: "جديد"
+        },
+        {
+            id: 2,
+            name: "مجموعة أقلام متنوعة",
+            price: 0,
+            category: "stationery",
+            description: "مجموعة أقلام عالية الجودة - متنوع",
+            rating: 4,
+            badge: "الأكثر مبيعاً"
+        },
+        {
+            id: 3,
+            name: "حقيبة مدرسية - تصميم عصري",
+            price: 0,
+            category: "bags",
+            description: "حقيبة مدرسية بتصميم عصري ومقاومة للماء",
+            rating: 5,
+            badge: "مميز"
+        },
+        {
+            id: 4,
+            name: "دفتر ملاحظات ",
+            price: 0,
+            category: "stationery",
+            description: "دفتر ملاحظات متنوع",
+            rating: 4,
+            badge: ""
+        },
+        {
+            id: 5,
+            name: "كشكول وكراس",
+            price: 0,
+            category: "books",
+            description: "تشكيلات متنوعة ومميزة",
+            rating: 5,
+            badge: ""
+        },
+        {
+            id: 6,
+            name: "هدايا قيمة",
+            price: 0,
+            category: "gifts",
+            description: "هدايا مميزة ومتنوعة",
+            rating: 5,
+            badge: "مميز"
         }
+    ];
+}
 
         function loadProducts(category = 'all') {
             const grid = document.getElementById('productsGrid');
