@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام إدارة المنتجات - مكتبة الرواد</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #1e3d59;
+            --primary-light: #2a5a87;
             --secondary-color: #ff6b35;
             --success-color: #28a745;
             --danger-color: #dc3545;
@@ -14,7 +16,10 @@
             --info-color: #17a2b8;
             --light-color: #f8f9fa;
             --dark-color: #343a40;
-            --border-radius: 8px;
+            --gray-color: #6c757d;
+            --border-radius: 10px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
         * {
@@ -25,10 +30,12 @@
         }
 
         body {
-            background-color: #f5f7fa;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
             color: #333;
             line-height: 1.6;
+            min-height: 100vh;
             padding: 20px;
+            position: relative;
         }
 
         .container {
@@ -38,40 +45,64 @@
         }
 
         header {
-            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
             color: white;
             padding: 1.5rem;
             border-radius: var(--border-radius);
             margin-bottom: 2rem;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
         }
 
         h1 {
             margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+            position: relative;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
         .admin-actions {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
             margin-bottom: 2rem;
-            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 1.5rem;
             border: none;
             border-radius: var(--border-radius);
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-flex;
+            transition: var(--transition);
+            display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
+            text-align: center;
+            font-size: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
             color: white;
         }
 
@@ -87,7 +118,7 @@
 
         .btn-warning {
             background: linear-gradient(135deg, var(--warning-color), #ffd761);
-            color: #343a40;
+            color: var(--dark-color);
         }
 
         .btn-info {
@@ -95,17 +126,52 @@
             color: white;
         }
 
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d, #8a939b);
+            color: white;
+        }
+
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .form-container {
             background: white;
             padding: 2rem;
             border-radius: var(--border-radius);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow);
             margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        }
+
+        .form-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f4f8;
+            position: relative;
+        }
+
+        .form-title::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--secondary-color);
         }
 
         .form-group {
@@ -121,15 +187,54 @@
 
         input, select, textarea {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.9rem;
             border: 1px solid #ddd;
             border-radius: var(--border-radius);
             font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(30, 61, 89, 0.1);
         }
 
         textarea {
-            min-height: 100px;
+            min-height: 120px;
             resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .products-section {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f0f4f8;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            right: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--secondary-color);
         }
 
         .products-grid {
@@ -142,22 +247,50 @@
             background: white;
             border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            border: 1px solid #eee;
+            position: relative;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 10;
         }
 
         .product-image {
-            height: 180px;
-            background: #f0f4f8;
+            height: 200px;
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e1eb 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #a0aec0;
             font-size: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), rgba(0,0,0,0.05));
         }
 
         .product-info {
@@ -172,8 +305,8 @@
         }
 
         .product-price {
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.2rem;
+            font-weight: 700;
             color: var(--secondary-color);
             margin-bottom: 0.5rem;
         }
@@ -185,17 +318,29 @@
             border-radius: 20px;
             font-size: 0.8rem;
             margin-bottom: 1rem;
+            color: var(--gray-color);
         }
 
         .product-description {
-            color: #6c757d;
+            color: var(--gray-color);
             margin-bottom: 1rem;
             font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .product-rating {
+            margin-bottom: 1rem;
+            color: #ffc107;
         }
 
         .product-actions {
             display: flex;
             gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
         }
 
         .notification {
@@ -204,13 +349,14 @@
             right: 20px;
             padding: 1rem 1.5rem;
             border-radius: var(--border-radius);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow);
             z-index: 1000;
             transform: translateX(100%);
-            transition: transform 0.3s ease;
+            transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            max-width: 350px;
         }
 
         .notification.show {
@@ -236,6 +382,24 @@
             display: none;
         }
 
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray-color);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
         .code-modal {
             position: fixed;
             top: 0;
@@ -248,6 +412,7 @@
             justify-content: center;
             z-index: 2000;
             padding: 20px;
+            backdrop-filter: blur(5px);
         }
 
         .code-content {
@@ -258,6 +423,8 @@
             max-width: 800px;
             max-height: 80vh;
             overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
 
         .code-header {
@@ -265,6 +432,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
         }
 
         .code-body {
@@ -272,10 +441,12 @@
             padding: 1.5rem;
             border-radius: var(--border-radius);
             overflow-x: auto;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
             white-space: pre-wrap;
             max-height: 400px;
             overflow-y: auto;
+            line-height: 1.5;
+            border: 1px solid #e9ecef;
         }
 
         .code-actions {
@@ -287,16 +458,33 @@
 
         @media (max-width: 768px) {
             .admin-actions {
-                flex-direction: column;
+                grid-template-columns: 1fr;
             }
             
             .products-grid {
                 grid-template-columns: 1fr;
             }
-
-            .code-content {
-                padding: 1rem;
+            
+            .form-actions {
+                flex-direction: column;
             }
+            
+            .code-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
         }
     </style>
 </head>
@@ -304,7 +492,7 @@
     <div class="container">
         <header>
             <h1>نظام إدارة المنتجات - مكتبة الرواد</h1>
-            <p>إضافة وتعديل المنتجات المعروضة في المتجر</p>
+            <p class="header-subtitle">إضافة وتعديل المنتجات المعروضة في المتجر</p>
         </header>
 
         <div class="admin-actions">
@@ -320,22 +508,22 @@
             <button class="btn btn-danger" onclick="clearAllProducts()">
                 <i class="fas fa-trash"></i> حذف جميع المنتجات
             </button>
-            <a href="index.html" class="btn" style="background: #6c757d; color: white; text-decoration: none;">
+            <a href="index.html" class="btn btn-secondary">
                 <i class="fas fa-home"></i> العودة للمتجر
             </a>
         </div>
 
         <div class="form-container hidden" id="productForm">
-            <h2 style="margin-bottom: 1.5rem;" id="formTitle">إضافة منتج جديد</h2>
+            <h2 class="form-title" id="formTitle">إضافة منتج جديد</h2>
             
             <div class="form-group">
                 <label for="productName">اسم المنتج</label>
-                <input type="text" id="productName" required>
+                <input type="text" id="productName" required placeholder="أدخل اسم المنتج">
             </div>
             
             <div class="form-group">
                 <label for="productPrice">السعر (جنيه)</label>
-                <input type="number" id="productPrice" min="0" required>
+                <input type="number" id="productPrice" min="0" required placeholder="أدخل سعر المنتج">
             </div>
             
             <div class="form-group">
@@ -350,7 +538,7 @@
             
             <div class="form-group">
                 <label for="productDescription">الوصف</label>
-                <textarea id="productDescription" required></textarea>
+                <textarea id="productDescription" required placeholder="أدخل وصف المنتج"></textarea>
             </div>
             
             <div class="form-group">
@@ -365,9 +553,9 @@
             
             <input type="hidden" id="productId">
             
-            <div style="display: flex; gap: 1rem;">
+            <div class="form-actions">
                 <button class="btn btn-success" onclick="saveProduct()">
-                    <i class="fas fa-save"></i> حفظ
+                    <i class="fas fa-save"></i> حفظ المنتج
                 </button>
                 <button class="btn btn-danger" onclick="hideProductForm()">
                     <i class="fas fa-times"></i> إلغاء
@@ -375,9 +563,15 @@
             </div>
         </div>
 
-        <h2 style="margin-bottom: 1.5rem;">المنتجات الحالية</h2>
-        <div class="products-grid" id="productsList">
-            <!-- سيتم ملؤها بواسطة JavaScript -->
+        <div class="products-section">
+            <h2 class="section-title">المنتجات الحالية</h2>
+            <div class="products-grid" id="productsList">
+                <!-- سيتم ملؤها بواسطة JavaScript -->
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 نظام إدارة المنتجات - مكتبة الرواد. جميع الحقوق محفوظة.</p>
         </div>
     </div>
 
@@ -390,8 +584,8 @@
         <div class="code-content">
             <div class="code-header">
                 <h3>أكواد المنتجات</h3>
-                <button class="btn btn-danger" onclick="hideCodeModal()">
-                    <i class="fas fa-times"></i>
+                <button class="btn btn-danger btn-sm" onclick="hideCodeModal()">
+                    <i class="fas fa-times"></i> إغلاق
                 </button>
             </div>
             <div class="code-body" id="codeContent">
@@ -421,8 +615,8 @@
             
             if (products.length === 0) {
                 productsList.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #6c757d;">
-                        <i class="fas fa-box-open" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
                         <h3>لا توجد منتجات</h3>
                         <p>قم بإضافة منتجات جديدة لبدء إدارة المتجر</p>
                     </div>
@@ -432,6 +626,7 @@
             
             productsList.innerHTML = products.map(product => `
                 <div class="product-card">
+                    ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
                     <div class="product-image">
                         ${getCategoryIcon(product.category)}
                     </div>
@@ -439,16 +634,15 @@
                         <h3 class="product-title">${product.name}</h3>
                         <div class="product-price">${product.price} جنيه</div>
                         <span class="product-category">${getCategoryName(product.category)}</span>
-                        ${product.badge ? `<span class="product-category" style="background: #ff6b35; color: white;">${product.badge}</span>` : ''}
                         <p class="product-description">${product.description}</p>
                         <div class="product-rating">
                             ${generateStarRating(product.rating)}
                         </div>
                         <div class="product-actions">
-                            <button class="btn btn-primary" onclick="editProduct(${product.id})">
+                            <button class="btn btn-primary btn-sm" onclick="editProduct(${product.id})">
                                 <i class="fas fa-edit"></i> تعديل
                             </button>
-                            <button class="btn btn-danger" onclick="deleteProduct(${product.id})">
+                            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">
                                 <i class="fas fa-trash"></i> حذف
                             </button>
                         </div>
@@ -462,9 +656,9 @@
             let stars = '';
             for (let i = 1; i <= 5; i++) {
                 if (i <= rating) {
-                    stars += '<i class="fas fa-star" style="color: #ffc107;"></i>';
+                    stars += '<i class="fas fa-star"></i>';
                 } else {
-                    stars += '<i class="far fa-star" style="color: #ffc107;"></i>';
+                    stars += '<i class="far fa-star"></i>';
                 }
             }
             return stars;
@@ -704,7 +898,5 @@
             return names[category] || category;
         }
     </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>
 </html>
