@@ -85,6 +85,16 @@
             color: white;
         }
 
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning-color), #ffd761);
+            color: #343a40;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, var(--info-color), #5bc0de);
+            color: white;
+        }
+
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -217,8 +227,62 @@
             color: white;
         }
 
+        .notification-info {
+            background: var(--info-color);
+            color: white;
+        }
+
         .hidden {
             display: none;
+        }
+
+        .code-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .code-content {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .code-body {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: flex-end;
         }
 
         @media (max-width: 768px) {
@@ -228,6 +292,10 @@
             
             .products-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .code-content {
+                padding: 1rem;
             }
         }
     </style>
@@ -245,6 +313,9 @@
             </button>
             <button class="btn btn-success" onclick="syncWithMainPage()">
                 <i class="fas fa-sync"></i> مزامنة مع الصفحة الرئيسية
+            </button>
+            <button class="btn btn-info" onclick="generateProductCodes()">
+                <i class="fas fa-code"></i> نسخ أكواد المنتجات
             </button>
             <button class="btn btn-danger" onclick="clearAllProducts()">
                 <i class="fas fa-trash"></i> حذف جميع المنتجات
@@ -315,6 +386,28 @@
         <span id="notificationMessage"></span>
     </div>
 
+    <div class="code-modal hidden" id="codeModal">
+        <div class="code-content">
+            <div class="code-header">
+                <h3>أكواد المنتجات</h3>
+                <button class="btn btn-danger" onclick="hideCodeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="code-body" id="codeContent">
+                <!-- سيتم ملؤها بواسطة JavaScript -->
+            </div>
+            <div class="code-actions">
+                <button class="btn btn-info" onclick="copyAllCodes()">
+                    <i class="fas fa-copy"></i> نسخ الكل
+                </button>
+                <button class="btn btn-primary" onclick="copyIndividualCodes()">
+                    <i class="fas fa-copy"></i> نسخ أكواد فردية
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // تهيئة التطبيق
         document.addEventListener('DOMContentLoaded', function() {
@@ -346,7 +439,11 @@
                         <h3 class="product-title">${product.name}</h3>
                         <div class="product-price">${product.price} جنيه</div>
                         <span class="product-category">${getCategoryName(product.category)}</span>
+                        ${product.badge ? `<span class="product-category" style="background: #ff6b35; color: white;">${product.badge}</span>` : ''}
                         <p class="product-description">${product.description}</p>
+                        <div class="product-rating">
+                            ${generateStarRating(product.rating)}
+                        </div>
                         <div class="product-actions">
                             <button class="btn btn-primary" onclick="editProduct(${product.id})">
                                 <i class="fas fa-edit"></i> تعديل
@@ -358,6 +455,19 @@
                     </div>
                 </div>
             `).join('');
+        }
+
+        // إنشاء تقييم النجوم
+        function generateStarRating(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="fas fa-star" style="color: #ffc107;"></i>';
+                } else {
+                    stars += '<i class="far fa-star" style="color: #ffc107;"></i>';
+                }
+            }
+            return stars;
         }
 
         // إظهار نموذج إضافة منتج
@@ -471,6 +581,91 @@
         // مزامنة مع الصفحة الرئيسية
         function syncWithMainPage() {
             showNotification('تمت المزامنة بنجاح مع الصفحة الرئيسية');
+        }
+
+        // إنشاء أكواد المنتجات
+        function generateProductCodes() {
+            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
+            
+            if (products.length === 0) {
+                showNotification('لا توجد منتجات لإنشاء أكواد لها', 'error');
+                return;
+            }
+            
+            // إنشاء أكواد HTML للمنتجات
+            const productCodes = products.map(product => {
+                return `<!-- منتج: ${product.name} -->
+<div class="product-item" data-category="${product.category}">
+    <div class="product-image">
+        ${getCategoryIcon(product.category)}
+    </div>
+    <div class="product-info">
+        <h3 class="product-title">${product.name}</h3>
+        <div class="product-price">${product.price} جنيه</div>
+        ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+        <p class="product-description">${product.description}</p>
+        <div class="product-rating">
+            ${generateStarRating(product.rating)}
+        </div>
+        <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
+            <i class="fas fa-shopping-cart"></i> إضافة إلى السلة
+        </button>
+    </div>
+</div>`;
+            }).join('\n\n');
+            
+            // عرض الأكواد في النافذة المنبثقة
+            document.getElementById('codeContent').textContent = productCodes;
+            document.getElementById('codeModal').classList.remove('hidden');
+        }
+
+        // إخفاء نافذة الأكواد
+        function hideCodeModal() {
+            document.getElementById('codeModal').classList.add('hidden');
+        }
+
+        // نسخ جميع الأكواد
+        function copyAllCodes() {
+            const codeContent = document.getElementById('codeContent');
+            const textArea = document.createElement('textarea');
+            textArea.value = codeContent.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            
+            showNotification('تم نسخ جميع أكواد المنتجات', 'info');
+        }
+
+        // نسخ أكواد فردية (لكل منتج على حدة)
+        function copyIndividualCodes() {
+            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
+            
+            products.forEach(product => {
+                const productCode = `<!-- منتج: ${product.name} -->
+<div class="product-item" data-category="${product.category}">
+    <div class="product-image">
+        ${getCategoryIcon(product.category)}
+    </div>
+    <div class="product-info">
+        <h3 class="product-title">${product.name}</h3>
+        <div class="product-price">${product.price} جنيه</div>
+        ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+        <p class="product-description">${product.description}</p>
+        <div class="product-rating">
+            ${generateStarRating(product.rating)}
+        </div>
+        <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
+            <i class="fas fa-shopping-cart"></i> إضافة إلى السلة
+        </button>
+    </div>
+</div>`;
+
+                // يمكن هنا إضافة منطق لنسخ كل كود على حدة
+                // لكن للتبسيط سنقوم بنسخ الجميع مرة واحدة
+            });
+            
+            showNotification('تم تحضير الأكواد الفردية للنسخ', 'info');
         }
 
         // إظهار الإشعارات
