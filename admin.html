@@ -782,9 +782,10 @@
             document.getElementById(tabId).classList.add('active');
             
             // تفعيل زر التبويب المحدد
+            // الإصلاح: استخدم الطريقة الصحيحة للبحث عن العنصر
             const activeTab = Array.from(document.querySelectorAll('.code-tab')).find(tab => 
-                tab.getAttribute('onclick').includes(tabId)
-            );
+            tab.getAttribute('onclick') && tab.getAttribute('onclick').includes(`'${tabId}'`)
+        );
             
             if (activeTab) {
                 activeTab.classList.add('active');
@@ -1056,7 +1057,12 @@ function loadProducts(category = 'all') {
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(30px)';
                 card.style.transition = 'all 0.6s ease';
-                
+
+                // تحسين ضمان تحديد النص
+             setTimeout(() => {
+                textArea.select();
+                textArea.setSelectionRange(0, 99999); // للهواتف المحمولة
+            }, 100);
                 setTimeout(() => {
                     card.style.opacity = '1';
                     card.style.transform = 'translateY(0)';
