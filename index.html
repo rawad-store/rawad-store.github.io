@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة الرواد - الصوة | متجر الكتب والمستلزمات المدرسية</title>
+    <meta name="description" content="متجر مكتبة الرواد - أكبر مجموعة من الكتب الدراسية والمستلزمات المكتبية بأفضل الأسعار">
+    
+    <!-- Meta Tags for Social Media Sharing -->
+    <meta property="og:title" content="مكتبة الرواد - الصوة | متجر الكتب والمستلزمات المدرسية">
+    <meta property="og:description" content="مكتبة الرواد توفر أكبر مجموعة من الكتب الدراسية والمستلزمات المكتبية. اطلب خدمات الطباعة والتصوير واستلمها بسهولة .">
+    <meta property="og:image" content="https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/preview.jpg">
+    <meta property="og:url" content="https://rawad-store.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ar_AR">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="مكتبة الرواد - الصوة | متجر الكتب والمستلزمات المدرسية">
+    <meta name="twitter:description" content="أكبر مجموعة من الكتب الدراسية والمستلزمات المكتبية.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/preview.jpg">
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary-color: #1e3d59;
+            --secondary-color: #ff6b35;
+            --accent-color: #f7931e;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --white-color: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+            --whatsapp-color: #25D366;
+            --facebook-color: #1877F2;
+            --instagram-color: #E4405F;
+            --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --header-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            direction: rtl;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Enhanced Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(45deg, transparent, transparent);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+            color: white; 
+            box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);
+        }
+
+        .btn-secondary { 
+            background: linear-gradient(135deg, var(--secondary-color), #ff8c5a);
+            color: white; 
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-success { 
+            background: linear-gradient(135deg, var(--success-color), #34ce57);
+            color: white; 
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-outline-primary { 
+            background: transparent; 
+            color: var(--primary-color); 
+            border-color: var(--primary-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Enhanced Header */
+        .header-top {
+            background: linear-gradient(135deg, var(--dark-color), #495057);
+            color: white;
+            padding: 0.75rem 0;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-top::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="grain" width="100" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="20" fill="url(%23grain)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .header-top .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-2px);
+            color: var(--accent-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover::before {
+            transform: scale(1);
+        }
+
+        .social-link.facebook::before { background: var(--facebook-color); }
+        .social-link.whatsapp::before { background: var(--whatsapp-color); }
+        .social-link.instagram::before { background: var(--instagram-color); }
+
+        .social-link:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-link i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .location-text {
+            color: white;
+            margin: 0 10px;
+            font-size: 0.9rem;
+        }
+
+        /* Enhanced Main Header */
+        .header-main {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header-main .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(30, 61, 89, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-img::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: logoShine 3s infinite;
+        }
+
+        @keyframes logoShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        }
+
+        .logo-text h1 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-text p {
+            color: var(--gray-600);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Enhanced Search Bar */
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .search-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+        }
+
+        .search-container:focus-within {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(30, 61, 89, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.9rem 4rem 0.9rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            background: transparent;
+            color: var(--gray-800);
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: var(--gray-500);
+        }
+
+        .search-btn {
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(30, 61, 89, 0.4);
+        }
+
+        /* Enhanced Header Actions */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-700);
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+        }
+
+        .header-action:hover {
+            color: var(--primary-color);
+            background: rgba(30, 61, 89, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .header-action .icon-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-action .badge {
+            background: linear-gradient(135deg, var(--secondary-color), #ff8c5a);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.4rem;
+            border-radius: 50%;
+            min-width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.4);
+            animation: badgePulse 2s infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .whatsapp-header {
+            background: linear-gradient(135deg, var(--whatsapp-color), #20a558);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .whatsapp-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .whatsapp-header:hover::before {
+            left: 100%;
+        }
+
+        .whatsapp-header:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Enhanced Navigation */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .navbar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="nav-pattern" width="100" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="20" fill="url(%23nav-pattern)"/></svg>');
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            border-bottom-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .nav-link i {
+            font-size: 1rem;
+        }
+
+        /* Enhanced Dropdown */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            min-width: 250px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: var(--transition);
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-item:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: var(--gray-700);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            position: relative;
+            font-weight: 500;
+        }
+
+        .dropdown-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary-color);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        .dropdown-item:hover {
+            background: rgba(30, 61, 89, 0.05);
+            color: var(--primary-color);
+            padding-right: 2rem;
+        }
+
+        /* Enhanced Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="hero-gradient"><stop offset="0%" stop-color="rgba(255,255,255,0.1)"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs><circle cx="200" cy="200" r="300" fill="url(%23hero-gradient)"/><circle cx="800" cy="800" r="400" fill="url(%23hero-gradient)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.2rem;
+            font-weight: 900;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: heroTitleSlide 1s ease-out;
+        }
+
+        @keyframes heroTitleSlide {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: heroTextSlide 1s ease-out 0.3s both;
+        }
+
+        @keyframes heroTextSlide {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 0.95;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: heroCTASlide 1s ease-out 0.6s both;
+        }
+
+        @keyframes heroCTASlide {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Enhanced Sections */
+        .section {
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2.5rem;
+            color: var(--primary-color);
+            text-align: center;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        /* Enhanced Categories */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+            z-index: 1;
+        }
+
+        .category-card:hover::before {
+            left: 100%;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary-color);
+        }
+
+        .category-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 25px rgba(30, 61, 89, 0.3);
+            transition: var(--transition);
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 35px rgba(30, 61, 89, 0.4);
+        }
+
+        .category-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-card p {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .mobile-menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Enhanced Product Card Styles */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--gray-100), #e3f2fd);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--gray-400);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, var(--secondary-color), #ff8c5a);
+            color: white;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .product-info {
+            padding: 1.2rem;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.7rem;
+            height: 2.6rem;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 0.7rem;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: var(--warning-color);
+            font-size: 0.9rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.7rem;
+        }
+
+        .add-to-cart {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);
+        }
+
+        .add-to-cart:hover {
+            background: linear-gradient(135deg, var(--secondary-color), #ff8c5a);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .wishlist-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid var(--gray-300);
+            color: var(--gray-600);
+            width: 45px;
+            height: 45px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .wishlist-btn:hover,
+        .wishlist-btn.active {
+            background: linear-gradient(135deg, var(--danger-color), #e74c3c);
+            color: white;
+            border-color: var(--danger-color);
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        /* Enhanced Filter Buttons */
+        .products-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .filter-btn {
+            padding: 0.7rem 1.3rem;
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .filter-btn:hover {
+            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 15px rgba(30, 61, 89, 0.3);
+        }
+
+        /* Enhanced Service Cards */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 0 10px 30px rgba(30, 61, 89, 0.3);
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 40px rgba(30, 61, 89, 0.4);
+        }
+
+        .service-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .service-card p {
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Enhanced Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--dark-color), #495057);
+            color: white;
+            padding: 4rem 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="footer-pattern" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="1000" height="1000" fill="url(%23footer-pattern)"/></svg>');
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo-img {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(30, 61, 89, 0.3);
+        }
+
+        .footer-logo-text h3 {
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .footer-logo-text p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+        }
+
+        .footer-about p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-heading {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-link a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-link a:hover {
+            color: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+        .footer-contact {
+            list-style: none;
+        }
+
+        .contact-item-footer {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .contact-item-footer i {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            width: 20px;
+        }
+
+        .footer-bottom {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .header-top .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .contact-info {
+                justify-content: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            .header-main .container {
+                flex-direction: column;
+            }
+            
+            .search-bar {
+                margin: 1rem 0;
+                max-width: 100%;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                background: var(--primary-color);
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 100%;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: var(--transition);
+                z-index: 100;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            }
+            
+            .nav-menu.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(10px);
+                border: none;
+                margin-right: 1rem;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+            
+            .nav-item:hover .dropdown-menu {
+                max-height: 300px;
+            }
+            
+            .dropdown-item {
+                color: rgba(255, 255, 255, 0.8);
+                border-bottom-color: rgba(255, 255, 255, 0.1);
+            }
+            
+            .dropdown-item:hover {
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-card {
+                padding: 1.2rem;
+            }
+            
+            .category-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Animation Utilities */
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 1s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-in-right {
+            animation: slideInRight 1s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            color: var(--gray-800);
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-success {
+            border-right: 4px solid var(--success-color);
+        }
+
+        .toast-error {
+            border-right: 4px solid var(--danger-color);
+        }
+
+        .toast-icon {
+            font-size: 1.5rem;
+        }
+
+        .toast-success .toast-icon {
+            color: var(--success-color);
+        }
+
+        .toast-error .toast-icon {
+            color: var(--danger-color);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--gray-100);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+        }
+
+        /* Focus Styles for Accessibility */
+        button:focus,
+        input:focus,
+        a:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* High Contrast Mode Support */
+        @media (prefers-contrast: high) {
+            :root {
+                --primary-color: #000000;
+                --secondary-color: #000000;
+                --accent-color: #000000;
+                --light-color: #ffffff;
+                --dark-color: #000000;
+            }
+            
+            .btn {
+                border-width: 2px;
+            }
+        }
+
+        /* Reduced Motion Support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Top with Contact Info -->
+    <div class="header-top">
+        <div class="container">
+            <div class="contact-info">
+                <a href="tel:+966123456789" class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>+966 12 345 6789</span>
+                </a>
+                <a href="mailto:info@rawad-store.com" class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>info@rawad-store.com</span>
+                </a>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>الصوة، المملكة العربية السعودية</span>
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="https://www.facebook.com/rawadstore" class="social-link facebook" target="_blank">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://wa.me/966123456789" class="social-link whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://www.instagram.com/rawadstore" class="social-link instagram" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="header-main">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-img">
+                    <span>ر</span>
+                </div>
+                <div class="logo-text">
+                    <h1>مكتبة الرواد</h1>
+                    <p>متجر الكتب والمستلزمات المدرسية</p>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="ابحث عن المنتجات...">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <a href="#" class="header-action">
+                    <div class="icon-container">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span>حسابي</span>
+                </a>
+                <a href="#" class="header-action">
+                    <div class="icon-container">
+                        <i class="fas fa-heart"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <span>المفضلة</span>
+                </a>
+                <a href="#" class="header-action">
+                    <div class="icon-container">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge">5</span>
+                    </div>
+                    <span>السلة</span>
+                </a>
+                <a href="https://wa.me/966123456789" class="whatsapp-header" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>واتساب</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <button class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span>الرئيسية</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-book"></i>
+                        <span>الكتب الدراسية</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item">المرحلة الابتدائية</a>
+                        <a href="#" class="dropdown-item">المرحلة المتوسطة</a>
+                        <a href="#" class="dropdown-item">المرحلة الثانوية</a>
+                        <a href="#" class="dropdown-item">المرحلة الجامعية</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-pencil-alt"></i>
+                        <span>المستلزمات المكتبية</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-print"></i>
+                        <span>خدمات الطباعة</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-info-circle"></i>
+                        <span>عن المتجر</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>اتصل بنا</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>مكتبة الرواد - كل ما تحتاجه في مكان واحد</h2>
+                <p>نوفر لك أحدث الكتب الدراسية والمستلزمات المكتبية بجودة عالية وأسعار منافسة مع خدمة التوصيل السريع</p>
+                <div class="hero-cta">
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>تسوق الآن</span>
+                    </a>
+                    <a href="#" class="btn btn-outline-primary">
+                        <i class="fas fa-book"></i>
+                        <span>تصفح الكتالوج</span>
+                    </a>
+                    <a href="https://wa.me/966123456789" class="btn btn-success" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>طلب عبر واتساب</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">الفئات الأكثر طلباً</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>الكتب الدراسية</h3>
+                    <p>جميع الكتب المدرسية والمناهج التعليمية لجميع المراحل</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-pencil-alt"></i>
+                    </div>
+                    <h3>أدوات القرطاسية</h3>
+                    <p>أقلام، دفاتر، مقالم، وأدوات مكتبية متنوعة</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>مستلزمات الرسم</h3>
+                    <p>ألوان، فراشي، ورق رسم، ومستلزمات فنية متنوعة</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-print"></i>
+                    </div>
+                    <h3>خدمات الطباعة</h3>
+                    <p>طباعة المستندات، التصوير، والتغليف بجودة عالية</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">منتجات مميزة</h2>
+            <div class="products-filter">
+                <button class="filter-btn active">جميع المنتجات</button>
+                <button class="filter-btn">الأكثر مبيعاً</button>
+                <button class="filter-btn">العروض الخاصة</button>
+                <button class="filter-btn">منتجات جديدة</button>
+            </div>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-book"></i>
+                        <span class="product-badge">جديد</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">كتاب الرياضيات للصف الأول الثانوي</h3>
+                        <div class="product-price">75 ر.س</div>
+                        <div class="product-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span>(12)</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="add-to-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>أضف إلى السلة</span>
+                            </button>
+                            <button class="wishlist-btn">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-pencil-alt"></i>
+                        <span class="product-badge">عرض</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">علبة أقلام فاخرة 12 لون</h3>
+                        <div class="product-price">45 ر.س</div>
+                        <div class="product-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span>(8)</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="add-to-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>أضف إلى السلة</span>
+                            </button>
+                            <button class="wishlist-btn">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-backpack"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">حقيبة مدرسية متعددة الجيوب</h3>
+                        <div class="product-price">120 ر.س</div>
+                        <div class="product-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>(15)</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="add-to-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>أضف إلى السلة</span>
+                            </button>
+                            <button class="wishlist-btn">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <i class="fas fa-ruler"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">مجموعة أدوات هندسية كاملة</h3>
+                        <div class="product-price">35 ر.س</div>
+                        <div class="product-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span>(6)</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="add-to-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>أضف إلى السلة</span>
+                            </button>
+                            <button class="wishlist-btn">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">خدماتنا</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>توصيل سريع</h3>
+                    <p>نوفر خدمة التوصيل السريع خلال 24 ساعة في مدينة الصوة، والتوصيل لجميع مدن المملكة خلال 2-5 أيام عمل.</p>
+                    <a href="#" class="btn btn-outline-primary">المزيد</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-print"></i>
+                    </div>
+                    <h3>خدمات الطباعة</h3>
+                    <p>نقدم خدمات الطباعة والتصوير والتغليف بجودة عالية وأسعار مناسبة للطلاب والمؤسسات التعليمية.</p>
+                    <a href="#" class="btn btn-outline-primary">المزيد</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>دعم فني</h3>
+                    <p>فريق الدعم الفني متاح على مدار الساعة لمساعدتك في اختيار المنتجات المناسبة والإجابة على استفساراتك.</p>
+                    <a href="#" class="btn btn-outline-primary">المزيد</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <div class="footer-logo-img">
+                            <span>ر</span>
+                        </div>
+                        <div class="footer-logo-text">
+                            <h3>مكتبة الرواد</h3>
+                            <p>متجر الكتب والمستلزمات المدرسية</p>
+                        </div>
+                    </div>
+                    <p>متجر مكتبة الرواد يوفر لكم أحدث الكتب الدراسية والمستلزمات المكتبية والقرطاسية بجودة عالية وأسعار مناسبة، مع خدمة التوصيل السريع لكافة أنحاء المملكة.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/rawadstore" class="social-link facebook" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://wa.me/966123456789" class="social-link whatsapp" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://www.instagram.com/rawadstore" class="social-link instagram" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links-container">
+                    <h4 class="footer-heading">روابط سريعة</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-left"></i> المنتجات</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-left"></i> العروض</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-left"></i> خدمات الطباعة</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-left"></i> عن المتجر</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-left"></i> اتصل بنا</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-container">
+                    <h4 class="footer-heading">خدماتنا</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-left"></i> الكتب الدراسية</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-left"></i> المستلزمات المكتبية</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-left"></i> أدوات الرسم</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-left"></i> الحقائب المدرسية</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-left"></i> القرطاسية</a></li>
+                        <li class="footer-link"><a href="#"><i class="fas fa-chevron-left"></i> الهدايا والديكور</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact-container">
+                    <h4 class="footer-heading">اتصل بنا</h4>
+                    <ul class="footer-contact">
+                        <li class="contact-item-footer">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>الصوة، المملكة العربية السعودية</span>
+                        </li>
+                        <li class="contact-item-footer">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>+966 12 345 6789</span>
+                        </li>
+                        <li class="contact-item-footer">
+                            <i class="fas fa-envelope"></i>
+                            <span>info@rawad-store.com</span>
+                        </li>
+                        <li class="contact-item-footer">
+                            <i class="fas fa-clock"></i>
+                            <span>الأحد - الخميس: 8 ص - 10 م<br>الجمعة - السبت: 4 م - 10 م</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>© 2023 مكتبة الرواد. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (mobileMenuToggle && navMenu) {
+            mobileMenuToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                mobileMenuToggle.innerHTML = navMenu.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
+            });
+        }
+
+        // Wishlist Toggle
+        const wishlistButtons = document.querySelectorAll('.wishlist-btn');
+        wishlistButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                button.classList.toggle('active');
+                button.innerHTML = button.classList.contains('active')
+                    ? '<i class="fas fa-heart"></i>'
+                    : '<i class="far fa-heart"></i>';
+                
+                // Show toast notification
+                showToast(button.classList.contains('active') 
+                    ? 'تمت الإضافة إلى المفضلة' 
+                    : 'تمت الإزالة من المفضلة', 'success');
+            });
+        });
+
+        // Add to Cart
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const originalText = button.innerHTML;
+                button.innerHTML = '<span class="loading"></span> جاري الإضافة...';
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    showToast('تمت إضافة المنتج إلى السلة', 'success');
+                    
+                    // Update cart badge
+                    const cartBadge = document.querySelector('.header-action .badge');
+                    if (cartBadge) {
+                        cartBadge.textContent = parseInt(cartBadge.textContent) + 1;
+                    }
+                }, 1000);
+            });
+        });
+
+        // Filter Buttons
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+
+        // Toast Notification Function
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                </div>
+                <div class="toast-message">${message}</div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        // Search Functionality
+        const searchInput = document.querySelector('.search-input');
+        const searchButton = document.querySelector('.search-btn');
+        
+        if (searchInput && searchButton) {
+            const performSearch = () => {
+                if (searchInput.value.trim() !== '') {
+                    showToast(`جاري البحث عن: ${searchInput.value}`, 'success');
+                    // Here you would normally implement the actual search functionality
+                }
+            };
+            
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+        }
+
+        // Initialize animations on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.category-card, .product-card, .service-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
