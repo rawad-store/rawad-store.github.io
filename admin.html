@@ -736,47 +736,117 @@
             });
         });
 
-        // تحميل المنتجات من localStorage
-        function loadProducts() {
-            const productsList = document.getElementById('productsList');
+            // باقي الدوال تبقى كما هي حتى دالة showCodeModal
+
+        // إظهار نافذة الأكواد - معدلة
+        function showCodeModal() {
             const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
             
             if (products.length === 0) {
-                productsList.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-box-open"></i>
-                        <h3>لا توجد منتجات</h3>
-                        <p>قم بإضافة منتجات جديدة لبدء إدارة المتجر</p>
-                    </div>
-                `;
+                showNotification('لا توجد منتجات لإنشاء أكواد لها', 'error');
                 return;
             }
             
-            productsList.innerHTML = products.map(product => `
-                <div class="product-card">
-                    ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
-                    <div class="product-image">
-                        ${getCategoryIcon(product.category)}
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
-                        <div class="product-price">${product.price} جنيه</div>
-                        <span class="product-category">${getCategoryName(product.category)}</span>
-                        <p class="product-description">${product.description}</p>
-                        <div class="product-rating">
-                            ${generateStarRating(product.rating)}
-                        </div>
-                        <div class="product-actions">
-                            <button class="btn btn-primary btn-sm" onclick="editProduct(${product.id})">
-                                <i class="fas fa-edit"></i> تعديل
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">
-                                <i class="fas fa-trash"></i> حذف
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+            // إنشاء أكواد JavaScript للمنتجات
+            const jsCode = generateJSCode(products);
+            document.getElementById('jsCodeContent').textContent = jsCode;
+            
+            // إنشاء أكواد HTML للمنتجات
+            const htmlCode = generateHTMLCode(products);
+            document.getElementById('htmlCodeContent').textContent = htmlCode;
+            
+            document.getElementById('codeModal').classList.add('active');
+            
+            // منع التمرير عند فتح النافذة
+            document.body.style.overflow = 'hidden';
+            
+            // إعادة تعيين حالة أزرار النسخ
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.classList.remove('copied');
+            });
+        }
+
+        // التبديل بين تبويبات الأكواد - الإصدار المصحح
+        function switchCodeTab(tabId) {
+            // إخفاء جميع التبويبات
+            document.querySelectorAll('.code-section').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // إلغاء تنشيط جميع أزرار التبويب
+            document.querySelectorAll('.code-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // تفعيل التبويب المحدد
+            document.getElementById(tabId).classList.add('active');
+            
+            // تفعيل زر التبويب المحدد
+            const activeTab = Array.from(document.querySelectorAll('.code-tab')).find(tab => 
+                tab.getAttribute('onclick').includes(tabId)
+            );
+            
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+        }
+
+        // نسخ الأكواد - الإصدار المحسن
+        function copyCode(elementId, btnElement) {
+            const codeElement = document.getElementById(elementId);
+            const textToCopy = codeElement.textContent;
+            
+            // استخدام Clipboard API الحديث إن كان متاحاً
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showNotification('تم نسخ الأكواد بنجاح', 'success');
+                    btnElement.classList.add('copied');
+                    setTimeout(() => {
+                        btnElement.classList.remove('copied');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    fallbackCopyText(textToCopy, btnElement);
+                });
+            } else {
+                // استخدام الطريقة القديمة كحالة fallback
+                fallbackCopyText(textToCopy, btnElement);
+            }
+        }
+        
+        // الطريقة البديلة للنسخ
+        function fallbackCopyText(text, btnElement) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.top = '0';
+            textArea.style.left = '0';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showNotification('تم نسخ الأكواد بنجاح', 'success');
+                    btnElement.classList.add('copied');
+                    setTimeout(() => {
+                        btnElement.classList.remove('copied');
+                    }, 2000);
+                } else {
+                    showNotification('تعذر النسخ، يرجى المحاولة يدوياً', 'error');
+                    // عرض النص للمستخدم لنسخه يدوياً
+                    prompt('يرجى نسخ النص التالي يدوياً:', text);
+                }
+            } catch (err) {
+                console.error('فشل في النسخ: ', err);
+                showNotification('خطأ في النسخ: ' + err, 'error');
+                // عرض النص للمستخدم لنسخه يدوياً
+                prompt('يرجى نسخ النص التالي يدوياً بسبب خطأ في النظام:', text);
+            }
+            
+            document.body.removeChild(textArea);
         }
 
         // إنشاء تقييم النجوم
