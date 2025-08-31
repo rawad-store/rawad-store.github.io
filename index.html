@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتبة الرواد - الصوة | متجر الكتب والمستلزمات المدرسية</title>
+    <meta name="description" content="متجر مكتبة الرواد - أكبر مجموعة من الكتب الدراسية والمستلزمات المكتبية بأفضل الأسعار">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #1e3d59;
+            --secondary-color: #ff6b35;
+            --accent-color: #f7931e;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --white-color: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+            --whatsapp-color: #25D366;
+            --facebook-color: #1877F2;
+            --instagram-color: #E4405F;
+            --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --header-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            direction: rtl;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header-top {
+            background: linear-gradient(135deg, var(--dark-color), #495057);
+            color: white;
+            padding: 0.75rem 0;
+            font-size: 0.9rem;
+        }
+
+        .header-top .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+        }
+
+        .social-link.facebook { background: var(--facebook-color); }
+        .social-link.whatsapp { background: var(--whatsapp-color); }
+        .social-link.instagram { background: var(--instagram-color); }
+
+        .location-text {
+            color: white;
+            margin: 0 10px;
+            font-size: 0.9rem;
+        }
+
+        .header-main {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-main .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo-text h1 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .logo-text p {
+            color: var(--gray-600);
+            font-size: 0.8rem;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .search-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.9rem 4rem 0.9rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            background: transparent;
+        }
+
+        .search-btn {
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-700);
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+        }
+
+        .header-action .icon-container {
+            position: relative;
+        }
+
+        .header-action .badge {
+            background: linear-gradient(135deg, var(--secondary-color), #ff8c5a);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.4rem;
+            border-radius: 50%;
+            min-width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+
+        .whatsapp-header {
+            background: linear-gradient(135deg, var(--whatsapp-color), #20a558);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+            padding: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            border-bottom-color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .hero-content {
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Sections */
+        .section {
+            margin: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2.5rem;
+            color: var(--primary-color);
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        /* Categories */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .category-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem;
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .category-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        /* Products */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--gray-100), #e3f2fd);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--gray-400);
+            position: relative;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, var(--secondary-color), #ff8c5a);
+            color: white;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .product-info {
+            padding: 1.2rem;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.7rem;
+            height: 2.6rem;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 0.7rem;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: var(--warning-color);
+            font-size: 0.9rem;
+        }
+
+        .product-description {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.7rem;
+        }
+
+        .add-to-cart {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .wishlist-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid var(--gray-300);
+            color: var(--gray-600);
+            width: 45px;
+            height: 45px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .wishlist-btn.active {
+            background: linear-gradient(135deg, var(--danger-color), #e74c3c);
+            color: white;
+            border-color: var(--danger-color);
+        }
+
+        /* Filter Buttons */
+        .products-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .filter-btn {
+            padding: 0.7rem 1.3rem;
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .service-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.3rem;
+        }
+
+        .service-card p {
+            color: var(--gray-600);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark-color), #6c757d);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-700);
+            color: var(--gray-400);
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, var(--whatsapp-color), #20a558);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 1.8rem;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-600);
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Cart Item */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-bottom: 1px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            background: rgba(248, 249, 250, 0.5);
+        }
+
+        .cart-item-image {
+            width: 50px;
+            height: 50px;
+            background: var(--gray-100);
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 1rem;
+            font-size: 1.3rem;
+            color: var(--gray-400);
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .cart-item-price {
+            color: var(--gray-600);
+            font-size: 0.8rem;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quantity-btn {
+            background: var(--gray-200);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .quantity-btn.plus {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .quantity-display {
+            min-width: 35px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--primary-color);
+        }
+
+        .cart-item-total {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1rem;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-main .container {
+                flex-direction: column;
+                gap: 1.2rem;
+            }
+            
+            .search-bar {
+                margin: 0;
+                max-width: 100%;
+                order: 3;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h2 {
+                font-size: 1.6rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+            }
+            
+            .wishlist-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Top -->
+    <div class="header-top">
+        <div class="container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:+201126630356" style="color: white; text-decoration: none;">+20 1126630356</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:tarek500500@gmail.com" style="color: white; text-decoration: none;">tarek500500@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    السبت - الخميس: 7 ص - 10م
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="https://www.facebook.com/share/18bfjxRbHH" class="social-link facebook" target="_blank" rel="noopener">
+                    <i class="fab fa-facebook fa-sm"></i>
+                </a>
+                <a href="https://wa.me/+201126630356" class="social-link whatsapp" target="_blank" rel="noopener">
+                    <i class="fab fa-whatsapp fa-sm"></i>
+                </a>
+                <a href="https://www.instagram.com/tarekyahiaalmoghrapy?igsh=MW5teXV6NGg5aTk1aQ==" class="social-link instagram" target="_blank" rel="noopener">
+                    <i class="fab fa-instagram fa-sm"></i>
+                </a>
+                <span class="location-text">أمام سنترال الصوة - بالمجمع</span>
+                <a href="https://maps.app.goo.gl/AYcYJXjYipwdSgRQA" target="_blank" class="social-link" title="الموقع على الخريطة" style="background: var(--info-color);">
+                    <i class="fas fa-map-marker-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Main -->
+    <header class="header-main">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-img">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>مكتبة الرواد</h1>
+                    <p>متجر الكتب والمستلزمات المدرسية</p>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="ابحث عن الكتب والمستلزمات..." id="searchInput">
+                    <button class="search-btn" onclick="performSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <a href="#" class="header-action" onclick="showWishlistModal()">
+                    <div class="icon-container">
+                        <i class="fas fa-heart"></i>
+                        <span class="badge" id="wishlistCount">0</span>
+                    </div>
+                    <span>المفضلة</span>
+                </a>
+                <a href="#" class="header-action" onclick="showCart()">
+                    <div class="icon-container">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge" id="cartCount">0</span>
+                    </div>
+                    <span>السلة</span>
+                </a>
+                <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدماتكم" class="whatsapp-header" target="_blank" rel="noopener">
+                    <i class="fab fa-whatsapp"></i>
+                    واتساب
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        الرئيسية
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#categories" class="nav-link">
+                        <i class="fas fa-th-large"></i>
+                        التصنيفات
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#products" class="nav-link">
+                        <i class="fas fa-shopping-bag"></i>
+                        المنتجات
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#services" class="nav-link">
+                        <i class="fas fa-print"></i>
+                        الخدمات
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">
+                        <i class="fas fa-phone-alt"></i>
+                        اتصل بنا
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h2>مرحباً بكم في متجر مكتبة الرواد</h2>
+                <p>أكبر مجموعة من الكتب الدراسية والمستلزمات المكتبية بأفضل الأسعار في الصوة</p>
+                <div class="hero-cta">
+                    <a href="#products" class="btn btn-secondary">
+                        <i class="fas fa-shopping-bag"></i>
+                        تصفح المنتجات
+                    </a>
+                    <a href="#services" class="btn btn-outline-primary">
+                        <i class="fas fa-star"></i>
+                        اكتشف خدماتنا
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="section" id="categories">
+        <div class="container">
+            <h2 class="section-title">تصنيفاتنا الرئيسية</h2>
+            <div class="categories-grid">
+                <div class="category-card" onclick="filterProducts('books')">
+                    <div class="category-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>الكتب الدراسية</h3>
+                    <p>جميع المناهج لكافة المراحل التعليمية من الابتدائية حتى الثانوية</p>
+                </div>
+                <div class="category-card" onclick="filterProducts('stationery')">
+                    <div class="category-icon">
+                        <i class="fas fa-pen"></i>
+                    </div>
+                    <h3>المستلزمات المكتبية</h3>
+                    <p>أقلام، دفاتر، وجميع أدوات الكتابة والرسم عالية الجودة</p>
+                </div>
+                <div class="category-card" onclick="filterProducts('bags')">
+                    <div class="category-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>الحقائب المدرسية</h3>
+                    <p>حقائب عملية وأنيقة للطلاب بتصاميم متنوعة وجودة عالية</p>
+                </div>
+                <div class="category-card" onclick="filterProducts('gifts')">
+                    <div class="category-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <h3>الهدايا التذكارية</h3>
+                    <p>هدايا مميزة ولوازم المناسبات والاحتفالات المدرسية</p>
+              </div>
+           </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <div class="container">
+            <h2 class="section-title">منتجاتنا المميزة</h2>
+            
+            <div class="products-filter">
+                <button class="filter-btn active" onclick="filterProducts('all')">الكل</button>
+                <button class="filter-btn" onclick="filterProducts('books')">الكتب</button>
+                <button class="filter-btn" onclick="filterProducts('stationery')">المستلزمات</button>
+                <button class="filter-btn" onclick="filterProducts('bags')">الحقائب</button>
+                <button class="filter-btn" onclick="filterProducts('gifts')">الهدايا</button>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section" id="services">
+        <div class="container">
+            <h2 class="section-title">خدماتنا المتكاملة</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-print"></i>
+                    </div>
+                    <h3>الطباعة والتصوير</h3>
+                    <p>خدمات طباعة عالية الجودة ملونة وأبيض وأسود، تصوير المستندات بأحدث الأجهزة وأفضل الأسعار</p>
+                    <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدمات الطباعة والتصوير" class="btn btn-primary" target="_blank" rel="noopener">
+                        <i class="fas fa-whatsapp"></i>
+                        استفسر الآن
+                    </a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>التوصيل المجاني</h3>
+                    <p>خدمة التوصيل المجاني داخل الصوة للطلبات أكثر من 1000 جنيه، مع ضمان وصول طلبك في أسرع وقت</p>
+                    <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدمة التوصيل" class="btn btn-success" target="_blank" rel="noopener">
+                        <i class="fas fa-whatsapp"></i>
+                        استفسر الآن
+                    </a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>خدمات الدفع</h3>
+                    <p>سداد الفواتير، شحن الرصيد، والتحويلات المالية بأمان وسرعة مع أفضل العمولات</p>
+                    <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدمات الدفع" class="btn btn-primary" target="_blank" rel="noopener">
+                        <i class="fas fa-whatsapp"></i>
+                        استفسر الآن
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title">تواصل معنا</h2>
+            
+            <div class="footer-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h4>واتساب</h4>
+                    <a href="https://wa.me/+201126630356" target="_blank" rel="noopener">+20 1126630356</a>
+                    <p>للاستفسارات السريعة</p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <h4>الهاتف</h4>
+                    <a href="tel:+201126630356">+20 1126630356</a>
+                    <p>للمكالمات المباشرة</p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h4>العنوان</h4>
+                    <p>أمام سنترال الصوة - المجمع<br>محافظة الشرقية، أبوحماد</p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h4>البريد الإلكتروني</h4>
+                    <a href="mailto:tarek500500@gmail.com">tarek500500@gmail.com</a>
+                    <p>للاستفسارات الرسمية</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: bold;">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div>
+                            <h4>مكتبة الرواد - الصوة</h4>
+                            <p>متجرك الموثوق للكتب والمستلزمات</p>
+                        </div>
+                    </div>
+                    <p style="color: var(--gray-300); line-height: 1.8; margin-bottom: 1.5rem;">
+                        متجرك الموثوق للكتب والمستلزمات المدرسية. نقدم أفضل المنتجات بأسعار تنافسية وخدمة عملاء متميزة منذ سنوات عديدة.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4>روابط سريعة</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.7rem;"><a href="#home" style="color: var(--gray-300); text-decoration: none;"><i class="fas fa-chevron-left"></i> الرئيسية</a></li>
+                        <li style="margin-bottom: 0.7rem;"><a href="#categories" style="color: var(--gray-300); text-decoration: none;"><i class="fas fa-chevron-left"></i> التصنيفات</a></li>
+                        <li style="margin-bottom: 0.7rem;"><a href="#products" style="color: var(--gray-300); text-decoration: none;"><i class="fas fa-chevron-left"></i> المنتجات</a></li>
+                        <li style="margin-bottom: 0.7rem;"><a href="#services" style="color: var(--gray-300); text-decoration: none;"><i class="fas fa-chevron-left"></i> الخدمات</a></li>
+                        <li style="margin-bottom: 0.7rem;"><a href="#contact" style="color: var(--gray-300); text-decoration: none;"><i class="fas fa-chevron-left"></i> اتصل بنا</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4>معلومات الاتصال</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.8rem;">
+                            <i class="fas fa-map-marker-alt" style="color: var(--accent-color); margin-top: 0.2rem;"></i>
+                            <div>
+                                <strong style="color: white;">العنوان:</strong><br>
+                                <span style="color: var(--gray-300);">أمام سنترال الصوة - بالمجمع<br>محافظة الشرقية، أبوحماد</span>
+                            </div>
+                        </li>
+                        <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem;">
+                            <i class="fas fa-phone" style="color: var(--accent-color);"></i>
+                            <div>
+                                <strong style="color: white;">الهاتف:</strong><br>
+                                <a href="tel:+201126630356" style="color: var(--gray-300); text-decoration: none;">+20 1126630356</a>
+                            </div>
+                        </li>
+                        <li style="display: flex; align-items: center; gap: 0.8rem;">
+                            <i class="fas fa-clock" style="color: var(--accent-color);"></i>
+                            <div>
+                                <strong style="color: white;">ساعات العمل:</strong><br>
+                                <span style="color: var(--gray-300);">السبت - الخميس: 7 ص - 10م<br>الجمعة: 2ظ - 10م</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 مكتبة الرواد - الصوة. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدماتكم" class="whatsapp-float" target="_blank" rel="noopener">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>
+                    <i class="fas fa-shopping-cart"></i>
+                    سلة التسوق
+                </h3>
+                <button class="close-modal" onclick="closeCart()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="cartItems">
+                <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                    <i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                    <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">سلة التسوق فارغة</h4>
+                    <p style="margin-bottom: 1.5rem;">ابدأ بإضافة منتجات إلى سلتك</p>
+                    <button class="btn btn-primary" onclick="closeCart()">
+                        <i class="fas fa-shopping-bag"></i>
+                        متابعة التسوق
+                    </button>
+                </div>
+            </div>
+            <div id="cartFooter" style="display: none;">
+                <div style="padding: 1.2rem; border-top: 2px solid var(--gray-200); text-align: center; background: rgba(248, 249, 250, 0.8); border-radius: 0 0 var(--border-radius) var(--border-radius); margin: 0 -2rem -2rem -2rem;">
+                    <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.2rem; color: var(--primary-color);">
+                        الإجمالي: <span id="cartTotal" style="color: var(--secondary-color);">0</span> جنيه
+                    </div>
+                    <button class="btn btn-success" style="width: 100%; margin-bottom: 0.8rem; font-size: 1rem; padding: 0.8rem;" onclick="checkout()">
+                        <i class="fab fa-whatsapp"></i>
+                        إتمام الطلب عبر واتساب
+                    </button>
+                    <button class="btn btn-outline-primary" style="width: 100%;" onclick="clearCart()">
+                        <i class="fas fa-trash"></i>
+                        إفراغ السلة
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div class="modal" id="wishlistModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>
+                    <i class="fas fa-heart" style="color: var(--danger-color);"></i>
+                    المفضلة
+                </h3>
+                <button class="close-modal" onclick="closeWishlist()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="wishlistItems">
+                <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                    <i class="fas fa-heart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; color: var(--danger-color);"></i>
+                    <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">المفضلة فارغة</h4>
+                    <p style="margin-bottom: 1.5rem;">أضف منتجات إلى مفضلتك لتجدها هنا</p>
+                    <button class="btn btn-primary" onclick="closeWishlist()">
+                        <i class="fas fa-shopping-bag"></i>
+                        تصفح المنتجات
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================================================
+        // نظام إدارة المنتجات - مكتبة الرواد
+        // ==================================================
+
+        // 1. مصفوفة المنتجات
+        let products = [
+            {
+                "id": 1,
+                "name": "كتب دراسية ومراجع",
+                "price": 100,
+                "category": "books",
+                "description": "جميع المراحل الدراسية - طبعة حديثة",
+                "rating": 5,
+                "badge": "جديد"
+            },
+            {
+                "id": 2,
+                "name": "مجموعة أقلام متنوعة",
+                "price": 50,
+                "category": "stationery",
+                "description": "مجموعة أقلام عالية الجودة - متنوع",
+                "rating": 5,
+                "badge": "الأكثر مبيعاً"
+            },
+            {
+                "id": 3,
+                "name": "حقيبة مدرسية - تصميم عصري",
+                "price": 350,
+                "category": "bags",
+                "description": "حقيبة مدرسية بتصميم عصري ومقاومة للماء",
+                "rating": 5,
+                "badge": "مميز"
+            },
+            {
+                "id": 4,
+                "name": "دفتر ملاحظات",
+                "price": 25,
+                "category": "stationery",
+                "description": "دفتر ملاحظات متنوع",
+                "rating": 4,
+                "badge": ""
+            },
+            {
+                "id": 5,
+                "name": "كشكول وكراس",
+                "price": 30,
+                "category": "books",
+                "description": "تشكيلات متنوعة ومميزة",
+                "rating": 5,
+                "badge": ""
+            },
+            {
+                "id": 6,
+                "name": "هدايا قيمة",
+                "price": 200,
+                "category": "gifts",
+                "description": "هدايا مميزة ومتنوعة",
+                "rating": 5,
+                "badge": "مميز"
+            },
+            {
+                "id": 7,
+                "name": "اكسسوارات",
+                "price": 75,
+                "category": "gifts",
+                "description": "تشكيلة متنوعة",
+                "rating": 4,
+                "badge": "جديد"
+            },
+            {
+                "id": 8,
+                "name": "فولدرات وحافظات",
+                "price": 40,
+                "category": "stationery",
+                "description": "متنوع",
+                "rating": 4,
+                "badge": "رائع"
+            },
+            {
+                "id": 9,
+                "name": "ورق تصوير",
+                "price": 45,
+                "category": "stationery",
+                "description": "ممتاز",
+                "rating": 4,
+                "badge": "جودة"
+            },
+            {
+                "id": 10,
+                "name": "قاموس عربي إنجليزي",
+                "price": 120,
+                "category": "books",
+                "description": "قاموس شامل ومحدث",
+                "rating": 5,
+                "badge": "مميز"
+            }
+        ];
+
+        // 2. دوال المساعدة
+        function getCategoryIcon(category) {
+            const icons = {
+                'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;"></i>',
+                'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;"></i>',
+                'bags': '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: #28a745;"></i>',
+                'gifts': '<i class="fas fa-gift" style="font-size: 2.5rem; color: #ffc107;"></i>'
+            };
+            return icons[category] || '<i class="fas fa-box" style="font-size: 2.5rem; color: #a0aec0;"></i>';
+        }
+
+        function loadProducts(category = 'all') {
+            const grid = document.getElementById('productsGrid');
+            if (!grid) return;
+
+            let filteredProducts = category === 'all' ? products : products.filter(p => p.category === category);
+
+            if (filteredProducts.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);"><i class="fas fa-box-open" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i><h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لا توجد منتجات في هذا التصنيف حالياً</h3><p style="margin-bottom: 1.5rem;">سيتم إضافة منتجات جديدة قريباً</p><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن المنتجات المتاحة" class="btn btn-primary" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> استفسر عن المنتجات</a></div>';
+                return;
+            }
+
+            grid.innerHTML = filteredProducts.map(product => `
+                <div class="product-card fade-in" data-category="${product.category}">
+                    <div class="product-image">
+                        ${getCategoryIcon(product.category)}
+                        ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-price">${product.price} جنيه</div>
+                        <div class="product-rating">
+                            <div class="stars">
+                                ${'★'.repeat(product.rating)}${'☆'.repeat(5-product.rating)}
+                            </div>
+                            <span style="color: var(--gray-600); font-size: 0.9rem;">(${product.rating}.0)</span>
+                        </div>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-actions">
+                            <button class="add-to-cart" onclick="addToCart(${product.id})">
+                                <i class="fas fa-cart-plus"></i> أضف للسلة
+                            </button>
+                            <button class="wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}" 
+                                    onclick="toggleWishlist(${product.id})" title="${isInWishlist(product.id) ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            updateFilterButtons(category);
+        }
+
+        function filterProducts(category) {
+            loadProducts(category);
+        }
+
+        function updateFilterButtons(activeCategory) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeBtn = document.querySelector(`.filter-btn[onclick="filterProducts('${activeCategory}')"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+
+        // ==================================================
+        // نظام السلة والمفضلة
+        // ==================================================
+
+        let cart = [];
+        let wishlist = [];
+
+        // تهيئة التطبيق
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            loadProducts();
+            updateCartCount();
+            updateWishlistCount();
+        });
+
+        function initializeApp() {
+            // تحميل البيانات المحفوظة من localStorage
+            const savedCart = localStorage.getItem('rawad-cart');
+            const savedWishlist = localStorage.getItem('rawad-wishlist');
+            
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+            }
+            
+            if (savedWishlist) {
+                wishlist = JSON.parse(savedWishlist);
+            }
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({...product, quantity: 1});
+            }
+
+            updateCartCount();
+            saveToLocalStorage();
+            showNotification('تم إضافة المنتج إلى السلة!', 'success');
+        }
+
+        function removeFromCart(productId) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex > -1) {
+                if (cart[itemIndex].quantity > 1) {
+                    cart[itemIndex].quantity -= 1;
+                } else {
+                    cart.splice(itemIndex, 1);
+                }
+                updateCartCount();
+                updateCartDisplay();
+                saveToLocalStorage();
+            }
+        }
+
+        function clearCart() {
+            if (cart.length === 0) return;
+            
+            if (confirm('هل أنت متأكد من إفراغ السلة؟')) {
+                cart = [];
+                updateCartCount();
+                updateCartDisplay();
+                saveToLocalStorage();
+                showNotification('تم إفراغ السلة', 'info');
+            }
+        }
+
+        function toggleWishlist(productId) {
+            const index = wishlist.indexOf(productId);
+            if (index > -1) {
+                wishlist.splice(index, 1);
+                showNotification('تم إزالة المنتج من المفضلة', 'info');
+            } else {
+                wishlist.push(productId);
+                showNotification('تم إضافة المنتج إلى المفضلة!', 'success');
+            }
+            
+            updateWishlistCount();
+            updateWishlistButtons();
+            saveToLocalStorage();
+        }
+
+        function isInWishlist(productId) {
+            return wishlist.includes(productId);
+        }
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountElement = document.getElementById('cartCount');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+
+        function updateWishlistCount() {
+            const wishlistCountElement = document.getElementById('wishlistCount');
+            if (wishlistCountElement) {
+                wishlistCountElement.textContent = wishlist.length;
+            }
+        }
+
+        function updateWishlistButtons() {
+            document.querySelectorAll('.wishlist-btn').forEach(btn => {
+                const onclickAttr = btn.getAttribute('onclick');
+                if (onclickAttr) {
+                    const match = onclickAttr.match(/toggleWishlist\((\d+)\)/);
+                    if (match) {
+                        const productId = parseInt(match[1]);
+                        if (isInWishlist(productId)) {
+                            btn.classList.add('active');
+                            btn.title = 'إزالة من المفضلة';
+                        } else {
+                            btn.classList.remove('active');
+                            btn.title = 'إضافة للمفضلة';
+                        }
+                    }
+                }
+            });
+        }
+
+        function showCart() {
+            updateCartDisplay();
+            document.getElementById('cartModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartFooter = document.getElementById('cartFooter');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                        <i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">سلة التسوق فارغة</h4>
+                        <p style="margin-bottom: 1.5rem;">ابدأ بإضافة منتجات إلى سلتك</p>
+                        <button class="btn btn-primary" onclick="closeCart()">
+                            <i class="fas fa-shopping-bag"></i>
+                            متابعة التسوق
+                            </button>
+                    </div>
+                `;
+                cartFooter.style.display = 'none';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div class="cart-item-image">
+                            ${getCategoryIcon(item.category)}
+                        </div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">${item.price} جنيه للقطعة</div>
+                        </div>
+                        <div class="cart-item-controls">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="removeFromCart(${item.id})">-</button>
+                                <span class="quantity-display">${item.quantity}</span>
+                                <button class="quantity-btn plus" onclick="addToCart(${item.id})">+</button>
+                            </div>
+                            <div class="cart-item-total">${item.price * item.quantity} جنيه</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                document.getElementById('cartTotal').textContent = total;
+                cartFooter.style.display = 'block';
+            }
+        }
+
+        function showWishlistModal() {
+            updateWishlistDisplay();
+            document.getElementById('wishlistModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeWishlist() {
+            document.getElementById('wishlistModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateWishlistDisplay() {
+            const wishlistItems = document.getElementById('wishlistItems');
+            const wishlistProducts = products.filter(p => wishlist.includes(p.id));
+            
+            if (wishlistProducts.length === 0) {
+                wishlistItems.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                        <i class="fas fa-heart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; color: var(--danger-color);"></i>
+                        <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">المفضلة فارغة</h4>
+                        <p style="margin-bottom: 1.5rem;">أضف منتجات إلى مفضلتك لتجدها هنا</p>
+                        <button class="btn btn-primary" onclick="closeWishlist()">
+                            <i class="fas fa-shopping-bag"></i>
+                            تصفح المنتجات
+                        </button>
+                    </div>
+                `;
+            } else {
+                wishlistItems.innerHTML = wishlistProducts.map(item => `
+                    <div class="cart-item">
+                        <div class="cart-item-image">
+                            ${getCategoryIcon(item.category)}
+                        </div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">${item.price} جنيه</div>
+                            <p style="font-size: 0.85rem; color: var(--gray-600); margin-top: 0.5rem;">${item.description}</p>
+                        </div>
+                        <div class="cart-item-controls">
+                            <button class="btn btn-primary" onclick="addToCart(${item.id}); showNotification('تم إضافة المنتج إلى السلة!', 'success');" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                <i class="fas fa-cart-plus"></i>
+                                أضف للسلة
+                            </button>
+                            <button class="quantity-btn" onclick="toggleWishlist(${item.id})" style="background: var(--danger-color); color: white;" title="إزالة من المفضلة">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            let message = "مرحباً، أريد طلب المنتجات التالية:\n\n";
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                message += `• ${item.name}\n  الكمية: ${item.quantity}\n  السعر: ${itemTotal} جنيه\n\n`;
+            });
+            
+            message += `الإجمالي: ${total} جنيه\n\n`;
+            message += `العنوان: أمام سنترال الصوة - المجمع\n`;
+            message += `شكراً لكم`;
+            
+            const whatsappUrl = `https://wa.me/+201126630356?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+            
+            closeCart();
+            showNotification('تم توجيهك إلى واتساب لإتمام الطلب', 'success');
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('rawad-cart', JSON.stringify(cart));
+            localStorage.setItem('rawad-wishlist', JSON.stringify(wishlist));
+        }
+
+        function showNotification(message, type = 'info') {
+            // إنشاء عنصر الإشعار
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.8rem;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}" style="font-size: 1.2rem;"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // إضافة الأنماط
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.padding = '1rem 1.5rem';
+            notification.style.borderRadius = 'var(--border-radius)';
+            notification.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+            notification.style.zIndex = '10000';
+            notification.style.transform = 'translateX(100%)';
+            notification.style.transition = 'transform 0.3s ease';
+            notification.style.maxWidth = '350px';
+            notification.style.fontWeight = '500';
+            
+            if (type === 'success') {
+                notification.style.background = 'linear-gradient(135deg, var(--success-color), #34ce57)';
+                notification.style.color = 'white';
+            } else {
+                notification.style.background = 'linear-gradient(135deg, var(--info-color), #20a2b8)';
+                notification.style.color = 'white';
+            }
+            
+            document.body.appendChild(notification);
+            
+            // إظهار بالإنتقال
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // الإزالة بعد 4 ثواني
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (searchTerm === '') {
+                loadProducts(currentFilter);
+                return;
+            }
+
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm)
+            );
+
+            const grid = document.getElementById('productsGrid');
+            if (!grid) return;
+
+            if (filteredProducts.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);">
+                        <i class="fas fa-search" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لم يتم العثور على منتجات تطابق "${searchTerm}"</h3>
+                        <p style="margin-bottom: 1.5rem;">جرب البحث بكلمات مختلفة أو تصفح التصنيفات</p>
+                        <button class="btn btn-primary" onclick="clearSearch()">
+                            <i class="fas fa-undo"></i> عرض جميع المنتجات
+                        </button>
+                    </div>
+                `;
+            } else {
+                grid.innerHTML = filteredProducts.map(product => `
+                    <div class="product-card fade-in" data-category="${product.category}">
+                        <div class="product-image">
+                            ${getCategoryIcon(product.category)}
+                            ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-price">${product.price} جنيه</div>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    ${'★'.repeat(product.rating)}${'☆'.repeat(5-product.rating)}
+                                </div>
+                                <span style="color: var(--gray-600); font-size: 0.9rem;">(${product.rating}.0)</span>
+                            </div>
+                            <p class="product-description">${product.description}</p>
+                            <div class="product-actions">
+                                <button class="add-to-cart" onclick="addToCart(${product.id})">
+                                    <i class="fas fa-cart-plus"></i> أضف للسلة
+                                </button>
+                                <button class="wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}" 
+                                        onclick="toggleWishlist(${product.id})" title="${isInWishlist(product.id) ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            loadProducts(currentFilter);
+        }
+    </script>
+</body>
+</html>
