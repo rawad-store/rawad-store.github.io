@@ -2836,6 +2836,11 @@
             updateCartCount();
             saveToLocalStorage();
             showNotification(`تم إضافة "${product.name}" إلى السلة`, 'success');
+            
+            // تحديث عرض السلة إذا كانت مفتوحة
+            if (document.getElementById('cartModal').classList.contains('active')) {
+                updateCartDisplay();
+            }
         }
 
         function removeFromCart(productId) {
