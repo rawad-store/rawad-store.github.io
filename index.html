@@ -2506,6 +2506,16 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
+            <div class="wishlist-buttons">
+                <button class="btn btn-danger" onclick="clearWishlist()">
+                    <i class="fas fa-trash"></i>
+                    إفراغ المفضلة
+                </button>
+                <button class="btn btn-primary" onclick="closeWishlist()">
+                    <i class="fas fa-shopping-bag"></i>
+                    متابعة التسوق
+                </button>
+            </div>
             <div id="wishlistItems">
                 <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
                     <i class="fas fa-heart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; color: var(--danger-color);"></i>
@@ -3363,6 +3373,30 @@
             document.getElementById('loadingOverlay').style.display = 'none';
         }
        
+
+        // 9. وظيفة إفراغ المفضلة
+        function clearWishlist() {
+            if (wishlist.length === 0) {
+                showNotification('قائمة المفضلة فارغة بالفعل', 'info');
+                return;
+            }
+            
+            if (confirm('هل أنت متأكد من أنك تريد إفراغ قائمة المفضلة؟')) {
+                wishlist = [];
+                localStorage.setItem('rawad-wishlist', JSON.stringify(wishlist));
+                updateWishlistCount();
+                updateWishlistDisplay();
+                showNotification('تم إفراغ قائمة المفضلة', 'info');
+                
+                // تحديث أزرار المفضلة في المنتجات
+                document.querySelectorAll('.wishlist-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.title = 'إضافة للمفضلة';
+                });
+            }
+        }
+       
+
         // Performance Monitoring
         if ('performance' in window) {
             window.addEventListener('load', function() {
