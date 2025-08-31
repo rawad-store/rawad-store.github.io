@@ -1710,46 +1710,52 @@
         }
 
         /* Notification Styles */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            z-index: 10000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            max-width: 350px;
-            font-weight: 500;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+           .notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    max-width: 350px;
+    font-weight: 500;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
 
-        .notification.show {
-            transform: translateX(0);
-        }
+  .notification.show {
+    transform: translateX(0);
+  }
 
-        .notification-success {
-            background: linear-gradient(135deg, var(--success-color), #34ce57);
-            color: white;
-        }
+  .notification-success {
+    background: linear-gradient(135deg, var(--success-color), #34ce57);
+    color: white;
+  }
 
-        .notification-info {
-            background: linear-gradient(135deg, var(--info-color), #20a2b8);
-            color: white;
-        }
+  .notification-info {
+    background: linear-gradient(135deg, var(--info-color), #20a2b8);
+    color: white;
+  }
 
-        .notification-warning {
-            background: linear-gradient(135deg, var(--warning-color), #ffca28);
-            color: var(--dark-color);
-        }
+  .notification-warning {
+    background: linear-gradient(135deg, var(--warning-color), #ffca28);
+    color: var(--dark-color);
+  }
 
-        .notification-error {
-            background: linear-gradient(135deg, var(--danger-color), #e74c3c);
-            color: white;
-        }
+  .notification-error {
+    background: linear-gradient(135deg, var(--danger-color), #e74c3c);
+    color: white;
+  }
 
+  @keyframes bounce {
+    0%, 20%, 53%, 80%, 100% {transform: translate3d(0,0,0);}
+    40%, 43% {transform: translate3d(0, -8px, 0);}
+    70% {transform: translate3d(0, -4px, 0);}
+    90% {transform: translate3d(0, -2px, 0);}
+  }
         /* Loading Overlay */
         #loadingOverlay {
             position: fixed;
@@ -2713,7 +2719,7 @@
         ];
 
         // 2. دوال المساعدة
-        function getCategoryIcon(category) {
+         function getCategoryIcon(category) {
             const icons = {
                 'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;"></i>',
                 'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;"></i>',
@@ -2730,7 +2736,7 @@
             let filteredProducts = category === 'all' ? products : products.filter(p => p.category === category);
 
             if (filteredProducts.length === 0) {
-                grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);"><i class="fas fa-box-open" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i><h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لا توجد منتجات في هذا التصنيف حالياً</h3><p style="margin-bottom: 1.5rem;">سيتم إضافة منتجات جديدة قريباً</p><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن المنتجات المتاحة" class="btn btn-primary" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> استفسر عن المنتجات</a></div>';
+                grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);"><i class="fas fa-box-open" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i><h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لا توجد منتجات في هذا التصنيف حالياً</h3><p style="极argin-bottom: 1.5rem;">سيتم إضافة منتجات جديدة قريباً</p><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن المنتجات المتاحة" class="btn btn-primary" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> استفسر عن المنتجات</a></div>';
                 return;
             }
 
@@ -2754,7 +2760,7 @@
                             <button class="add-to-cart" onclick="addToCart(${product.id})">
                                 <i class="fas fa-cart-plus"></i> أضف للسلة
                             </button>
-                            <button class="wishlist-btn" onclick="toggleWishlist(${product.id})" title="إضافة للمفضلة">
+                            <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" onclick="toggleWishlist(${product.id})" title="${wishlist.includes(product.id) ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">
                                 <i class="fas fa-heart"></i>
                             </button>
                         </div>
@@ -2767,6 +2773,7 @@
         }
 
         function filterProducts(category) {
+            currentFilter = category;
             loadProducts(category);
         }
 
@@ -2797,33 +2804,236 @@
             }, 100);
         }
 
+        // 3. إدارة السلة
         function addToCart(productId) {
-            alert(`تم إضافة المنتج رقم ${productId} إلى السلة`);
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    category: product.category,
+                    quantity: 1
+                });
+            }
+            
+            updateCartCount();
+            saveToLocalStorage();
+            showNotification(`تم إضافة "${product.name}" إلى السلة`, 'success');
         }
 
-        function toggleWishlist(productId) {
-            const btn = document.querySelector(`.wishlist-btn[onclick="toggleWishlist(${productId})"]`);
-            btn.classList.toggle('active');
-            btn.title = btn.classList.contains('active') ? 'إزالة من المفضلة' : 'إضافة للمفضلة';
-            
-            if (btn.classList.contains('active')) {
-                alert(`تم إضافة المنتج رقم ${productId} إلى المفضلة`);
-            } else {
-                alert(`تم إزالة المنتج رقم ${productId} من المفضلة`);
+        function removeFromCart(productId) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex > -1) {
+                if (cart[itemIndex].quantity > 1) {
+                    cart[itemIndex].quantity -= 1;
+                } else {
+                    cart.splice(itemIndex, 1);
+                }
+                updateCartCount();
+                updateCartDisplay();
+                saveToLocalStorage();
             }
         }
 
-        // 3. تهيئة الصفحة عند التحميل
-        document.addEventListener('DOMContentLoaded', function() {
-            loadProducts();
-        });
+        function clearCart() {
+            if (cart.length === 0) return;
+            
+            if (confirm('هل أنت متأكد من إفراغ السلة؟')) {
+                cart = [];
+                updateCartCount();
+                updateCartDisplay();
+                saveToLocalStorage();
+                showNotification('تم إفراغ السلة', 'info');
+            }
+        }
 
-        // Enhanced JavaScript functionality
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCountElement = document.getElementById('cartCount');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+            }
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartFooter = document.getElementById('cartFooter');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                        <i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">سلة التسوق فارغة</h4>
+                        <p style="margin-bottom: 1.5rem;">ابدأ بإضافة منتجات إلى سلتك</p>
+                        <button class="btn btn-primary" onclick="closeCart()">
+                            <i class="fas fa-shopping-bag"></i>
+                            متابعة التسوق
+                        </button>
+                    </div>
+                `;
+                cartFooter.style.display = 'none';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div class="cart-item-image">
+                            ${getCategoryIcon(item.category)}
+                        </div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">${item.price} جنيه للقطعة</div>
+                        </div>
+                        <div class="cart-item-controls">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="removeFromCart(${item.id})">-</button>
+                                <span class="quantity-display">${item.quantity}</span>
+                                <button class="quantity-btn plus" onclick="addToCart(${item.id})">+</button>
+                            </div>
+                            <div class="cart-item-total">${item.price * item.quantity} جنيه</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                document.getElementById('cartTotal').textContent = total;
+                cartFooter.style.display = 'block';
+            }
+        }
+
+        function showCart() {
+            updateCartDisplay();
+            document.getElementById('cartModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 4. إدارة المفضلة
+        function toggleWishlist(productId) {
+            const index = wishlist.indexOf(productId);
+            const product = products.find(p => p.id === productId);
+            
+            if (index > -1) {
+                wishlist.splice(index, 1);
+                showNotification(`تم إزالة "${product.name}" من المفضلة`, 'info');
+            } else {
+                wishlist.push(productId);
+                showNotification(`تم إضافة "${product.name}" إلى المفضلة`, 'success');
+            }
+            
+            updateWishlistCount();
+            saveToLocalStorage();
+            
+            // تحديث حالة زر المفضلة
+            const wishlistBtn = document.querySelector(`.wishlist-btn[onclick="toggleWishlist(${productId})"]`);
+            if (wishlistBtn) {
+                wishlistBtn.classList.toggle('active');
+                wishlistBtn.title = wishlistBtn.classList.contains('active') ? 'إزالة من المفضلة' : 'إضافة للمفضلة';
+            }
+        }
+
+        function updateWishlistCount() {
+            const wishlistCountElement = document.getElementById('wishlistCount');
+            if (wishlistCountElement) {
+                wishlistCountElement.textContent = wishlist.length;
+            }
+        }
+
+        function updateWishlistDisplay() {
+            const wishlistItems = document.getElementById('wishlistItems');
+            const wishlistProducts = products.filter(p => wishlist.includes(p.id));
+            
+            if (wishlistProducts.length === 0) {
+                wishlistItems.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+                        <i class="fas fa-heart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; color: var(--danger-color);"></i>
+                        <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">المفضلة فارغة</h4>
+                        <p style="margin-bottom: 1.5rem;">أضف منتجات إلى مفضلتك لتجدها هنا</p>
+                        <button class="btn btn-primary" onclick="closeWishlist()">
+                            <i class="fas fa-shopping-bag"></i>
+                            تصفح المنتجات
+                        </button>
+                    </div>
+                `;
+            } else {
+                wishlistItems.innerHTML = wishlistProducts.map(item => `
+                    <div class="cart-item">
+                        <div class="cart-item-image">
+                            ${getCategoryIcon(item.category)}
+                        </div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">${item.price} جنيه</div>
+                            <p style="font-size: 0.85rem; color: var(--gray-600); margin-top: 0.5rem;">${item.description}</p>
+                        </div>
+                        <div class="cart-item-controls">
+                            <button class="btn btn-primary" onclick="addToCart(${item.id}); showNotification('تم إضافة "${item.name}" إلى السلة!', 'success');" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                <i class="fas fa-cart-plus"></i>
+                                أضف للسلة
+                            </button>
+                            <button class="quantity-btn" onclick="toggleWishlist(${item.id})" style="background: var(--danger-color); color: white;" title="إزالة من المفضلة">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function showWishlistModal() {
+            updateWishlistDisplay();
+            document.getElementById('wishlistModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeWishlist() {
+            document.getElementById('wishlistModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // 5. إتمام الطلب
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            showLoading();
+            
+            setTimeout(() => {
+                let message = "مرحباً، أريد طلب المنتجات التالية:\n\n";
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    message += `• ${item.name}\n  الكمية: ${item.quantity}\n  السعر: ${itemTotal} جنيه\n\n`;
+                });
+                
+                message += `الإجمالي: ${total} جنيه\n\n`;
+                message += `العنوان: أمام سنترال الصوة - المجمع\n`;
+                message += `شكراً لكم`;
+                
+                const whatsappUrl = `https://wa.me/+201126630356?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+                
+                hideLoading();
+                closeCart();
+                showNotification('تم توجيهك إلى واتساب لإتمام الطلب', 'success');
+            }, 1000);
+        }
+
+        // 6. تهيئة الصفحة عند التحميل
         let currentFilter = 'all';
         let cart = [];
         let wishlist = [];
 
-        // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             initializeApp();
             loadProducts();
@@ -2840,11 +3050,18 @@
             
             if (savedCart) {
                 cart = JSON.parse(savedCart);
+                updateCartCount();
             }
             
             if (savedWishlist) {
                 wishlist = JSON.parse(savedWishlist);
+                updateWishlistCount();
             }
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('rawad-cart', JSON.stringify(cart));
+            localStorage.setItem('rawad-wishlist', JSON.stringify(wishlist));
         }
 
         function initializeAnimations() {
@@ -2949,17 +3166,7 @@
             });
         }
 
-        function getCategoryName(category) {
-            const names = {
-                'books': 'الكتب',
-                'stationery': 'المستلزمات',
-                'bags': 'الحقائب',
-                'gifts': 'الهدايا',
-                'all': 'الكل'
-            };
-            return names[category] || category;
-        }
-
+        // 7. وظائف البحث
         function handleSearchInput(e) {
             clearTimeout(window.searchTimeout);
             const searchTerm = e.target.value.toLowerCase().trim();
@@ -2997,7 +3204,7 @@
                 suggestionsContainer.style.display = 'block';
             } else {
                 suggestionsContainer.innerHTML = `
-                    <div class="search-suggestion" style="justify-content: center; color: var(--gray-500);">
+                    <div class极"search-suggestion" style="justify-content: center; color: var(--gray-500);">
                         <i class="fas fa-search" style="margin-left: 0.5rem;"></i>
                         <span>لا توجد نتائج</span>
                     </div>
@@ -3036,8 +3243,8 @@
 
             if (filteredProducts.length === 0) {
                 grid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);">
-                        <i class="fas fa-search" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                    <div style="grid-column: 1 / -极; text-align: center; padding: 3rem; color: var(--gray-500);">
+                        <i class="fas fa-search" style="font-size: 3.5rem; margin-bottom: 1rem; opacity极 0.5;"></i>
                         <h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لم يتم العثور على منتجات تطابق "${searchTerm}"</h3>
                         <p style="margin-bottom: 1.5rem;">جرب البحث بكلمات مختلفة أو تصفح التصنيفات</p>
                         <button class="btn btn-primary" onclick="clearSearch()">
@@ -3066,7 +3273,7 @@
                                 <button class="add-to-cart" onclick="addToCart(${product.id})">
                                     <i class="fas fa-cart-plus"></i> أضف للسلة
                                 </button>
-                                <button class="wishlist-btn" onclick="toggleWishlist(${product.id})" title="إضافة للمفضلة">
+                                <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" onclick="toggleWishlist(${product.id})" title="${wishlist.includes(product.id) ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">
                                     <i class="fas fa-heart"></i>
                                 </button>
                             </div>
@@ -3087,182 +3294,7 @@
             loadProducts(currentFilter);
         }
 
-        function removeFromCart(productId) {
-            const itemIndex = cart.findIndex(item => item.id === productId);
-            if (itemIndex > -1) {
-                if (cart[itemIndex].quantity > 1) {
-                    cart[itemIndex].quantity -= 1;
-                } else {
-                    cart.splice(itemIndex, 1);
-                }
-                updateCartCount();
-                updateCartDisplay();
-                saveToLocalStorage();
-            }
-        }
-
-        function clearCart() {
-            if (cart.length === 0) return;
-            
-            if (confirm('هل أنت متأكد من إفراغ السلة؟')) {
-                cart = [];
-                updateCartCount();
-                updateCartDisplay();
-                saveToLocalStorage();
-                showNotification('تم إفراغ السلة', 'info');
-            }
-        }
-
-        function updateCartCount() {
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const cartCountElement = document.getElementById('cartCount');
-            if (cartCountElement) {
-                cartCountElement.textContent = totalItems;
-            }
-        }
-
-        function updateWishlistCount() {
-            const wishlistCountElement = document.getElementById('wishlistCount');
-            if (wishlistCountElement) {
-                wishlistCountElement.textContent = wishlist.length;
-            }
-        }
-
-        function showCart() {
-            updateCartDisplay();
-            document.getElementById('cartModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeCart() {
-            document.getElementById('cartModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function updateCartDisplay() {
-            const cartItems = document.getElementById('cartItems');
-            const cartFooter = document.getElementById('cartFooter');
-            
-            if (cart.length === 0) {
-                cartItems.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
-                        <i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                        <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">سلة التسوق فارغة</h4>
-                        <p style="margin-bottom: 1.5rem;">ابدأ بإضافة منتجات إلى سلتك</p>
-                        <button class="btn btn-primary" onclick="closeCart()">
-                            <i class="fas fa-shopping-bag"></i>
-                            متابعة التسوق
-                        </button>
-                    </div>
-                `;
-                cartFooter.style.display = 'none';
-            } else {
-                cartItems.innerHTML = cart.map(item => `
-                    <div class="cart-item">
-                        <div class="cart-item-image">
-                            ${getCategoryIcon(item.category)}
-                        </div>
-                        <div class="cart-item-info">
-                            <div class="cart-item-title">${item.name}</div>
-                            <div class="cart-item-price">${item.price} جنيه للقطعة</div>
-                        </div>
-                        <div class="cart-item-controls">
-                            <div class="quantity-controls">
-                                <button class="quantity-btn" onclick="removeFromCart(${item.id})">-</button>
-                                <span class="quantity-display">${item.quantity}</span>
-                                <button class="quantity-btn plus" onclick="addToCart(${item.id})">+</button>
-                            </div>
-                            <div class="cart-item-total">${item.price * item.quantity} جنيه</div>
-                        </div>
-                    </div>
-                `).join('');
-                
-                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                document.getElementById('cartTotal').textContent = total;
-                cartFooter.style.display = 'block';
-            }
-        }
-
-        function showWishlistModal() {
-            updateWishlistDisplay();
-            document.getElementById('wishlistModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeWishlist() {
-            document.getElementById('wishlistModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function updateWishlistDisplay() {
-            const wishlistItems = document.getElementById('wishlistItems');
-            const wishlistProducts = products.filter(p => wishlist.includes(p.id));
-            
-            if (wishlistProducts.length === 0) {
-                wishlistItems.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
-                        <i class="fas fa-heart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; color: var(--danger-color);"></i>
-                        <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">المفضلة فارغة</h4>
-                        <p style="margin-bottom: 1.5rem;">أضف منتجات إلى مفضلتك لتجدها هنا</p>
-                        <button class="btn btn-primary" onclick="closeWishlist()">
-                            <i class="fas fa-shopping-bag"></i>
-                            تصفح المنتجات
-                        </button>
-                    </div>
-                `;
-            } else {
-                wishlistItems.innerHTML = wishlistProducts.map(item => `
-                    <div class="cart-item">
-                        <div class="cart-item-image">
-                            ${getCategoryIcon(item.category)}
-                        </div>
-                        <div class="cart-item-info">
-                            <div class="cart-item-title">${item.name}</div>
-                            <div class="cart-item-price">${item.price} جنيه</div>
-                            <p style="font-size: 0.85rem; color: var(--gray-600); margin-top: 0.5rem;">${item.description}</p>
-                        </div>
-                        <div class="cart-item-controls">
-                            <button class="btn btn-primary" onclick="addToCart(${item.id}); showNotification('تم إضافة المنتج إلى السلة!', 'success');" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
-                                <i class="fas fa-cart-plus"></i>
-                                أضف للسلة
-                            </button>
-                            <button class="quantity-btn" onclick="toggleWishlist(${item.id})" style="background: var(--danger-color); color: white;" title="إزالة من المفضلة">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                `).join('');
-            }
-        }
-
-        function checkout() {
-            if (cart.length === 0) return;
-            
-            showLoading();
-            
-            setTimeout(() => {
-                let message = "مرحباً، أريد طلب المنتجات التالية:\n\n";
-                let total = 0;
-                
-                cart.forEach(item => {
-                    const itemTotal = item.price * item.quantity;
-                    total += itemTotal;
-                    message += `• ${item.name}\n  الكمية: ${item.quantity}\n  السعر: ${itemTotal} جنيه\n\n`;
-                });
-                
-                message += `الإجمالي: ${total} جنيه\n\n`;
-                message += `العنوان: أمام سنترال الصوة - المجمع\n`;
-                message += `شكراً لكم`;
-                
-                const whatsappUrl = `https://wa.me/+201126630356?text=${encodeURIComponent(message)}`;
-                window.open(whatsappUrl, '_blank');
-                
-                hideLoading();
-                closeCart();
-                showNotification('تم توجيهك إلى واتساب لإتمام الطلب', 'success');
-            }, 1000);
-        }
-
+        // 8. وظائف مساعدة أخرى
         function toggleMobileMenu() {
             const navMenu = document.getElementById('navMenu');
             const toggleBtn = document.querySelector('.mobile-menu-toggle');
@@ -3275,11 +3307,6 @@
             } else {
                 toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
             }
-        }
-
-        function saveToLocalStorage() {
-            localStorage.setItem('rawad-cart', JSON.stringify(cart));
-            localStorage.setItem('rawad-wishlist', JSON.stringify(wishlist));
         }
 
         function showNotification(message, type = 'info') {
