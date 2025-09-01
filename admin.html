@@ -26,7 +26,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
@@ -113,7 +113,7 @@
 
         .btn-danger {
             background: linear-gradient(135deg, var(--danger-color), #e74c3c);
-            price: white;
+            color: white;
         }
 
         .btn-warning {
@@ -315,13 +315,16 @@
             font-weight: 700;
             color: var(--secondary-color);
             margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .original-price {
             text-decoration: line-through;
             color: var(--gray-color);
             font-size: 0.9rem;
-            margin-left: 0.5rem;
         }
 
         .discount-badge {
@@ -330,7 +333,6 @@
             padding: 0.2rem 0.5rem;
             border-radius: 4px;
             font-size: 0.8rem;
-            margin-right: 0.5rem;
         }
 
         .product-category {
@@ -353,6 +355,14 @@
         .product-rating {
             margin-bottom: 1rem;
             color: #ffc107;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rating-text {
+            color: var(--gray-color);
+            font-size: 0.9rem;
         }
 
         .product-actions {
@@ -579,7 +589,6 @@
             z-index: 10;
         }
 
-        /* إضافة أنماط جديدة لتحميل الصور */
         .image-upload-container {
             margin-bottom: 1.5rem;
             border: 2px dashed #ddd;
@@ -651,6 +660,46 @@
             margin-top: 0.5rem;
         }
 
+        .search-container {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.9rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: #e9ecef;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background: var(--primary-light);
+            color: white;
+        }
+
         @media (max-width: 768px) {
             .admin-actions {
                 grid-template-columns: 1fr;
@@ -660,17 +709,23 @@
                 grid-template-columns: 1fr;
             }
             
-            .form-actions {
+            .form-actions, .code-actions {
                 flex-direction: column;
+                gap: 0.75rem;
             }
             
-            .code-actions {
-                flex-direction: column;
-            }
-            
-            .btn {
+            .form-actions .btn, .code-actions .btn {
                 width: 100%;
+                margin-bottom: 0.5rem;
             }
+
+            .search-container {
+                flex-direction: column;
+            }
+        }
+
+        [dir="rtl"] .fa {
+            transform: scaleX(-1);
         }
     </style>
 </head>
@@ -696,6 +751,9 @@
             </button>
             <button class="btn btn-danger" onclick="clearAllProducts()">
                 <i class="fas fa-trash"></i> حذف جميع المنتجات
+            </button>
+            <button class="btn btn-secondary" onclick="exportProducts()">
+                <i class="fas fa-file-export"></i> تصدير المنتجات
             </button>
             <button class="btn btn-secondary" onclick="window.location.href='index.html'">
                 <i class="fas fa-home"></i> العودة للمتجر
@@ -745,7 +803,6 @@
                 <input type="text" id="productBadge" placeholder="جديد، الأكثر مبيعاً، إلخ...">
             </div>
             
-            <!-- قسم تحميل الصورة -->
             <div class="form-group">
                 <label>صورة المنتج</label>
                 <div class="image-upload-container">
@@ -754,7 +811,7 @@
                         انقر لرفع صورة المنتج
                         <input type="file" id="productImage" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
                     </label>
-                    <p class="image-size-warning">الحجم الأقصى للصورة: 5MB</p>
+                    <p class="image-size-warning">الحجم الأقصى للصورة: 5MB، الأبعاد: 2000x2000 بكسل</p>
                     <div class="image-preview" id="imagePreview">
                         <img id="previewImage" src="" alt="معاينة الصورة">
                         <button type="button" class="remove-image-btn" onclick="removeImage()">
@@ -779,6 +836,22 @@
 
         <div class="products-section">
             <h2 class="section-title">المنتجات الحالية</h2>
+            
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن منتج..." oninput="filterProducts()">
+                <button class="btn btn-info" onclick="clearSearch()">
+                    <i class="fas fa-times"></i> مسح البحث
+                </button>
+            </div>
+            
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="setCategoryFilter('all')">الكل</button>
+                <button class="filter-btn" onclick="setCategoryFilter('books')">الكتب الدراسية</button>
+                <button class="filter-btn" onclick="setCategoryFilter('stationery')">المستلزمات المكتبية</button>
+                <button class="filter-btn" onclick="setCategoryFilter('bags')">الحقائب المدرسية</button>
+                <button class="filter-btn" onclick="setCategoryFilter('gifts')">الهدايا</button>
+            </div>
+            
             <div class="products-grid" id="productsList">
                 <!-- سيتم ملؤها بواسطة JavaScript -->
             </div>
@@ -797,6 +870,9 @@
     <div class="notification" id="notification">
         <i class="fas fa-check-circle"></i>
         <span id="notificationMessage"></span>
+        <button class="close-btn" onclick="hideNotification()">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
 
     <div class="code-modal" id="codeModal">
@@ -846,7 +922,6 @@
     <script>
         // تهيئة التطبيق
         document.addEventListener('DOMContentLoaded', function() {
-            // تحميل المنتجات من localStorage أو إضافة المنتجات النموذجية
             if (!localStorage.getItem('rawad-products')) {
                 addSampleProducts();
             } else {
@@ -856,6 +931,8 @@
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     hideCodeModal();
+                    hideProductForm();
+                    hideNotification();
                 }
             });
             
@@ -871,6 +948,10 @@
                 });
             });
         });
+
+        // المتغيرات العامة
+        let currentCategoryFilter = 'all';
+        let currentSearchTerm = '';
 
         // المنتجات النموذجية
         const sampleProducts = [
@@ -1076,6 +1157,11 @@
             }
         ];
 
+        // تعقيم المدخلات لمنع XSS
+        function sanitizeInput(input) {
+            return input.replace(/[<>"'&]/g, '');
+        }
+
         // إضافة المنتجات النموذجية
         function addSampleProducts() {
             localStorage.setItem('rawad-products', JSON.stringify(sampleProducts));
@@ -1088,7 +1174,14 @@
             const productsList = document.getElementById('productsList');
             const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
             
-            if (products.length === 0) {
+            const filteredProducts = products.filter(product => {
+                const matchesCategory = currentCategoryFilter === 'all' || product.category === currentCategoryFilter;
+                const matchesSearch = product.name.toLowerCase().includes(currentSearchTerm.toLowerCase()) || 
+                                    product.description.toLowerCase().includes(currentSearchTerm.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+            
+            if (filteredProducts.length === 0) {
                 productsList.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-box-open"></i>
@@ -1102,31 +1195,32 @@
                 return;
             }
             
-            productsList.innerHTML = products.map(product => {
+            productsList.innerHTML = filteredProducts.map(product => {
                 const finalPrice = product.discount > 0 
                     ? product.price - (product.price * product.discount / 100)
                     : product.price;
                     
                 return `
                 <div class="product-card">
-                    ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+                    ${product.badge ? `<span class="product-badge">${sanitizeInput(product.badge)}</span>` : ''}
                     <div class="product-image">
-                        ${product.image ? `<img src="${product.image}" alt="${product.name}">` : getCategoryIcon(product.category)}
+                        ${product.image ? `<img src="${product.image}" alt="${sanitizeInput(product.name)}">` : getCategoryIcon(product.category)}
                     </div>
                     <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
+                        <h3 class="product-title">${sanitizeInput(product.name)}</h3>
                         <div class="product-price">
                             ${product.discount > 0 ? `
                                 <span class="discount-badge">خصم ${product.discount}%</span>
-                                <span class="original-price">${product.price} جنيه</span>
+                                <span class="original-price">${product.price.toFixed(2)} جنيه</span>
                             ` : ''}
                             ${finalPrice.toFixed(2)} جنيه
                         </div>
                         <span class="product-category">${getCategoryName(product.category)}</span>
                         <div class="product-rating">
                             ${generateStarRating(product.rating)}
+                            <span class="rating-text">(${product.rating}.0)</span>
                         </div>
-                        <p class="product-description">${product.description}</p>
+                        <p class="product-description">${sanitizeInput(product.description)}</p>
                         <div class="product-actions">
                             <button class="btn btn-primary btn-sm" onclick="editProduct(${product.id})">
                                 <i class="fas fa-edit"></i> تعديل
@@ -1181,28 +1275,34 @@
             const file = event.target.files[0];
             if (!file) return;
             
-            // التحقق من حجم الصورة (2MB كحد أقصى)
-            if (file.size > 2 * 1024 * 1024) {
-                showNotification('حجم الصورة يجب أن يكون أقل من 2MB', 'error');
+            if (file.size > 5 * 1024 * 1024) {
+                showNotification('حجم الصورة يجب أن يكون أقل من 5MB', 'error');
                 event.target.value = '';
                 return;
             }
             
-            // التحقق من نوع الملف
             if (!file.type.match('image.*')) {
                 showNotification('يرجى اختيار ملف صورة فقط', 'error');
                 event.target.value = '';
                 return;
             }
             
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const imageData = e.target.result;
-                document.getElementById('productImageData').value = imageData;
-                document.getElementById('previewImage').src = imageData;
-                document.getElementById('imagePreview').style.display = 'block';
+            const img = new Image();
+            img.onload = function() {
+                if (img.width > 2000 || img.height > 2000) {
+                    showNotification('أبعاد الصورة كبيرة جدًا، يرجى اختيار صورة أصغر', 'error');
+                    event.target.value = '';
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('productImageData').value = e.target.result;
+                    document.getElementById('previewImage').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
             };
-            reader.readAsDataURL(file);
+            img.src = URL.createObjectURL(file);
         }
 
         // إزالة الصورة المرفوعة
@@ -1216,21 +1316,41 @@
         // حفظ المنتج
         function saveProduct() {
             const productId = document.getElementById('productId').value;
-            const name = document.getElementById('productName').value;
-            const price = document.getElementById('productPrice').value;
-            const discount = document.getElementById('productDiscount').value;
+            const name = sanitizeInput(document.getElementById('productName').value.trim());
+            const price = parseFloat(document.getElementById('productPrice').value);
+            const discount = parseInt(document.getElementById('productDiscount').value) || 0;
             const category = document.getElementById('productCategory').value;
-            const description = document.getElementById('productDescription').value;
-            const rating = document.getElementById('productRating').value;
-            const badge = document.getElementById('productBadge').value;
+            const description = sanitizeInput(document.getElementById('productDescription').value.trim());
+            const rating = parseInt(document.getElementById('productRating').value);
+            const badge = sanitizeInput(document.getElementById('productBadge').value.trim());
             const imageData = document.getElementById('productImageData').value;
             
-            if (!name || !price || !category || !description) {
+            if (!name || !price || !category || !description || !rating) {
                 showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
                 return;
             }
             
+            if (price <= 0) {
+                showNotification('السعر يجب أن يكون أكبر من 0', 'error');
+                return;
+            }
+            
+            if (rating < 1 || rating > 5) {
+                showNotification('التقييم يجب أن يكون بين 1 و5', 'error');
+                return;
+            }
+            
             let products = JSON.parse(localStorage.getItem('rawad-products')) || [];
+            
+            const existingProduct = products.find(p => p.name === name && p.id != productId);
+            if (existingProduct) {
+                showNotification('اسم المنتج موجود بالفعل', 'error');
+                return;
+            }
+            
+            if (productId && !confirm('هل أنت متأكد من تعديل هذا المنتج؟')) {
+                return;
+            }
             
             if (productId) {
                 const index = products.findIndex(p => p.id == productId);
@@ -1238,13 +1358,13 @@
                     products[index] = {
                         id: parseInt(productId),
                         name,
-                        price: parseInt(price),
-                        discount: parseInt(discount),
+                        price,
+                        discount,
                         category,
                         description,
-                        rating: parseInt(rating),
-                        badge: badge || '',
-                        image: imageData || products[index].image || '' // الحفاظ على الصورة القديمة إذا لم يتم رفع صورة جديدة
+                        rating,
+                        badge,
+                        image: imageData || products[index].image || ''
                     };
                     showNotification('تم تعديل المنتج بنجاح');
                 }
@@ -1253,12 +1373,12 @@
                 products.push({
                     id: newId,
                     name,
-                    price: parseInt(price),
-                    discount: parseInt(discount),
+                    price,
+                    discount,
                     category,
                     description,
-                    rating: parseInt(rating),
-                    badge: badge || '',
+                    rating,
+                    badge,
                     image: imageData || ''
                 });
                 showNotification('تم إضافة المنتج بنجاح');
@@ -1316,9 +1436,50 @@
             }
         }
 
+        // تصدير المنتجات
+        function exportProducts() {
+            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
+            if (products.length === 0) {
+                showNotification('لا توجد منتجات لتصديرها', 'error');
+                return;
+            }
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute('href', dataStr);
+            downloadAnchor.setAttribute('download', 'products.json');
+            downloadAnchor.click();
+            showNotification('تم تصدير المنتجات بنجاح');
+        }
+
         // مزامنة مع الصفحة الرئيسية
         function syncWithMainPage() {
             showNotification('تمت المزامنة بنجاح مع الصفحة الرئيسية');
+        }
+
+        // تصفية المنتجات حسب البحث
+        function filterProducts() {
+            currentSearchTerm = document.getElementById('searchInput').value;
+            loadProducts();
+        }
+
+        // مسح البحث
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            currentSearchTerm = '';
+            loadProducts();
+        }
+
+        // تعيين تصنيف الفلتر
+        function setCategoryFilter(category) {
+            currentCategoryFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeBtn = document.querySelector(`.filter-btn[onclick="setCategoryFilter('${category}')"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            loadProducts();
         }
 
         // إظهار نافذة الأكواد
@@ -1392,7 +1553,7 @@ function loadProducts(category = 'all') {
                 <div class="product-price">
                     \${product.discount > 0 ? \`
                         <span class="discount-badge">خصم \${product.discount}%</span>
-                        <span class="original-price">\${product.price} جنيه</span>
+                        <span class="original-price">\${product.price.toFixed(2)} جنيه</span>
                     \` : ''}
                     \${finalPrice.toFixed(2)} جنيه
                 </div>
@@ -1501,15 +1662,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 return `
             <div class="product-card fade-in" data-category="${product.category}">
                 <div class="product-image">
-                    ${product.image ? `<img src="${product.image}" alt="${product.name}">` : getCategoryIcon(product.category)}
-                    ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+                    ${product.image ? `<img src="${product.image}" alt="${sanitizeInput(product.name)}">` : getCategoryIcon(product.category)}
+                    ${product.badge ? `<span class="product-badge">${sanitizeInput(product.badge)}</span>` : ''}
                 </div>
                 <div class="product-info">
-                    <h3 class="product-title">${product.name}</h3>
+                    <h3 class="product-title">${sanitizeInput(product.name)}</h3>
                     <div class="product-price">
                         ${product.discount > 0 ? `
                             <span class="discount-badge">خصم ${product.discount}%</span>
-                            <span class="original-price">${product.price} جنيه</span>
+                            <span class="original-price">${product.price.toFixed(2)} جنيه</span>
                         ` : ''}
                         ${finalPrice.toFixed(2)} جنيه
                     </div>
@@ -1519,7 +1680,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <span style="color: var(--gray-600); font-size: 0.9rem;">(${product.rating}.0)</span>
                     </div>
-                    <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1.2rem; line-height: 1.5;">${product.description}</p>
+                    <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1.2rem; line-height: 1.5;">${sanitizeInput(product.description)}</p>
                     <div class="product-actions">
                         <button class="add-to-cart" onclick="addToCart(${product.id})">
                             <i class="fas fa-cart-plus"></i> أضف للسلة
@@ -1571,30 +1732,24 @@ document.addEventListener('DOMContentLoaded', function() {
             textArea.style.opacity = 0;
             document.body.appendChild(textArea);
             
-            setTimeout(() => {
+            try {
                 textArea.select();
-                textArea.setSelectionRange(0, 99999);
-                
-                try {
-                    const successful = document.execCommand('copy');
-                    if (successful) {
-                        showNotification('تم نسخ الأكواد بنجاح', 'success');
-                        btnElement.classList.add('copied');
-                        setTimeout(() => {
-                            btnElement.classList.remove('copied');
-                        }, 2000);
-                    } else {
-                        showNotification('تعذر النسخ، يرجى المحاولة يدوياً', 'error');
-                        prompt('يرجى نسخ النص التالي يدوياً:', text);
-                    }
-                } catch (err) {
-                    console.error('فشل في النسخ: ', err);
-                    showNotification('خطأ في النسخ: ' + err, 'error');
-                    prompt('يرجى نسخ النص التالي يدوياً بسبب خطأ في النظام:', text);
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showNotification('تم نسخ الأكواد بنجاح', 'success');
+                    btnElement.classList.add('copied');
+                    setTimeout(() => {
+                        btnElement.classList.remove('copied');
+                    }, 2000);
+                } else {
+                    showNotification('تعذر النسخ. يرجى نسخ النص يدويًا من النافذة.', 'error');
                 }
-                
+            } catch (err) {
+                console.error('فشل في النسخ: ', err);
+                showNotification('تعذر النسخ. يرجى نسخ النص يدويًا من النافذة.', 'error');
+            } finally {
                 document.body.removeChild(textArea);
-            }, 100);
+            }
         }
 
         // التبديل بين تبويبات الأكواد
@@ -1622,12 +1777,23 @@ document.addEventListener('DOMContentLoaded', function() {
                          type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
             
             notification.className = `notification notification-${type}`;
-            notification.innerHTML = `<i class="fas ${icon}"></i><span id="notificationMessage">${message}</span>`;
+            notification.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span id="notificationMessage">${sanitizeInput(message)}</span>
+                <button class="close-btn" onclick="hideNotification()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
             notification.classList.add('show');
             
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 3000);
+            }, 5000);
+        }
+
+        // إخفاء الإشعارات
+        function hideNotification() {
+            document.getElementById('notification').classList.remove('show');
         }
 
         // الحصول على أيقونة التصنيف
