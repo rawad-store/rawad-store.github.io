@@ -3412,6 +3412,40 @@
             });
         }
       
-    </script>
+        // Add special offers banner (can be toggled)
+        function showSpecialOffer() {
+            const banner = document.createElement('div');
+            banner.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: linear-gradient(45deg, #ff4757, #ff6b7d);
+                color: white;
+                text-align: center;
+                padding: 10px;
+                z-index: 3000;
+                font-weight: bold;
+                animation: slideDown 0.5s ease;
+            `;
+            banner.innerHTML = `
+                🎉 عرض خاص على جميع المنتجات
+                <button onclick="this.parentElement.remove()" style="background: none; border: none; color: white; float: left; font-size: 18px; cursor: pointer;">×</button>
+            `;
+            
+            document.body.insertBefore(banner, document.body.firstChild);
+            
+            // Auto hide after 10 seconds
+            setTimeout(() => {
+                if (banner.parentElement) {
+                    banner.remove();
+                }
+            }, 10000);
+        }
+
+        // Show special offer after 3 seconds
+        setTimeout(showSpecialOffer, 3000);
+        
+       </script>
 </body>
 </html>
