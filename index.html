@@ -909,6 +909,27 @@
             margin-bottom: 0.7rem;
         }
 
+        .product-price .discount-badge {
+            background: var(--danger-color);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .product-price .original-price {
+            text-decoration: line-through;
+            color: var(--gray-500);
+            font-size: 1rem;
+            margin-left: 0.5rem;
+        }
+
+        .product-price .final-price {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
         .product-rating {
             display: flex;
             align-items: center;
@@ -1710,52 +1731,52 @@
         }
 
         /* Notification Styles */
-           .notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 1rem 1.5rem;
-    border-radius: var(--border-radius);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    z-index: 10000;
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-    max-width: 350px;
-    font-weight: 500;
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 350px;
+            font-weight: 500;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-  .notification.show {
-    transform: translateX(0);
-  }
+        .notification.show {
+            transform: translateX(0);
+        }
 
-  .notification-success {
-    background: linear-gradient(135deg, var(--success-color), #34ce57);
-    color: white;
-  }
+        .notification-success {
+            background: linear-gradient(135deg, var(--success-color), #34ce57);
+            color: white;
+        }
 
-  .notification-info {
-    background: linear-gradient(135deg, var(--info-color), #20a2b8);
-    color: white;
-  }
+        .notification-info {
+            background: linear-gradient(135deg, var(--info-color), #20a2b8);
+            color: white;
+        }
 
-  .notification-warning {
-    background: linear-gradient(135deg, var(--warning-color), #ffca28);
-    color: var(--dark-color);
-  }
+        .notification-warning {
+            background: linear-gradient(135deg, var(--warning-color), #ffca28);
+            color: var(--dark-color);
+        }
 
-  .notification-error {
-    background: linear-gradient(135deg, var(--danger-color), #e74c3c);
-    color: white;
-  }
+        .notification-error {
+            background: linear-gradient(135deg, var(--danger-color), #e74c3c);
+            color: white;
+        }
 
-  @keyframes bounce {
-    0%, 20%, 53%, 80%, 100% {transform: translate3d(0,0,0);}
-    40%, 43% {transform: translate3d(0, -8px, 0);}
-    70% {transform: translate3d(0, -4px, 0);}
-    90% {transform: translate3d(0, -2px, 0);}
-  }
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% {transform: translate3d(0,0,0);}
+            40%, 43% {transform: translate3d(0, -8px, 0);}
+            70% {transform: translate3d(0, -4px, 0);}
+            90% {transform: translate3d(0, -2px, 0);}
+        }
         /* Loading Overlay */
         #loadingOverlay {
             position: fixed;
@@ -2156,8 +2177,8 @@
                     </div>
                     <h3>الهدايا التذكارية</h3>
                     <p>هدايا مميزة ولوازم المناسبات والاحتفالات المدرسية</p>
-              </div>
-           </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -2226,7 +2247,7 @@
 
     <!-- Offers Section -->
     <section class="section" id="offers" style="background: linear-gradient(135deg, var(--secondary-color), #ff8c5a); color: white; padding: 4rem 0; position: relative; overflow: hidden;">
-        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1000 1000\"><defs><radialGradient id=\"offer-gradient\"><stop offset=\"0%\" stop-color=\"rgba(255,255,255,0.05)\"/><stop offset=\"100%\" stop-color=\"transparent\"/></radialGradient></defs><circle cx=\"100\" cy=\"100\" r=\"200\" fill=\"url(%23offer-gradient)\"/><circle cx=\"900\" cy=\"900\" r=\"300\" fill=\"url(%23offer-gradient)\"/></svg>'); opacity: 0.3;"></div>
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="offer-gradient"><stop offset="0%" stop-color="rgba(255,255,255,0.05)"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs><circle cx="100" cy="100" r="200" fill="url(%23offer-gradient)"/><circle cx="900" cy="900" r="300" fill="url(%23offer-gradient)"/></svg>'); opacity: 0.3;"></div>
         <div class="container" style="position: relative; z-index: 1;">
             <h2 class="section-title">عروضنا الحصرية</h2>
             <div class="offers-grid">
@@ -2519,7 +2540,7 @@
             <div id="wishlistItems">
                 <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
                     <i class="fas fa-heart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; color: var(--danger-color);"></i>
-                    <h4 style="margin-bottom: 0.8rem; color: var(--primary-color;">المفضلة فارغة</h4>
+                    <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">المفضلة فارغة</h4>
                     <p style="margin-bottom: 1.5rem;">أضف منتجات إلى مفضلتك لتجدها هنا</p>
                     <button class="btn btn-primary" onclick="closeWishlist()">
                         <i class="fas fa-shopping-bag"></i>
@@ -2541,7 +2562,6 @@
     <script>
         // ==================================================
         // نظام إدارة المنتجات - مكتبة الرواد
-        // الأكواد التالية جاهزة للنسخ واللصق في الصفحة الرئيسية
         // ==================================================
 
         // 1. مصفوفة المنتجات
@@ -2550,6 +2570,7 @@
                 "id": 1,
                 "name": "كتب دراسية ومراجع",
                 "price": 100,
+                "discount": 10,
                 "category": "books",
                 "description": "جميع المراحل الدراسية - طبعة حديثة",
                 "rating": 5,
@@ -2559,6 +2580,7 @@
                 "id": 2,
                 "name": "مجموعة أقلام متنوعة",
                 "price": 50,
+                "discount": 5,
                 "category": "stationery",
                 "description": "مجموعة أقلام عالية الجودة - متنوع",
                 "rating": 5,
@@ -2568,6 +2590,7 @@
                 "id": 3,
                 "name": "حقيبة مدرسية - تصميم عصري",
                 "price": 350,
+                "discount": 15,
                 "category": "bags",
                 "description": "حقيبة مدرسية بتصميم عصري ومقاومة للماء",
                 "rating": 5,
@@ -2577,6 +2600,7 @@
                 "id": 4,
                 "name": "دفتر ملاحظات",
                 "price": 25,
+                "discount": 0,
                 "category": "stationery",
                 "description": "دفتر ملاحظات متنوع",
                 "rating": 4,
@@ -2586,6 +2610,7 @@
                 "id": 5,
                 "name": "كشكول وكراس",
                 "price": 30,
+                "discount": 0,
                 "category": "books",
                 "description": "تشكيلات متنوعة ومميزة",
                 "rating": 5,
@@ -2595,6 +2620,7 @@
                 "id": 6,
                 "name": "هدايا قيمة",
                 "price": 200,
+                "discount": 20,
                 "category": "gifts",
                 "description": "هدايا مميزة ومتنوعة",
                 "rating": 5,
@@ -2604,6 +2630,7 @@
                 "id": 7,
                 "name": "اكسسوارات",
                 "price": 75,
+                "discount": 10,
                 "category": "gifts",
                 "description": "تشكيلة متنوعة",
                 "rating": 4,
@@ -2613,6 +2640,7 @@
                 "id": 8,
                 "name": "فولدرات وحافظات",
                 "price": 40,
+                "discount": 0,
                 "category": "stationery",
                 "description": "متنوع",
                 "rating": 4,
@@ -2622,6 +2650,7 @@
                 "id": 9,
                 "name": "ورق تصوير",
                 "price": 45,
+                "discount": 5,
                 "category": "stationery",
                 "description": "ممتاز",
                 "rating": 4,
@@ -2631,6 +2660,7 @@
                 "id": 10,
                 "name": "قاموس عربي إنجليزي",
                 "price": 120,
+                "discount": 10,
                 "category": "books",
                 "description": "قاموس شامل ومحدث",
                 "rating": 5,
@@ -2640,6 +2670,7 @@
                 "id": 11,
                 "name": "حقيبة كمبيوتر",
                 "price": 280,
+                "discount": 15,
                 "category": "bags",
                 "description": "مناسبة لأجهزة اللابتوب",
                 "rating": 4,
@@ -2649,6 +2680,7 @@
                 "id": 12,
                 "name": "أقلام تخطيط",
                 "price": 35,
+                "discount": 0,
                 "category": "stationery",
                 "description": "مجموعة ألوان متنوعة",
                 "rating": 4,
@@ -2658,6 +2690,7 @@
                 "id": 13,
                 "name": "مجموعة أدوات هندسية",
                 "price": 65,
+                "discount": 10,
                 "category": "stationery",
                 "description": "أدوات دقيقة ومتينة",
                 "rating": 5,
@@ -2667,6 +2700,7 @@
                 "id": 14,
                 "name": "كتاب القصص المصورة",
                 "price": 85,
+                "discount": 5,
                 "category": "books",
                 "description": "قصص تعليمية ممتعة",
                 "rating": 4,
@@ -2676,6 +2710,7 @@
                 "id": 15,
                 "name": "حافظة مستندات",
                 "price": 55,
+                "discount": 0,
                 "category": "stationery",
                 "description": "متينة وتصميم عملي",
                 "rating": 4,
@@ -2685,6 +2720,7 @@
                 "id": 16,
                 "name": "مجموعة هدايا تخرج",
                 "price": 300,
+                "discount": 25,
                 "category": "gifts",
                 "description": "هدايا مميزة للخريجين",
                 "rating": 5,
@@ -2694,6 +2730,7 @@
                 "id": 17,
                 "name": "حقيبة رياضية",
                 "price": 220,
+                "discount": 15,
                 "category": "bags",
                 "description": "مناسبة للرياضة والأنشطة",
                 "rating": 4,
@@ -2703,6 +2740,7 @@
                 "id": 18,
                 "name": "موسوعة علمية",
                 "price": 180,
+                "discount": 10,
                 "category": "books",
                 "description": "شاملة ومفصلة",
                 "rating": 5,
@@ -2712,6 +2750,7 @@
                 "id": 19,
                 "name": "طابع وزينة",
                 "price": 30,
+                "discount": 0,
                 "category": "gifts",
                 "description": "تشكيلة متنوعة من الزينة",
                 "rating": 4,
@@ -2721,6 +2760,7 @@
                 "id": 20,
                 "name": "مجموعة ألوان فنية",
                 "price": 90,
+                "discount": 15,
                 "category": "stationery",
                 "description": "ألوان عالية الجودة",
                 "rating": 5,
@@ -2729,7 +2769,7 @@
         ];
 
         // 2. دوال المساعدة
-         function getCategoryIcon(category) {
+        function getCategoryIcon(category) {
             const icons = {
                 'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;"></i>',
                 'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;"></i>',
@@ -2746,19 +2786,30 @@
             let filteredProducts = category === 'all' ? products : products.filter(p => p.category === category);
 
             if (filteredProducts.length === 0) {
-                grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);"><i class="fas fa-box-open" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i><h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لا توجد منتجات في هذا التصنيف حالياً</h3><p style="极argin-bottom: 1.5rem;">سيتم إضافة منتجات جديدة قريباً</p><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن المنتجات المتاحة" class="btn btn-primary" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> استفسر عن المنتجات</a></div>';
+                grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);"><i class="fas fa-box-open" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i><h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لا توجد منتجات في هذا التصنيف حالياً</h3><p style="margin-bottom: 1.5rem;">سيتم إضافة منتجات جديدة قريباً</p><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن المنتجات المتاحة" class="btn btn-primary" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> استفسر عن المنتجات</a></div>';
                 return;
             }
 
-            grid.innerHTML = filteredProducts.map(product => `
+            grid.innerHTML = filteredProducts.map(product => {
+                const finalPrice = product.discount > 0 
+                    ? product.price - (product.price * product.discount / 100)
+                    : product.price;
+                    
+                return `
                 <div class="product-card fade-in" data-category="${product.category}">
                     <div class="product-image">
-                        ${getCategoryIcon(product.category)}
+                        ${product.image ? `<img src="${product.image}" alt="${product.name}">` : getCategoryIcon(product.category)}
                         ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">${product.name}</h3>
-                        <div class="product-price">${product.price} جنيه</div>
+                        <div class="product-price">
+                            ${product.discount > 0 ? `
+                                <span class="discount-badge">خصم ${product.discount}%</span>
+                                <span class="original-price">${product.price.toFixed(2)} جنيه</span>
+                            ` : ''}
+                            <span class="final-price">${finalPrice.toFixed(2)} جنيه</span>
+                        </div>
                         <div class="product-rating">
                             <div class="stars">
                                 ${'★'.repeat(product.rating)}${'☆'.repeat(5-product.rating)}
@@ -2770,13 +2821,14 @@
                             <button class="add-to-cart" onclick="addToCart(${product.id})">
                                 <i class="fas fa-cart-plus"></i> أضف للسلة
                             </button>
-                            <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" onclick="toggleWishlist(${product.id})" title="${wishlist.includes(product.id) ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">
+                            <button class="wishlist-btn" onclick="toggleWishlist(${product.id})" title="إضافة للمفضلة">
                                 <i class="fas fa-heart"></i>
                             </button>
                         </div>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
 
             updateFilterButtons(category);
             animateProductCards();
@@ -2801,20 +2853,18 @@
             setTimeout(() => {
                 document.querySelectorAll('.product-card').forEach((card, index) => {
                     setTimeout(() => {
-                        card.style.opacity = '0';
-                        card.style.transform = 'translateY(30px)';
-                        card.style.transition = 'all 0.6s ease';
-
-                        setTimeout(() => {
-                            card.style.opacity = '1';
-                            card.style.transform = 'translateY(0)';
-                        }, 50);
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
                     }, index * 100);
                 });
             }, 100);
         }
 
         // 3. إدارة السلة
+        let cart = [];
+        let wishlist = [];
+        let currentFilter = 'all';
+
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
@@ -2954,6 +3004,11 @@
                 wishlistBtn.classList.toggle('active');
                 wishlistBtn.title = wishlistBtn.classList.contains('active') ? 'إزالة من المفضلة' : 'إضافة للمفضلة';
             }
+            
+            // تحديث عرض المفضلة إذا كانت مفتوحة
+            if (document.getElementById('wishlistModal').classList.contains('active')) {
+                updateWishlistDisplay();
+            }
         }
 
         function updateWishlistCount() {
@@ -2989,7 +3044,7 @@
                             <div class="cart-item-title">${item.name}</div>
                             <div class="cart-item-price">${item.price} جنيه</div>
                             <p style="font-size: 0.85rem; color: var(--gray-600); margin-top: 0.5rem;">${item.description}</p>
-                         </div>
+                        </div>
                         <div class="cart-item-controls">
                             <button class="btn btn-primary" onclick="addToCart(${item.id}); showNotification('تم إضافة المنتج إلى السلة!', 'success');" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
                                 <i class="fas fa-cart-plus"></i>
@@ -3013,6 +3068,27 @@
         function closeWishlist() {
             document.getElementById('wishlistModal').classList.remove('active');
             document.body.style.overflow = 'auto';
+        }
+
+        function clearWishlist() {
+            if (wishlist.length === 0) {
+                showNotification('قائمة المفضلة فارغة بالفعل', 'info');
+                return;
+            }
+            
+            if (confirm('هل أنت متأكد من أنك تريد إفراغ قائمة المفضلة؟')) {
+                wishlist = [];
+                localStorage.setItem('rawad-wishlist', JSON.stringify(wishlist));
+                updateWishlistCount();
+                updateWishlistDisplay();
+                showNotification('تم إفراغ قائمة المفضلة', 'info');
+                
+                // تحديث أزرار المفضلة في المنتجات
+                document.querySelectorAll('.wishlist-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.title = 'إضافة للمفضلة';
+                });
+            }
         }
 
         // 5. إتمام الطلب
@@ -3045,10 +3121,6 @@
         }
 
         // 6. تهيئة الصفحة عند التحميل
-        let currentFilter = 'all';
-        let cart = [];
-        let wishlist = [];
-
         document.addEventListener('DOMContentLoaded', function() {
             initializeApp();
             loadProducts();
@@ -3059,7 +3131,6 @@
         });
 
         function initializeApp() {
-            // Load saved data from localStorage
             const savedCart = localStorage.getItem('rawad-cart');
             const savedWishlist = localStorage.getItem('rawad-wishlist');
             
@@ -3072,6 +3143,19 @@
                 wishlist = JSON.parse(savedWishlist);
                 updateWishlistCount();
             }
+
+            // تحديث أزرار المفضلة بناءً على البيانات المحفوظة
+            document.addEventListener('DOMContentLoaded', () => {
+                products.forEach(product => {
+                    if (wishlist.includes(product.id)) {
+                        const btn = document.querySelector(`.wishlist-btn[onclick="toggleWishlist(${product.id})"]`);
+                        if (btn) {
+                            btn.classList.add('active');
+                            btn.title = 'إزالة من المفضلة';
+                        }
+                    }
+                });
+            });
         }
 
         function saveToLocalStorage() {
@@ -3080,7 +3164,6 @@
         }
 
         function initializeAnimations() {
-            // Intersection Observer for scroll animations
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -3094,14 +3177,12 @@
                 });
             }, observerOptions);
 
-            // Observe all elements with animation class
             document.querySelectorAll('.category-card, .service-card, .product-card, .offer-card').forEach(element => {
                 observer.observe(element);
             });
         }
 
         function initializeEventListeners() {
-            // Search input events
             const searchInput = document.getElementById('searchInput');
             if (searchInput) {
                 searchInput.addEventListener('input', handleSearchInput);
@@ -3112,7 +3193,6 @@
                 });
             }
 
-            // Scroll event for scroll-to-top button
             window.addEventListener('scroll', function() {
                 const scrollToTopBtn = document.getElementById('scrollToTop');
                 if (window.pageYOffset > 300) {
@@ -3122,20 +3202,17 @@
                 }
             });
 
-            // Close modals when clicking outside
             document.addEventListener('click', function(e) {
                 if (e.target.classList.contains('modal')) {
                     closeCart();
                     closeWishlist();
                 }
                 
-                // Hide search suggestions when clicking outside
                 if (!e.target.closest('.search-container')) {
                     hideSearchSuggestions();
                 }
             });
 
-            // Smooth scrolling for navigation links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -3146,7 +3223,6 @@
                             block: 'start'
                         });
                         
-                        // Update active nav link
                         document.querySelectorAll('.nav-link').forEach(link => {
                             link.classList.remove('active');
                         });
@@ -3158,7 +3234,6 @@
                 });
             });
 
-            // Scroll spy functionality
             window.addEventListener('scroll', function() {
                 const sections = document.querySelectorAll('section[id]');
                 const navLinks = document.querySelectorAll('.nav-link');
@@ -3219,7 +3294,7 @@
                 suggestionsContainer.style.display = 'block';
             } else {
                 suggestionsContainer.innerHTML = `
-                    <div class极"search-suggestion" style="justify-content: center; color: var(--gray-500);">
+                    <div class="search-suggestion" style="justify-content: center; color: var(--gray-500);">
                         <i class="fas fa-search" style="margin-left: 0.5rem;"></i>
                         <span>لا توجد نتائج</span>
                     </div>
@@ -3258,8 +3333,8 @@
 
             if (filteredProducts.length === 0) {
                 grid.innerHTML = `
-                    <div style="grid-column: 1 / -极; text-align: center; padding: 3rem; color: var(--gray-500);">
-                        <i class="fas fa-search" style="font-size: 3.5rem; margin-bottom: 1rem; opacity极 0.5;"></i>
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);">
+                        <i class="fas fa-search" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i>
                         <h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لم يتم العثور على منتجات تطابق "${searchTerm}"</h3>
                         <p style="margin-bottom: 1.5rem;">جرب البحث بكلمات مختلفة أو تصفح التصنيفات</p>
                         <button class="btn btn-primary" onclick="clearSearch()">
@@ -3268,7 +3343,12 @@
                     </div>
                 `;
             } else {
-                grid.innerHTML = filteredProducts.map(product => `
+                grid.innerHTML = filteredProducts.map(product => {
+                    const finalPrice = product.discount > 0 
+                        ? product.price - (product.price * product.discount / 100)
+                        : product.price;
+                        
+                    return `
                     <div class="product-card fade-in" data-category="${product.category}">
                         <div class="product-image">
                             ${getCategoryIcon(product.category)}
@@ -3276,7 +3356,13 @@
                         </div>
                         <div class="product-info">
                             <h3 class="product-title">${product.name}</h3>
-                            <div class="product-price">${product.price} جنيه</div>
+                            <div class="product-price">
+                                ${product.discount > 0 ? `
+                                    <span class="discount-badge">خصم ${product.discount}%</span>
+                                    <span class="original-price">${product.price.toFixed(2)} جنيه</span>
+                                ` : ''}
+                                <span class="final-price">${finalPrice.toFixed(2)} جنيه</span>
+                            </div>
                             <div class="product-rating">
                                 <div class="stars">
                                     ${'★'.repeat(product.rating)}${'☆'.repeat(5-product.rating)}
@@ -3294,8 +3380,11 @@
                             </div>
                         </div>
                     </div>
-                `).join('');
+                    `;
+                }).join('');
             }
+            
+            animateProductCards();
             
             // Scroll to products section
             const productsSection = document.querySelector('#products');
@@ -3316,7 +3405,6 @@
             
             navMenu.classList.toggle('active');
             
-            // Animate hamburger icon
             if (navMenu.classList.contains('active')) {
                 toggleBtn.innerHTML = '<i class="fas fa-times"></i>';
             } else {
@@ -3325,7 +3413,6 @@
         }
 
         function showNotification(message, type = 'info') {
-            // Remove existing notifications
             document.querySelectorAll('.notification').forEach(n => n.remove());
             
             const notification = document.createElement('div');
@@ -3347,12 +3434,10 @@
             
             document.body.appendChild(notification);
             
-            // Animate in
             setTimeout(() => {
                 notification.classList.add('show');
             }, 100);
             
-            // Remove after 4 seconds
             setTimeout(() => {
                 notification.classList.remove('show');
                 setTimeout(() => {
@@ -3377,30 +3462,6 @@
         function hideLoading() {
             document.getElementById('loadingOverlay').style.display = 'none';
         }
-       
-
-        // 9. وظيفة إفراغ المفضلة
-        function clearWishlist() {
-            if (wishlist.length === 0) {
-                showNotification('قائمة المفضلة فارغة بالفعل', 'info');
-                return;
-            }
-            
-            if (confirm('هل أنت متأكد من أنك تريد إفراغ قائمة المفضلة؟')) {
-                wishlist = [];
-                localStorage.setItem('rawad-wishlist', JSON.stringify(wishlist));
-                updateWishlistCount();
-                updateWishlistDisplay();
-                showNotification('تم إفراغ قائمة المفضلة', 'info');
-                
-                // تحديث أزرار المفضلة في المنتجات
-                document.querySelectorAll('.wishlist-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    btn.title = 'إضافة للمفضلة';
-                });
-            }
-        }
-       
 
         // Performance Monitoring
         if ('performance' in window) {
@@ -3411,8 +3472,8 @@
                 }, 0);
             });
         }
-      
-        // Add special offers banner (can be toggled)
+
+        // Add special offers banner
         function showSpecialOffer() {
             const banner = document.createElement('div');
             banner.style.cssText = `
@@ -3435,7 +3496,6 @@
             
             document.body.insertBefore(banner, document.body.firstChild);
             
-            // Auto hide after 10 seconds
             setTimeout(() => {
                 if (banner.parentElement) {
                     banner.remove();
@@ -3443,9 +3503,12 @@
             }, 10000);
         }
 
-        // Show special offer after 3 seconds
         setTimeout(showSpecialOffer, 3000);
         
-       </script>
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProducts();
+        });
+    </script>
 </body>
 </html>
