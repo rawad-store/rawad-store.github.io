@@ -1325,13 +1325,13 @@
             const badge = sanitizeInput(document.getElementById('productBadge').value.trim());
             const imageData = document.getElementById('productImageData').value;
             
-            if (!name || !price || !category || !description || !rating) {
+            if (!name || isNaN(price) || !category || !description || !rating) {
                 showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
                 return;
             }
             
-            if (price <= 0) {
-                showNotification('السعر يجب أن يكون أكبر من 0', 'error');
+            if (price < 0) { // السماح بـ 0 لكن منع القيم السالبة
+                showNotification('السعر لا يمكن أن يكون سالباً', 'error');
                 return;
             }
             
