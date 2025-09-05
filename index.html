@@ -3163,32 +3163,54 @@ function clearWishlist() {
 
         // 5. إتمام الطلب
         function checkout() {
-            if (cart.length === 0) return;
+        if (cart.length === 0) return;
+    
+        showLoading();
+    
+        setTimeout(() => {
+        let message = "مرحباً، أريد طلب المنتجات التالية:\n\n";
+        let total = 0;
+        let totalBeforeDiscount = 0;
+        
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            const itemTotalBeforeDiscount = item.originalPrice * item.quantity;
+            total += itemTotal;
+            totalBeforeDiscount += itemTotalBeforeDiscount;
             
-            showLoading();
+            message += `• ${item.name}\n`;
+            message += `  الكمية: ${item.quantity}\n`;
             
-            setTimeout(() => {
-                let message = "مرحباً، أريد طلب المنتجات التالية:\n\n";
-                let total = 0;
-                
-                cart.forEach(item => {
-                    const itemTotal = item.price * item.quantity;
-                    total += itemTotal;
-                    message += `• ${item.name}\n  الكمية: ${item.quantity}\n  السعر: ${itemTotal} جنيه\n\n`;
-                });
-                
-                message += `الإجمالي: ${total} جنيه\n\n`;
-                message += `العنوان: أمام سنترال الصوة - المجمع\n`;
-                message += `شكراً لكم`;
-                
-                const whatsappUrl = `https://wa.me/+201126630356?text=${encodeURIComponent(message)}`;
-                window.open(whatsappUrl, '_blank');
-                
-                hideLoading();
-                closeCart();
-                showNotification('تم توجيهك إلى واتساب لإتمام الطلب', 'success');
-            }, 1000);
+            if (item.discount > 0) {
+                message += `  السعر الأصلي: ${itemTotalBeforeDiscount} جنيه\n`;
+                message += `  السعر بعد الخصم: ${itemTotal} جنيه\n`;
+                message += `  (توفير: ${itemTotalBeforeDiscount - itemTotal} جنيه)\n`;
+            } else {
+                message += `  السعر: ${itemTotal} جنيه\n`;
+            }
+            
+            message += `\n`;
+        });
+        
+        message += `الإجمالي قبل الخصم: ${totalBeforeDiscount} جنيه\n`;
+        message += `الإجمالي بعد الخصم: ${total} جنيه\n`;
+        
+        if (totalBeforeDiscount > total) {
+            message += `وفرت: ${totalBeforeDiscount - total} جنيه\n`;
         }
+        
+        message += `\n`;
+        message += `العنوان: أمام سنترال الصوة - المجمع\n`;
+        message += `شكراً لكم`;
+        
+        const whatsappUrl = `https://wa.me/+201126630356?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+        
+        hideLoading();
+        closeCart();
+        showNotification('تم توجيهك إلى واتساب لإتمام الطلب', 'success');
+    }, 1000);
+}
 
         // 6. تهيئة الصفحة عند التحميل
         document.addEventListener('DOMContentLoaded', function() {
