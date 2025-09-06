@@ -2315,9 +2315,9 @@
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
                     <strong style="color: white;">العنوان:</strong><br>
-                                <span style="color: white;">أمام سنترال الصوة - بالمجمع<br>محافظة الشرقية، أبوحماد</span>
+                                <span style="color: var(--gray-300);">أمام سنترال الصوة - بالمجمع<br>محافظة الشرقية، أبوحماد</span>
                                 <a href="https://maps.app.goo.gl/AYcYJXjYipwdSgRQA" target="_blank" class="btn btn-outline-primary" style="margin-top: 0.5rem;">
-                                    <i class="fas fa-map" style="color: #ffffff" ></i> عرض على الخريطة
+                                    <i class="fas fa-map" style="color: white;" ></i> عرض على الخريطة
                     </a>
                 </div>
                 
@@ -2427,7 +2427,7 @@
                                 <strong style="color: white;">العنوان:</strong><br>
                                 <span style="color: white;">أمام سنترال الصوة - بالمجمع<br>محافظة الشرقية، أبوحماد</span>
                                 <a href="https://maps.app.goo.gl/AYcYJXjYipwdSgRQA" target="_blank" class="btn btn-outline-primary" style="margin-top: 0.5rem;">
-                                    <i class="fas fa-map" style="color: #ffffff" ></i> عرض على الخريطة
+                                    <i class="fas fa-map" style="color: white;" ></i> عرض على الخريطة
                                 </a>
                              </div>
                         </li>
@@ -3165,127 +3165,341 @@ function clearWishlist() {
 function checkout() {
     if (cart.length === 0) return;
     
-    // طلب اسم العميل
-    const customerName = prompt("من فضلك أدخل اسمك الكريم:") || "عميل كريم";
+    // إنشاء نافذة مخصصة لإدخال الاسم
+    showCustomNameDialog();
+}
+
+// دالة لإظهار نافذة إدخال الاسم المخصصة
+function showCustomNameDialog() {
+    // إنشاء overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'name-dialog-overlay';
+    overlay.innerHTML = `
+        <div class="name-dialog">
+            <div class="name-dialog-header">
+                <h3>🌟 أهلاً بك في متجر الصوة</h3>
+                <p>من فضلك أدخل اسمك الكريم لإتمام الطلب</p>
+            </div>
+            <div class="name-dialog-body">
+                <input type="text" id="customerNameInput" placeholder="اسمك الكريم..." maxlength="50">
+            </div>
+            <div class="name-dialog-footer">
+                <button onclick="processCheckout()" class="confirm-btn">✅ متابعة الطلب</button>
+                <button onclick="closeNameDialog()" class="cancel-btn">❌ إلغاء</button>
+            </div>
+        </div>
+    `;
     
+    // إضافة الأنماط
+    const style = document.createElement('style');
+    style.textContent = `
+        .name-dialog-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(5px);
+        }
+        .name-dialog {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease;
+            text-align: center;
+        }
+        .name-dialog-header h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 20px;
+        }
+        .name-dialog-header p {
+            margin: 0 0 20px 0;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .name-dialog-body {
+            margin: 20px 0;
+        }
+        #customerNameInput {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        #customerNameInput:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        .name-dialog-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .confirm-btn, .cancel-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .confirm-btn {
+            background: #27ae60;
+            color: white;
+        }
+        .confirm-btn:hover {
+            background: #229954;
+            transform: translateY(-2px);
+        }
+        .cancel-btn {
+            background: #e74c3c;
+            color: white;
+        }
+        .cancel-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(overlay);
+    
+    // تركيز على حقل الإدخال
+    setTimeout(() => {
+        document.getElementById('customerNameInput').focus();
+    }, 100);
+    
+    // إضافة استماع لمفتاح Enter
+    document.getElementById('customerNameInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            processCheckout();
+        }
+    });
+}
+
+// دالة معالجة الطلب
+function processCheckout() {
+    const customerName = document.getElementById('customerNameInput').value.trim() || "عميل كريم";
+    
+    // إغلاق نافذة الاسم
+    closeNameDialog();
+    
+    // إظهار شاشة التحميل
     showLoading();
     
     setTimeout(() => {
-        // إعداد التاريخ والوقت
-        const now = new Date();
-        const date = now.toLocaleDateString('ar-EG', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-        const time = now.toLocaleTimeString('ar-EG', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true
-        });
-        
-        // بناء الرسالة المحسنة
-        let message = "🌟 ═══════════════════════════ 🌟\n";
-        message += "✨        طلب جديد - متجر الصوة        ✨\n";
-        message += "🌟 ═══════════════════════════ 🌟\n\n";
-        
-        message += "👤 العميل الكريم: " + customerName + "\n";
-        message += "📅 التاريخ: " + date + "\n";
-        message += "⏰ الوقت: " + time + "\n\n";
-        
-        message += "🛍️ ═══ تفاصيل الطلب ═══ 🛍️\n\n";
-        
-        let total = 0;
-        let totalBeforeDiscount = 0;
-        let totalSavings = 0;
-        
-        cart.forEach((item, index) => {
-            const itemTotal = item.price * item.quantity;
-            const itemTotalBeforeDiscount = item.originalPrice * item.quantity;
-            const itemSavings = itemTotalBeforeDiscount - itemTotal;
+        try {
+            // إعداد التاريخ والوقت
+            const now = new Date();
+            const date = now.toLocaleDateString('ar-EG', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            const time = now.toLocaleTimeString('ar-EG', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
             
-            total += itemTotal;
-            totalBeforeDiscount += itemTotalBeforeDiscount;
-            totalSavings += itemSavings;
+            // بناء الرسالة المحسنة
+            let message = "🌟 ═══════════════════════════ 🌟\n";
+            message += "✨        طلب جديد - متجر الصوة        ✨\n";
+            message += "🌟 ═══════════════════════════ 🌟\n\n";
             
-            message += `📦 المنتج ${index + 1}: ${item.name}\n`;
-            message += `   📊 الكمية: ${item.quantity} قطعة\n`;
+            message += "👤 العميل الكريم: " + customerName + "\n";
+            message += "📅 التاريخ: " + date + "\n";
+            message += "⏰ الوقت: " + time + "\n\n";
             
-            if (item.discount > 0) {
-                message += `   💰 السعر الأصلي: ${itemTotalBeforeDiscount.toLocaleString()} جنيه\n`;
-                message += `   🏷️ السعر بعد الخصم: ${itemTotal.toLocaleString()} جنيه\n`;
-                message += `   💎 وفرت: ${itemSavings.toLocaleString()} جنيه (${item.discount}% خصم)\n`;
+            message += "🛍️ ═══ تفاصيل الطلب ═══ 🛍️\n\n";
+            
+            let total = 0;
+            let totalBeforeDiscount = 0;
+            let totalSavings = 0;
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                const itemTotalBeforeDiscount = item.originalPrice * item.quantity;
+                const itemSavings = itemTotalBeforeDiscount - itemTotal;
+                
+                total += itemTotal;
+                totalBeforeDiscount += itemTotalBeforeDiscount;
+                totalSavings += itemSavings;
+                
+                message += `📦 المنتج ${index + 1}: ${item.name}\n`;
+                message += `   📊 الكمية: ${item.quantity} قطعة\n`;
+                
+                if (item.discount > 0) {
+                    message += `   💰 السعر الأصلي: ${itemTotalBeforeDiscount.toLocaleString()} جنيه\n`;
+                    message += `   🏷️ السعر بعد الخصم: ${itemTotal.toLocaleString()} جنيه\n`;
+                    message += `   💎 وفرت: ${itemSavings.toLocaleString()} جنيه (${item.discount}% خصم)\n`;
+                } else {
+                    message += `   💰 إجمالي السعر: ${itemTotal.toLocaleString()} جنيه\n`;
+                }
+                
+                message += "   ────────────────────────\n";
+            });
+            
+            // ملخص المالي
+            message += "\n💸 ═══ ملخص الطلب ═══ 💸\n";
+            message += `📋 عدد المنتجات: ${cart.length} منتج\n`;
+            message += `📦 إجمالي الكمية: ${cart.reduce((sum, item) => sum + item.quantity, 0)} قطعة\n\n`;
+            
+            if (totalSavings > 0) {
+                message += `💵 الإجمالي قبل الخصم: ${totalBeforeDiscount.toLocaleString()} جنيه\n`;
+                message += `🎯 إجمالي الخصومات: ${totalSavings.toLocaleString()} جنيه\n`;
+                message += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+                message += `💎 المبلغ المطلوب دفعه: ${total.toLocaleString()} جنيه\n`;
+                message += `🎉 توفير رائع قدره: ${totalSavings.toLocaleString()} جنيه!\n`;
             } else {
-                message += `   💰 إجمالي السعر: ${itemTotal.toLocaleString()} جنيه\n`;
+                message += `💎 إجمالي المبلغ: ${total.toLocaleString()} جنيه\n`;
             }
             
-            message += "   ────────────────────────\n";
-        });
-        
-        // ملخص المالي
-        message += "\n💸 ═══ ملخص الطلب ═══ 💸\n";
-        message += `📋 عدد المنتجات: ${cart.length} منتج\n`;
-        message += `📦 إجمالي الكمية: ${cart.reduce((sum, item) => sum + item.quantity, 0)} قطعة\n\n`;
-        
-        if (totalSavings > 0) {
-            message += `💵 الإجمالي قبل الخصم: ${totalBeforeDiscount.toLocaleString()} جنيه\n`;
-            message += `🎯 إجمالي الخصومات: ${totalSavings.toLocaleString()} جنيه\n`;
-            message += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-            message += `💎 المبلغ المطلوب دفعه: ${total.toLocaleString()} جنيه\n`;
-            message += `🎉 توفير رائع قدره: ${totalSavings.toLocaleString()} جنيه!\n`;
-        } else {
-            message += `💎 إجمالي المبلغ: ${total.toLocaleString()} جنيه\n`;
+            message += "\n🏪 ═══ معلومات المتجر ═══ 🏪\n";
+            message += "📍 العنوان: أمام سنترال الصوة - المجمع\n";
+            message += "📞 للاستفسار: 01126630356\n\n";
+            
+            // رسالة شكر هادفة
+            message += "💌 ═══ رسالة شكر ═══ 💌\n";
+            message += `شكراً لك عزيزنا ${customerName} لاختيارك متجر الصوة ✨\n`;
+            message += "ثقتك بنا شرف عظيم، ونتطلع لخدمتك دائماً 🌟\n";
+            message += "جودة عالية • خدمة مميزة • أسعار منافسة 🎯\n\n";
+            
+            message += "═══════════════════════════\n";
+            message += "🚚 سنتواصل معك قريباً لترتيب التوصيل\n";
+            message += "⭐ نتمنى لك تجربة تسوق رائعة\n";
+            message += "═══════════════════════════";
+            
+            // إرسال الرسالة عبر واتساب مع معالجة الأخطاء
+            const whatsappUrl = `https://wa.me/+201126630356?text=${encodeURIComponent(message)}`;
+            
+            // محاولة فتح الرابط
+            const whatsappWindow = window.open(whatsappUrl, '_blank');
+            
+            // التحقق من نجاح فتح النافذة
+            if (whatsappWindow) {
+                hideLoading();
+                closeCart();
+                showNotification(
+                    `شكراً ${customerName}! تم توجيهك إلى واتساب لإتمام طلبك بقيمة ${total.toLocaleString()} جنيه`,
+                    'success'
+                );
+            } else {
+                // في حالة فشل فتح النافذة
+                hideLoading();
+                showFallbackOptions(whatsappUrl, customerName, total);
+            }
+            
+        } catch (error) {
+            console.error('خطأ في معالجة الطلب:', error);
+            hideLoading();
+            showNotification('حدث خطأ أثناء إعداد الطلب، يرجى المحاولة مرة أخرى', 'error');
         }
-        
-        message += "\n🏪 ═══ معلومات المتجر ═══ 🏪\n";
-        message += "📍 العنوان: أمام سنترال الصوة - المجمع\n";
-        message += "📞 للاستفسار: 01126630356\n\n";
-        
-        // رسالة شكر هادفة
-        message += "💌 ═══ رسالة شكر ═══ 💌\n";
-        message += `شكراً لك عزيزنا ${customerName} لاختيارك متجر الصوة ✨\n`;
-        message += "ثقتك بنا شرف عظيم، ونتطلع لخدمتك دائماً 🌟\n";
-        message += "جودة عالية • خدمة مميزة • أسعار منافسة 🎯\n\n";
-        
-        message += "═══════════════════════════\n";
-        message += "🚚 سنتواصل معك قريباً لترتيب التوصيل\n";
-        message += "⭐ نتمنى لك تجربة تسوق رائعة\n";
-        message += "═══════════════════════════";
-        
-        // إرسال الرسالة عبر واتساب
-        const whatsappUrl = `https://wa.me/+201126630356?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
-        
-        hideLoading();
-        closeCart();
-        
-        // إشعار نجاح محسن
-        showNotification(
-            `شكراً ${customerName}! تم توجيهك إلى واتساب لإتمام طلبك بقيمة ${total.toLocaleString()} جنيه`,
-            'success'
-        );
-        
-        // إضافة إحصائيات (اختيارية)
-        console.log(`✅ طلب جديد من ${customerName} بقيمة ${total} جنيه في ${date} ${time}`);
-        
-    }, 1000);
+    }, 800);
+}
+
+// دالة إغلاق نافذة الاسم
+function closeNameDialog() {
+    const overlay = document.querySelector('.name-dialog-overlay');
+    if (overlay) {
+        overlay.remove();
+    }
+}
+
+// دالة عرض البدائل في حالة عدم فتح واتساب
+function showFallbackOptions(whatsappUrl, customerName, total) {
+    const fallbackDialog = document.createElement('div');
+    fallbackDialog.className = 'fallback-dialog-overlay';
+    fallbackDialog.innerHTML = `
+        <div class="fallback-dialog">
+            <div class="fallback-header">
+                <h3>📱 اختر طريقة التواصل</h3>
+                <p>يبدو أن واتساب لم يفتح تلقائياً</p>
+            </div>
+            <div class="fallback-options">
+                <button onclick="copyToClipboard('${whatsappUrl}')" class="option-btn">
+                    📋 نسخ الرابط
+                </button>
+                <button onclick="manualWhatsapp()" class="option-btn">
+                    💬 فتح واتساب يدوياً
+                </button>
+                <button onclick="callDirectly()" class="option-btn">
+                    📞 اتصال مباشر
+                </button>
+            </div>
+            <button onclick="closeFallbackDialog()" class="close-fallback">إغلاق</button>
+        </div>
+    `;
+    
+    document.body.appendChild(fallbackDialog);
+}
+
+// دوال مساعدة للبدائل
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        showNotification('تم نسخ الرابط! الصقه في متصفحك', 'success');
+        closeFallbackDialog();
+    });
+}
+
+function manualWhatsapp() {
+    showNotification('اذهب إلى واتساب وابحث عن: 01126630356', 'info');
+    closeFallbackDialog();
+}
+
+function callDirectly() {
+    window.open('tel:+201126630356', '_self');
+    closeFallbackDialog();
+}
+
+function closeFallbackDialog() {
+    const fallback = document.querySelector('.fallback-dialog-overlay');
+    if (fallback) fallback.remove();
 }
 
 // دالة مساعدة لحفظ الطلب محلياً (اختيارية)
 function saveOrderLocally(customerName, orderData) {
-    const orders = JSON.parse(localStorage.getItem('recentOrders') || '[]');
-    orders.unshift({
-        id: Date.now(),
-        customerName,
-        date: new Date().toISOString(),
-        items: orderData.items,
-        total: orderData.total,
-        savings: orderData.savings
-    });
-    
-    // حفظ آخر 50 طلب فقط
-    localStorage.setItem('recentOrders', JSON.stringify(orders.slice(0, 50)));
+    try {
+        const orders = JSON.parse(localStorage.getItem('recentOrders') || '[]');
+        orders.unshift({
+            id: Date.now(),
+            customerName,
+            date: new Date().toISOString(),
+            items: orderData.items,
+            total: orderData.total,
+            savings: orderData.savings
+        });
+        
+        // حفظ آخر 50 طلب فقط
+        localStorage.setItem('recentOrders', JSON.stringify(orders.slice(0, 50)));
+    } catch (e) {
+        console.log('تعذر حفظ الطلب محلياً:', e);
+    }
 }
 
         // 6. تهيئة الصفحة عند التحميل
