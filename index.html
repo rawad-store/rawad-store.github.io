@@ -2314,10 +2314,10 @@
                     <div class="contact-icon">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
-                    <strong style="color: white;">العنوان:</strong><br>
-                                <span style="color: var(--gray-300);">أمام سنترال الصوة - بالمجمع<br>محافظة الشرقية، أبوحماد</span>
+                    <strong style="color: blue;">العنوان:</strong><br>
+                                <span style="color: blue;">أمام سنترال الصوة - بالمجمع<br>محافظة الشرقية، أبوحماد</span>
                                 <a href="https://maps.app.goo.gl/AYcYJXjYipwdSgRQA" target="_blank" class="btn btn-outline-primary" style="margin-top: 0.5rem;">
-                                    <i class="fas fa-map" style="color: white;" ></i> عرض على الخريطة
+                                    <i class="fas fa-map" style="color: blue;" ></i> عرض على الخريطة
                     </a>
                 </div>
                 
@@ -2469,7 +2469,7 @@
     </footer>
 
     <!-- Floating WhatsApp -->
-    <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدماتكم" class="whatsapp-float" target="_blank" rel="noopener">
+    <a href="https://wa.me/++201126630356?text=مرحباً، أريد الاستفسار عن خدماتكم" class="whatsapp-float" target="_blank" rel="noopener">
         <i class="fab fa-whatsapp"></i>
     </a>
 
@@ -3161,122 +3161,1155 @@ function clearWishlist() {
     }
 }
 
-        // 5. إتمام الطلب المحسن
+        // 5. إتمام الطلب المحسن - النسخة الاحترافية النهائية
 function checkout() {
-    if (cart.length === 0) return;
+    if (cart.length === 0) {
+        showNotification('🛒 السلة فارغة! أضف منتجات أولاً', 'warning');
+        return;
+    }
     
-    // إنشاء نافذة مخصصة لإدخال الاسم
-    showCustomNameDialog();
+    // عرض إحصائيات سريعة قبل الطلب
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalValue = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    showCustomNameDialog(totalItems, totalValue);
 }
 
-// دالة لإظهار نافذة إدخال الاسم المخصصة
-function showCustomNameDialog() {
-    // إنشاء overlay
+// دالة لإظهار نافذة إدخال الاسم المحسنة
+function showCustomNameDialog(totalItems, totalValue) {
+    // إنشاء overlay مع تأثيرات متقدمة
     const overlay = document.createElement('div');
-    overlay.className = 'name-dialog-overlay';
+    overlay.className = 'premium-dialog-overlay';
     overlay.innerHTML = `
-        <div class="name-dialog">
-            <div class="name-dialog-header">
-                <h3>🌟 أهلاً بك في متجر الصوة</h3>
-                <p>من فضلك أدخل اسمك الكريم لإتمام الطلب</p>
+        <div class="premium-dialog">
+            <div class="dialog-glow"></div>
+            <div class="premium-header">
+                <div class="store-logo">🏪</div>
+                <h2 class="gradient-text">متجر الصوة</h2>
+                <p class="subtitle">تجربة تسوق استثنائية</p>
             </div>
-            <div class="name-dialog-body">
-                <input type="text" id="customerNameInput" placeholder="اسمك الكريم..." maxlength="50">
+            
+            <div class="order-preview">
+                <div class="preview-item">
+                    <span class="icon">📦</span>
+                    <span class="label">${totalItems} منتج</span>
+                </div>
+                <div class="preview-item">
+                    <span class="icon">💰</span>
+                    <span class="label">${totalValue.toLocaleString()} ج.م</span>
+                </div>
             </div>
-            <div class="name-dialog-footer">
-                <button onclick="processCheckout()" class="confirm-btn">✅ متابعة الطلب</button>
-                <button onclick="closeNameDialog()" class="cancel-btn">❌ إلغاء</button>
+            
+            <div class="input-section">
+                <label for="customerNameInput" class="input-label">
+                    <span class="label-icon">👤</span>
+                    اسمك الكريم
+                </label>
+                <input 
+                    type="text" 
+                    id="customerNameInput" 
+                    placeholder="أدخل اسمك هنا..."
+                    maxlength="50"
+                    autocomplete="name"
+                >
+                <div class="input-hint">سيتم استخدام اسمك لتخصيص طلبك</div>
+            </div>
+            
+            <div class="action-buttons">
+                <button onclick="processEnhancedCheckout()" class="primary-btn">
+                    <span class="btn-icon">🚀</span>
+                    <span class="btn-text">إرسال عبر واتساب</span>
+                    <div class="btn-shine"></div>
+                </button>
+                <button onclick="closePremiumDialog()" class="secondary-btn">
+                    <span class="btn-icon">❌</span>
+                    <span class="btn-text">إلغاء</span>
+                </button>
+            </div>
+            
+            <div class="security-badge">
+                <span class="badge-icon">🔒</span>
+                <span class="badge-text">آمن ومحمي 100%</span>
             </div>
         </div>
     `;
     
-    // إضافة الأنماط
-    const style = document.createElement('style');
-    style.textContent = `
-        .name-dialog-overlay {
+    // إضافة الأنماط المتقدمة
+    const premiumStyle = document.createElement('style');
+    premiumStyle.textContent = `
+        .premium-dialog-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(44,62,80,0.9));
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 10000;
-            backdrop-filter: blur(5px);
+            z-index: 99999;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.4s ease;
         }
-        .name-dialog {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            max-width: 400px;
+        
+        .premium-dialog {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 450px;
             width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            animation: slideIn 0.3s ease;
+            box-shadow: 
+                0 25px 50px rgba(0,0,0,0.15),
+                0 0 100px rgba(52,152,219,0.1);
+            animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dialog-glow {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(52,152,219,0.1), transparent);
+            animation: rotate 10s linear infinite;
+            pointer-events: none;
+        }
+        
+        .premium-header {
             text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
         }
-        .name-dialog-header h3 {
-            margin: 0 0 10px 0;
-            color: #2c3e50;
-            font-size: 20px;
+        
+        .store-logo {
+            font-size: 60px;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
         }
-        .name-dialog-header p {
-            margin: 0 0 20px 0;
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #3498db, #2980b9, #8e44ad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 10px 0 5px 0;
+        }
+        
+        .subtitle {
             color: #7f8c8d;
             font-size: 14px;
+            margin: 0;
         }
-        .name-dialog-body {
+        
+        .order-preview {
+            display: flex;
+            justify-content: space-around;
+            background: linear-gradient(135deg, #e8f4f8, #f0f8f0);
+            border-radius: 15px;
+            padding: 15px;
             margin: 20px 0;
+            border: 2px solid rgba(52,152,219,0.1);
         }
+        
+        .preview-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .preview-item .icon {
+            font-size: 24px;
+        }
+        
+        .preview-item .label {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+        
+        .input-section {
+            margin: 25px 0;
+        }
+        
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        
+        .label-icon {
+            font-size: 18px;
+        }
+        
         #customerNameInput {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 15px 20px;
+            border: 3px solid #e0e6ed;
+            border-radius: 15px;
             font-size: 16px;
             text-align: center;
             box-sizing: border-box;
-            transition: border-color 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #ffffff;
+            font-family: inherit;
         }
+        
         #customerNameInput:focus {
             outline: none;
             border-color: #3498db;
-        }
-        .name-dialog-footer {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .confirm-btn, .cancel-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-        .confirm-btn {
-            background: #27ae60;
-            color: white;
-        }
-        .confirm-btn:hover {
-            background: #229954;
             transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(52,152,219,0.2);
         }
-        .cancel-btn {
+        
+        .input-hint {
+            font-size: 12px;
+            color: #95a5a6;
+            text-align: center;
+            margin-top: 8px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 25px 0;
+        }
+        
+        .primary-btn, .secondary-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .primary-btn {
+            background: linear-gradient(135deg, #25d366, #20b358);
+            color: white;
+            box-shadow: 0 10px 25px rgba(37,211,102,0.3);
+        }
+        
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(37,211,102,0.4);
+        }
+        
+        .primary-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn-shine {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+            opacity: 0;
+        }
+        
+        .primary-btn:hover .btn-shine {
+            opacity: 1;
+            transform: translateX(100%) rotate(45deg);
+        }
+        
+        .secondary-btn {
+            background: #ecf0f1;
+            color: #7f8c8d;
+            border: 2px solid #bdc3c7;
+        }
+        
+        .secondary-btn:hover {
             background: #e74c3c;
             color: white;
-        }
-        .cancel-btn:hover {
-            background: #c0392b;
+            border-color: #c0392b;
             transform: translateY(-2px);
         }
-        @keyframes slideIn {
+        
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border-radius: 25px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        
+        .badge-icon {
+            font-size: 14px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: scale(0.8) translateY(-50px);
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* استجابة للشاشات الصغيرة */
+        @media (max-width: 480px) {
+            .premium-dialog {
+                margin: 20px;
+                padding: 25px 20px;
+            }
+            .gradient-text {
+                font-size: 24px;
+            }
+            .order-preview {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    `;
+    
+    document.head.appendChild(premiumStyle);
+    document.body.appendChild(overlay);
+    
+    // تركيز على حقل الإدخال مع تأخير
+    setTimeout(() => {
+        const input = document.getElementById('customerNameInput');
+        if (input) {
+            input.focus();
+            input.select();
+        }
+    }, 300);
+    
+    // إضافة استماع لمفتاح Enter
+    document.getElementById('customerNameInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            processEnhancedCheckout();
+        }
+    });
+    
+    // منع الإغلاق بالنقر خارج النافذة إلا إذا كان عمداً
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            // تأثير اهتزاز للتنبيه
+            const dialog = document.querySelector('.premium-dialog');
+            dialog.style.animation = 'none';
+            dialog.offsetHeight; // إعادة تشغيل الأنيميشن
+            dialog.style.animation = 'shake 0.5s ease-in-out';
+            
+            setTimeout(() => {
+                dialog.style.animation = '';
+            }, 500);
+        }
+    });
+    
+    // إضافة أنيميشن الاهتزاز
+    const shakeStyle = document.createElement('style');
+    shakeStyle.textContent = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    `;
+    document.head.appendChild(shakeStyle);
+}
+
+// دالة معالجة الطلب المحسنة مع ضمانات متعددة لفتح واتساب
+function processEnhancedCheckout() {
+    const input = document.getElementById('customerNameInput');
+    const customerName = input ? input.value.trim() : '';
+    
+    // التحقق من صحة الاسم
+    if (!customerName || customerName.length < 2) {
+        // تحريك الحقل للتنبيه
+        if (input) {
+            input.style.borderColor = '#e74c3c';
+            input.style.animation = 'shake 0.5s ease-in-out';
+            input.focus();
+            
+            setTimeout(() => {
+                input.style.borderColor = '#e0e6ed';
+                input.style.animation = '';
+            }, 500);
+        }
+        
+        showNotification('⚠️ يرجى إدخال اسم صحيح (حرفين على الأقل)', 'warning');
+        return;
+    }
+    
+    // إغلاق النافذة
+    closePremiumDialog();
+    
+    // إظهار شاشة تحميل متقدمة
+    showAdvancedLoading();
+    
+    // معالجة الطلب مع تأخير واقعي
+    setTimeout(() => {
+        try {
+            const orderData = buildEnhancedMessage(customerName);
+            
+            // محاولات متعددة لفتح واتساب مع طرق مختلفة
+            const success = attemptWhatsAppOpen(orderData.message, orderData);
+            
+            if (success) {
+                hideAdvancedLoading();
+                closeCart();
+                showSuccessAnimation(customerName, orderData.total);
+            } else {
+                hideAdvancedLoading();
+                showAdvancedFallback(orderData, customerName);
+            }
+            
+        } catch (error) {
+            console.error('خطأ في معالجة الطلب:', error);
+            hideAdvancedLoading();
+            showNotification('❌ حدث خطأ، يرجى المحاولة مرة أخرى', 'error');
+        }
+    }, 1200);
+}
+
+// بناء الرسالة المحسنة مع تنسيق احترافي
+function buildEnhancedMessage(customerName) {
+    const now = new Date();
+    const date = now.toLocaleDateString('ar-EG', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+    const time = now.toLocaleTimeString('ar-EG', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    });
+    
+    // رأس الرسالة الاحترافي
+    let message = "🌟━━━━━━━━━━━━━━━━━━━━━━━━━━━━━🌟\n";
+    message += "✨      متجر الرواد بالصوة الرسمي      ✨\n";
+    message += "🏆      جودة عالية • أسعار منافسة      🏆\n";
+    message += "🌟━━━━━━━━━━━━━━━━━━━━━━━━━━━━━🌟\n\n";
+    
+    // معلومات العميل والطلب
+    message += "👨‍💼 بيانات العميل:\n";
+    message += `   📝 الاسم: ${customerName}\n`;
+    message += `   📅 التاريخ: ${date}\n`;
+    message += `   ⏰ الوقت: ${time}\n`;
+    message += `   🆔 رقم الطلب: #${Date.now().toString().slice(-6)}\n\n`;
+    
+    message += "🛒━━━━━ تفاصيل الطلب ━━━━━🛒\n\n";
+    
+    let total = 0;
+    let totalBeforeDiscount = 0;
+    let totalSavings = 0;
+    let totalQuantity = 0;
+    
+    cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        const itemTotalBeforeDiscount = item.originalPrice * item.quantity;
+        const itemSavings = itemTotalBeforeDiscount - itemTotal;
+        
+        total += itemTotal;
+        totalBeforeDiscount += itemTotalBeforeDiscount;
+        totalSavings += itemSavings;
+        totalQuantity += item.quantity;
+        
+        message += `🔸 المنتج رقم ${index + 1}:\n`;
+        message += `   📦 ${item.name}\n`;
+        message += `   🔢 الكمية: ${item.quantity} قطعة\n`;
+        message += `   💰 سعر الوحدة: ${item.originalPrice.toLocaleString()} ج.م\n`;
+        
+        if (item.discount > 0) {
+            message += `   🎯 خصم: ${item.discount}%\n`;
+            message += `   💚 السعر بعد الخصم: ${item.price.toLocaleString()} ج.م/قطعة\n`;
+            message += `   💎 إجمالي هذا المنتج: ${itemTotal.toLocaleString()} ج.م\n`;
+            message += `   🎁 وفرت: ${itemSavings.toLocaleString()} ج.م\n`;
+        } else {
+            message += `   💚 إجمالي هذا المنتج: ${itemTotal.toLocaleString()} ج.م\n`;
+        }
+        message += "   ─────────────────────────\n";
+    });
+    
+    // الملخص المالي الشامل
+    message += "\n💰━━━━━ الملخص المالي ━━━━━💰\n";
+    message += `📊 عدد الأصناف: ${cart.length} صنف\n`;
+    message += `📦 إجمالي الكمية: ${totalQuantity} قطعة\n`;
+    message += `💵 المبلغ الأصلي: ${totalBeforeDiscount.toLocaleString()} ج.م\n`;
+    
+    if (totalSavings > 0) {
+        message += `🎯 إجمالي الخصومات: ${totalSavings.toLocaleString()} ج.م\n`;
+        message += `━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+        message += `💎 المبلغ النهائي: ${total.toLocaleString()} ج.م\n`;
+        message += `🎉 مبروك! وفرت: ${totalSavings.toLocaleString()} ج.م\n`;
+        message += `📈 نسبة التوفير: ${Math.round((totalSavings / totalBeforeDiscount) * 100)}%\n`;
+    } else {
+        message += `💎 إجمالي المبلغ: ${total.toLocaleString()} ج.م\n`;
+    }
+    
+    // معلومات التوصيل والدفع
+    message += "\n🚚━━━━━ معلومات التوصيل ━━━━━🚚\n";
+    message += "📍 العنوان: أمام سنترال الصوة - المجمع\n";
+    message += "⏱️ سيتم تجهيز طلبكم في أسرع وقت\n";
+    message += "💳 الدفع: كاش عند الاستلام\n";
+    message += "📞 للاستفسار: +201126630356\n\n";
+    
+    // رسالة شكر احترافية ومخصصة
+    message += "💌━━━━━ رسالة شكر خاصة ━━━━━💌\n";
+    message += `عزيزنا ${customerName} العزيز ❤️\n\n`;
+    message += "شكراً لاختيارك متجر الصوة لتسوقك 🙏\n";
+    message += "ثقتكم بنا دافع لتقديم الأفضل دائماً ✨\n";
+    message += "نعدكم بـ:\n";
+    message += "   🎯 جودة عالية مضمونة\n";
+    message += "   ⚡ توصيل سريع ومجاني\n";
+    message += "   💯 خدمة عملاء متميزة\n";
+    message += "   🔄 إمكانية الإرجاع والاستبدال\n\n";
+    
+    message += "🌟━━━━━━━━━━━━━━━━━━━━━━━━━━━━━🌟\n";
+    message += "🚀 سنتواصل معك خلال دقائق لتأكيد الطلب\n";
+    message += "⭐ متجر الرواد بالصوة - جودة تستحق الثقة ⭐\n";
+    message += "🌟━━━━━━━━━━━━━━━━━━━━━━━━━━━━━🌟";
+    
+    return {
+        message,
+        total,
+        totalSavings,
+        customerName,
+        itemCount: cart.length,
+        totalQuantity
+    };
+}
+
+// محاولة فتح واتساب بطرق متعددة مع ضمانات
+function attemptWhatsAppOpen(message, orderData) {
+    const phoneNumber = "+201126630356";
+    const encodedMessage = encodeURIComponent(message);
+    
+    // الطريقة الأولى: الرابط المباشر
+    const directUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    
+    // الطريقة الثانية: API واتساب
+    const apiUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`;
+    
+    // الطريقة الثالثة: Deep Link
+    const deepLink = `whatsapp://send?phone=${phoneNumber}&text=${encodedMessage}`;
+    
+    let opened = false;
+    
+    try {
+        // محاولة الفتح المباشر
+        const whatsappWindow = window.open(directUrl, '_blank', 'noopener,noreferrer');
+        
+        if (whatsappWindow) {
+            opened = true;
+            
+            // التحقق إذا تم الفتح فعلاً بعد ثانية
+            setTimeout(() => {
+                try {
+                    if (whatsappWindow.closed) {
+                        console.log('✅ تم فتح واتساب بنجاح');
+                    } else {
+                        // محاولة بديلة
+                        whatsappWindow.location.href = apiUrl;
+                    }
+                } catch (e) {
+                    // تجاهل الأخطاء المتعلقة بـ cross-origin
+                }
+            }, 1000);
+            
+        } else {
+            // محاولة بديلة باستخدام location
+            window.location.href = directUrl;
+            opened = true;
+        }
+        
+    } catch (error) {
+        console.error('فشل في الطريقة الأولى:', error);
+        
+        try {
+            // محاولة بديلة
+            window.location.href = deepLink;
+            opened = true;
+        } catch (error2) {
+            console.error('فشل في الطريقة البديلة:', error2);
+            opened = false;
+        }
+    }
+    
+    return opened;
+}
+
+// شاشة تحميل متقدمة
+function showAdvancedLoading() {
+    const loadingOverlay = document.createElement('div');
+    loadingOverlay.className = 'advanced-loading-overlay';
+    loadingOverlay.innerHTML = `
+        <div class="advanced-loading">
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <h3 class="loading-title">جاري إعداد طلبك...</h3>
+            <div class="loading-steps">
+                <div class="step active">
+                    <span class="step-icon">✅</span>
+                    <span class="step-text">تجميع المنتجات</span>
+                </div>
+                <div class="step active">
+                    <span class="step-icon">✅</span>
+                    <span class="step-text">حساب الأسعار</span>
+                </div>
+                <div class="step loading">
+                    <span class="step-icon">🔄</span>
+                    <span class="step-text">فتح واتساب</span>
+                </div>
+            </div>
+            <p class="loading-subtitle">سيتم توجيهك إلى واتساب خلال ثوانٍ...</p>
+        </div>
+    `;
+    
+    const loadingStyle = document.createElement('style');
+    loadingStyle.textContent = `
+        .advanced-loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(37,211,102,0.95), rgba(25,135,84,0.95));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .advanced-loading {
+            text-align: center;
+            color: white;
+            max-width: 400px;
+        }
+        
+        .loading-spinner {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+        }
+        
+        .spinner-ring {
+            position: absolute;
+            border: 4px solid transparent;
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .spinner-ring:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            animation-duration: 1.2s;
+        }
+        
+        .spinner-ring:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 10px;
+            left: 10px;
+            animation-duration: 1s;
+            border-top-color: rgba(255,255,255,0.7);
+        }
+        
+        .spinner-ring:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 20px;
+            left: 20px;
+            animation-duration: 0.8s;
+            border-top-color: rgba(255,255,255,0.5);
+        }
+        
+        .loading-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .loading-steps {
+            margin: 20px 0;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .step.active {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .step.loading .step-icon {
+            animation: spin 1s linear infinite;
+        }
+        
+        .step-icon {
+            margin-left: 15px;
+            font-size: 18px;
+        }
+        
+        .step-text {
+            font-size: 16px;
+        }
+        
+        .loading-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    `;
+    
+    document.head.appendChild(loadingStyle);
+    document.body.appendChild(loadingOverlay);
+}
+
+function hideAdvancedLoading() {
+    const loading = document.querySelector('.advanced-loading-overlay');
+    if (loading) {
+        loading.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => loading.remove(), 300);
+    }
+}
+
+// أنيميشن النجاح المتقدم
+function showSuccessAnimation(customerName, total) {
+    const successOverlay = document.createElement('div');
+    successOverlay.className = 'success-animation-overlay';
+    successOverlay.innerHTML = `
+        <div class="success-animation">
+            <div class="success-icon">
+                <div class="checkmark">
+                    <svg viewBox="0 0 52 52">
+                        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                        <path class="checkmark-check" fill="none" d="m14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                </div>
+            </div>
+            <h2 class="success-title">🎉 تم إرسال طلبك بنجاح!</h2>
+            <div class="success-details">
+                <p class="customer-name">شكراً لك ${customerName}</p>
+                <p class="order-value">قيمة طلبك: ${total.toLocaleString()} جنيه</p>
+            </div>
+            <div class="success-message">
+                <p>✅ تم توجيهك إلى واتساب</p>
+                <p>📞 سنتواصل معك خلال دقائق</p>
+                <p>🚚 سيتم تجهيز طلبكم في أسرع وقت</p>
+            </div>
+            <button onclick="closeSuccessAnimation()" class="success-btn">
+                🏠 العودة للمتجر
+            </button>
+        </div>
+    `;
+    
+    const successStyle = document.createElement('style');
+    successStyle.textContent = `
+        .success-animation-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(46,204,113,0.95), rgba(39,174,96,0.95));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100001;
+            animation: successFadeIn 0.5s ease;
+        }
+        
+        .success-animation {
+            text-align: center;
+            color: white;
+            max-width: 500px;
+            padding: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .success-icon {
+            margin-bottom: 30px;
+        }
+        
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            animation: checkmarkScale 0.8s ease-in-out;
+        }
+        
+        .checkmark svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .checkmark-circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 3;
+            stroke: white;
+            animation: checkmarkCircle 1s ease-in-out;
+        }
+        
+        .checkmark-check {
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            stroke-width: 4;
+            stroke: white;
+            stroke-linecap: round;
+            animation: checkmarkCheck 0.8s ease-in-out 0.6s both;
+        }
+        
+        .success-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            animation: slideInUp 0.6s ease 0.3s both;
+        }
+        
+        .success-details {
+            margin: 25px 0;
+            animation: slideInUp 0.6s ease 0.5s both;
+        }
+        
+        .customer-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .order-value {
+            font-size: 24px;
+            color: #f1c40f;
+            font-weight: bold;
+        }
+        
+        .success-message {
+            margin: 25px 0;
+            animation: slideInUp 0.6s ease 0.7s both;
+        }
+        
+        .success-message p {
+            margin: 8px 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .success-btn {
+            background: white;
+            color: #27ae60;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: slideInUp 0.6s ease 0.9s both;
+        }
+        
+        .success-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        @keyframes successFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes checkmarkScale {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes checkmarkCircle {
+            0% { stroke-dashoffset: 166; }
+            100% { stroke-dashoffset: 0; }
+        }
+        
+        @keyframes checkmarkCheck {
+            0% { stroke-dashoffset: 48; }
+            100% { stroke-dashoffset: 0; }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    `;
+    
+    document.head.appendChild(successStyle);
+    document.body.appendChild(successOverlay);
+    
+    // إزالة تلقائية بعد 10 ثوانٍ
+    setTimeout(() => {
+        closeSuccessAnimation();
+    }, 10000);
+}
+
+// البدائل المتقدمة في حالة فشل فتح واتساب
+function showAdvancedFallback(orderData, customerName) {
+    const fallbackOverlay = document.createElement('div');
+    fallbackOverlay.className = 'advanced-fallback-overlay';
+    fallbackOverlay.innerHTML = `
+        <div class="advanced-fallback">
+            <div class="fallback-header">
+                <div class="warning-icon">⚠️</div>
+                <h3>مساعدة في فتح واتساب</h3>
+                <p>يبدو أن واتساب لم يفتح تلقائياً، اختر الطريقة المناسبة:</p>
+            </div>
+            
+            <div class="fallback-options">
+                <button onclick="copyOrderMessage('${encodeURIComponent(orderData.message)}')" class="fallback-btn primary">
+                    📋 نسخ الرسالة
+                    <small>انسخ واذهب لواتساب يدوياً</small>
+                </button>
+                
+                <button onclick="retryWhatsApp('${encodeURIComponent(orderData.message)}')" class="fallback-btn secondary">
+                    🔄 إعادة المحاولة
+                    <small>محاولة فتح واتساب مرة أخرى</small>
+                </button>
+                
+                <button onclick="openWhatsAppManual()" class="fallback-btn tertiary">
+                    💬 فتح واتساب يدوياً
+                    <small>+201126630356 - ثم ألصق الرسالة</small>
+                </button>
+                
+                <button onclick="callDirectly()" class="fallback-btn quaternary">
+                    📞 اتصال مباشر
+                    <small>تحدث مع خدمة العملاء</small>
+                </button>
+            </div>
+            
+            <div class="fallback-footer">
+                <p class="order-summary">
+                    📦 طلب ${customerName} • ${orderData.itemCount} منتج • ${orderData.total.toLocaleString()} ج.م
+                </p>
+                <button onclick="closeFallbackDialog()" class="close-fallback">إغلاق</button>
+            </div>
+        </div>
+    `;
+    
+    const fallbackStyle = document.createElement('style');
+    fallbackStyle.textContent = `
+        .advanced-fallback-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100002;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .advanced-fallback {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideInScale 0.4s ease;
+        }
+        
+        .fallback-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .warning-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .fallback-header h3 {
+            color: #e67e22;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+        
+        .fallback-header p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .fallback-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .fallback-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: right;
+        }
+        
+        .fallback-btn small {
+            font-size: 12px;
+            font-weight: normal;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        .fallback-btn.primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .fallback-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(52,152,219,0.3);
+        }
+        
+        .fallback-btn.secondary {
+            background: linear-gradient(135deg, #25d366, #20b358);
+            color: white;
+        }
+        
+        .fallback-btn.secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37,211,102,0.3);
+        }
+        
+        .fallback-btn.tertiary {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+        }
+        
+        .fallback-btn.tertiary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(243,156,18,0.3);
+        }
+        
+        .fallback-btn.quaternary {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        .fallback-btn.quaternary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(231,76,60,0.3);
+        }
+        
+        .fallback-footer {
+            border-top: 1px solid #ecf0f1;
+            padding-top: 20px;
+            text-align: center;
+        }
+        
+        .order-summary {
+            background: #ecf0f1;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #2c3e50;
+        }
+        
+        .close-fallback {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .close-fallback:hover {
+            background: #7f8c8d;
+        }
+        
+        @keyframes slideInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(30px);
             }
             to {
                 opacity: 1;
@@ -3285,221 +4318,158 @@ function showCustomNameDialog() {
         }
     `;
     
-    document.head.appendChild(style);
-    document.body.appendChild(overlay);
-    
-    // تركيز على حقل الإدخال
-    setTimeout(() => {
-        document.getElementById('customerNameInput').focus();
-    }, 100);
-    
-    // إضافة استماع لمفتاح Enter
-    document.getElementById('customerNameInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            processCheckout();
-        }
-    });
+    document.head.appendChild(fallbackStyle);
+    document.body.appendChild(fallbackOverlay);
 }
 
-// دالة معالجة الطلب
-function processCheckout() {
-    const customerName = document.getElementById('customerNameInput').value.trim() || "عميل كريم";
-    
-    // إغلاق نافذة الاسم
-    closeNameDialog();
-    
-    // إظهار شاشة التحميل
-    showLoading();
-    
-    setTimeout(() => {
-        try {
-            // إعداد التاريخ والوقت
-            const now = new Date();
-            const date = now.toLocaleDateString('ar-EG', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            const time = now.toLocaleTimeString('ar-EG', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true
-            });
-            
-            // بناء الرسالة المحسنة
-            let message = "🌟 ═══════════════════════════ 🌟\n";
-            message += "✨        طلب جديد - متجر الصوة        ✨\n";
-            message += "🌟 ═══════════════════════════ 🌟\n\n";
-            
-            message += "👤 العميل الكريم: " + customerName + "\n";
-            message += "📅 التاريخ: " + date + "\n";
-            message += "⏰ الوقت: " + time + "\n\n";
-            
-            message += "🛍️ ═══ تفاصيل الطلب ═══ 🛍️\n\n";
-            
-            let total = 0;
-            let totalBeforeDiscount = 0;
-            let totalSavings = 0;
-            
-            cart.forEach((item, index) => {
-                const itemTotal = item.price * item.quantity;
-                const itemTotalBeforeDiscount = item.originalPrice * item.quantity;
-                const itemSavings = itemTotalBeforeDiscount - itemTotal;
-                
-                total += itemTotal;
-                totalBeforeDiscount += itemTotalBeforeDiscount;
-                totalSavings += itemSavings;
-                
-                message += `📦 المنتج ${index + 1}: ${item.name}\n`;
-                message += `   📊 الكمية: ${item.quantity} قطعة\n`;
-                
-                if (item.discount > 0) {
-                    message += `   💰 السعر الأصلي: ${itemTotalBeforeDiscount.toLocaleString()} جنيه\n`;
-                    message += `   🏷️ السعر بعد الخصم: ${itemTotal.toLocaleString()} جنيه\n`;
-                    message += `   💎 وفرت: ${itemSavings.toLocaleString()} جنيه (${item.discount}% خصم)\n`;
-                } else {
-                    message += `   💰 إجمالي السعر: ${itemTotal.toLocaleString()} جنيه\n`;
-                }
-                
-                message += "   ────────────────────────\n";
-            });
-            
-            // ملخص المالي
-            message += "\n💸 ═══ ملخص الطلب ═══ 💸\n";
-            message += `📋 عدد المنتجات: ${cart.length} منتج\n`;
-            message += `📦 إجمالي الكمية: ${cart.reduce((sum, item) => sum + item.quantity, 0)} قطعة\n\n`;
-            
-            if (totalSavings > 0) {
-                message += `💵 الإجمالي قبل الخصم: ${totalBeforeDiscount.toLocaleString()} جنيه\n`;
-                message += `🎯 إجمالي الخصومات: ${totalSavings.toLocaleString()} جنيه\n`;
-                message += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-                message += `💎 المبلغ المطلوب دفعه: ${total.toLocaleString()} جنيه\n`;
-                message += `🎉 توفير رائع قدره: ${totalSavings.toLocaleString()} جنيه!\n`;
-            } else {
-                message += `💎 إجمالي المبلغ: ${total.toLocaleString()} جنيه\n`;
-            }
-            
-            message += "\n🏪 ═══ معلومات المتجر ═══ 🏪\n";
-            message += "📍 العنوان: أمام سنترال الصوة - المجمع\n";
-            message += "📞 للاستفسار: 01126630356\n\n";
-            
-            // رسالة شكر هادفة
-            message += "💌 ═══ رسالة شكر ═══ 💌\n";
-            message += `شكراً لك عزيزنا ${customerName} لاختيارك متجر الصوة ✨\n`;
-            message += "ثقتك بنا شرف عظيم، ونتطلع لخدمتك دائماً 🌟\n";
-            message += "جودة عالية • خدمة مميزة • أسعار منافسة 🎯\n\n";
-            
-            message += "═══════════════════════════\n";
-            message += "🚚 سنتواصل معك قريباً لترتيب التوصيل\n";
-            message += "⭐ نتمنى لك تجربة تسوق رائعة\n";
-            message += "═══════════════════════════";
-            
-            // إرسال الرسالة عبر واتساب مع معالجة الأخطاء
-            const whatsappUrl = `https://wa.me/+201126630356?text=${encodeURIComponent(message)}`;
-            
-            // محاولة فتح الرابط
-            const whatsappWindow = window.open(whatsappUrl, '_blank');
-            
-            // التحقق من نجاح فتح النافذة
-            if (whatsappWindow) {
-                hideLoading();
-                closeCart();
-                showNotification(
-                    `شكراً ${customerName}! تم توجيهك إلى واتساب لإتمام طلبك بقيمة ${total.toLocaleString()} جنيه`,
-                    'success'
-                );
-            } else {
-                // في حالة فشل فتح النافذة
-                hideLoading();
-                showFallbackOptions(whatsappUrl, customerName, total);
-            }
-            
-        } catch (error) {
-            console.error('خطأ في معالجة الطلب:', error);
-            hideLoading();
-            showNotification('حدث خطأ أثناء إعداد الطلب، يرجى المحاولة مرة أخرى', 'error');
-        }
-    }, 800);
-}
-
-// دالة إغلاق نافذة الاسم
-function closeNameDialog() {
-    const overlay = document.querySelector('.name-dialog-overlay');
-    if (overlay) {
-        overlay.remove();
+// دوال الإجراءات البديلة
+function copyOrderMessage(encodedMessage) {
+    try {
+        const message = decodeURIComponent(encodedMessage);
+        navigator.clipboard.writeText(message).then(() => {
+            showNotification('✅ تم نسخ الرسالة! افتح واتساب وألصقها', 'success');
+            closeFallbackDialog();
+        }).catch(() => {
+            // طريقة بديلة للنسخ
+            const textArea = document.createElement('textarea');
+            textArea.value = message;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            showNotification('✅ تم نسخ الرسالة! افتح واتساب وألصقها', 'success');
+            closeFallbackDialog();
+        });
+    } catch (error) {
+        showNotification('❌ فشل في النسخ، جرب طريقة أخرى', 'error');
     }
 }
 
-// دالة عرض البدائل في حالة عدم فتح واتساب
-function showFallbackOptions(whatsappUrl, customerName, total) {
-    const fallbackDialog = document.createElement('div');
-    fallbackDialog.className = 'fallback-dialog-overlay';
-    fallbackDialog.innerHTML = `
-        <div class="fallback-dialog">
-            <div class="fallback-header">
-                <h3>📱 اختر طريقة التواصل</h3>
-                <p>يبدو أن واتساب لم يفتح تلقائياً</p>
-            </div>
-            <div class="fallback-options">
-                <button onclick="copyToClipboard('${whatsappUrl}')" class="option-btn">
-                    📋 نسخ الرابط
-                </button>
-                <button onclick="manualWhatsapp()" class="option-btn">
-                    💬 فتح واتساب يدوياً
-                </button>
-                <button onclick="callDirectly()" class="option-btn">
-                    📞 اتصال مباشر
-                </button>
-            </div>
-            <button onclick="closeFallbackDialog()" class="close-fallback">إغلاق</button>
-        </div>
-    `;
+function retryWhatsApp(encodedMessage) {
+    const message = decodeURIComponent(encodedMessage);
+    const whatsappUrl = `https://wa.me/+201126630356?text=${encodeURIComponent(message)}`;
     
-    document.body.appendChild(fallbackDialog);
-}
-
-// دوال مساعدة للبدائل
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-        showNotification('تم نسخ الرابط! الصقه في متصفحك', 'success');
+    // محاولة جديدة بطرق مختلفة
+    try {
+        // محاولة 1: window.open
+        let opened = window.open(whatsappUrl, '_blank');
+        
+        if (!opened) {
+            // محاولة 2: location.href
+            setTimeout(() => {
+                window.location.href = whatsappUrl;
+            }, 500);
+        }
+        
         closeFallbackDialog();
-    });
+        showNotification('🔄 جاري إعادة المحاولة...', 'info');
+        
+    } catch (error) {
+        showNotification('❌ فشلت إعادة المحاولة، جرب النسخ اليدوي', 'error');
+    }
 }
 
-function manualWhatsapp() {
-    showNotification('اذهب إلى واتساب وابحث عن: 01126630356', 'info');
+function openWhatsAppManual() {
+    // محاولة فتح واتساب فقط
+    const whatsappUrls = [
+        'https://wa.me/+201126630356',
+        'https://api.whatsapp.com/send?phone=+201126630356',
+        'whatsapp://send?phone=+201126630356'
+    ];
+    
+    whatsappUrls.forEach((url, index) => {
+        setTimeout(() => {
+            try {
+                window.open(url, '_blank');
+            } catch (e) {
+                console.log(`فشل الرابط ${index + 1}`);
+            }
+        }, index * 500);
+    });
+    
+    showNotification('📱 جاري فتح واتساب... ابحث عن الرقم: +201126630356', 'info');
     closeFallbackDialog();
 }
 
 function callDirectly() {
-    window.open('tel:+201126630356', '_self');
-    closeFallbackDialog();
+    try {
+        window.open('tel:+201126630356', '_self');
+        showNotification('📞 جاري الاتصال...', 'info');
+        closeFallbackDialog();
+    } catch (error) {
+        showNotification('الرقم: +201126630356', 'info');
+        closeFallbackDialog();
+    }
+}
+
+// دوال الإغلاق
+function closePremiumDialog() {
+    const overlay = document.querySelector('.premium-dialog-overlay');
+    if (overlay) {
+        overlay.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => overlay.remove(), 300);
+    }
+}
+
+function closeSuccessAnimation() {
+    const overlay = document.querySelector('.success-animation-overlay');
+    if (overlay) {
+        overlay.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => overlay.remove(), 300);
+    }
 }
 
 function closeFallbackDialog() {
-    const fallback = document.querySelector('.fallback-dialog-overlay');
-    if (fallback) fallback.remove();
+    const overlay = document.querySelector('.advanced-fallback-overlay');
+    if (overlay) {
+        overlay.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => overlay.remove(), 300);
+    }
 }
 
-// دالة مساعدة لحفظ الطلب محلياً (اختيارية)
-function saveOrderLocally(customerName, orderData) {
+// دالة مساعدة لحفظ الطلب محلياً مع تفاصيل أكثر
+function saveOrderLocally(orderData) {
     try {
-        const orders = JSON.parse(localStorage.getItem('recentOrders') || '[]');
-        orders.unshift({
-            id: Date.now(),
-            customerName,
+        const orders = JSON.parse(localStorage.getItem('alsawa_orders') || '[]');
+        const newOrder = {
+            id: `ORD-${Date.now()}`,
+            customerName: orderData.customerName,
             date: new Date().toISOString(),
-            items: orderData.items,
+            items: cart.map(item => ({
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+                originalPrice: item.originalPrice,
+                discount: item.discount || 0
+            })),
             total: orderData.total,
-            savings: orderData.savings
-        });
+            savings: orderData.totalSavings,
+            status: 'sent_to_whatsapp',
+            phone: '+201126630356'
+        };
         
-        // حفظ آخر 50 طلب فقط
-        localStorage.setItem('recentOrders', JSON.stringify(orders.slice(0, 50)));
-    } catch (e) {
-        console.log('تعذر حفظ الطلب محلياً:', e);
+        orders.unshift(newOrder);
+        // حفظ آخر 100 طلب
+        localStorage.setItem('alsawa_orders', JSON.stringify(orders.slice(0, 100)));
+        
+        console.log('✅ تم حفظ الطلب محلياً:', newOrder.id);
+        
+    } catch (error) {
+        console.error('فشل في حفظ الطلب محلياً:', error);
     }
+}
+
+// دالة للتحقق من دعم واتساب في الجهاز
+function checkWhatsAppSupport() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+    const isWhatsAppInstalled = document.querySelector('meta[name="whatsapp-installed"]');
+    
+    return {
+        isMobile,
+        isWhatsAppInstalled: !!isWhatsAppInstalled,
+        canOpenWhatsApp: isMobile || window.navigator.userAgentData?.mobile
+    };
 }
 
         // 6. تهيئة الصفحة عند التحميل
