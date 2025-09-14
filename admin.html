@@ -313,7 +313,7 @@
         .product-price {
             font-size: 1.2rem;
             font-weight: 700;
-            color: #28a745;   /* أخضر للسعر */
+            color: #28a745;
             margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
@@ -553,27 +553,19 @@
             transition: var(--transition);
             white-space: nowrap;
         }
-        
+
         .code-tab.active {
             background: white;
             border-color: #ddd;
             color: var(--primary-color);
             font-weight: 600;
         }
-        
-        .code-section {
-            display: none;
-        }
-        
-        .code-section.active {
-            display: block;
-        }
-        
+
         .copy-btn {
             position: relative;
             overflow: hidden;
         }
-        
+
         .copy-btn.copied::before {
             content: '✓';
             position: absolute;
@@ -728,6 +720,31 @@
             transform: scaleX(-1);
         }
     </style>
+    <!-- Firebase SDK -->
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, getDocs, getDoc, doc, writeBatch, Timestamp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBLAq1eYQ67zKLGs2my5_paM3GByrfPwYU",
+  authDomain: "rawad-library.firebaseapp.com",
+  projectId: "rawad-library",
+  storageBucket: "rawad-library.firebasestorage.app",
+  messagingSenderId: "981528745525",
+  appId: "1:981528745525:web:2c2cab42b19c107ad2437c",
+  measurementId: "G-4HDXZ6STTW"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const productsRef = collection(db, "products");
+    </script>
 </head>
 <body>
     <div class="container">
@@ -922,11 +939,7 @@
     <script>
         // تهيئة التطبيق
         document.addEventListener('DOMContentLoaded', function() {
-            if (!localStorage.getItem('rawad-products')) {
-                addSampleProducts();
-            } else {
-                loadProducts();
-            }
+            loadProducts();
             
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
@@ -1163,76 +1176,100 @@
         }
 
         // إضافة المنتجات النموذجية
-        function addSampleProducts() {
-            localStorage.setItem('rawad-products', JSON.stringify(sampleProducts));
-            showNotification('تم إضافة 20 منتج نموذجي بنجاح');
-            loadProducts();
+        async function addSampleProducts() {
+            try {
+                const batch = writeBatch(db);
+                sampleProducts.forEach(product => {
+                    const newDocRef = doc(productsRef);
+                    batch.set(newDocRef, {
+                        ...product,
+                        createdAt: Timestamp.fromDate(new Date())
+                    });
+                });
+                await batch.commit();
+                showNotification('تم إضافة 20 منتج نموذجي بنجاح');
+                loadProducts();
+            } catch (error) {
+                console.error("Error adding sample products: ", error);
+                showNotification('خطأ في إضافة المنتجات النموذجية', 'error');
+            }
         }
 
         // تحميل المنتجات
-        function loadProducts() {
-            const productsList = document.getElementById('productsList');
-            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-            
-            const filteredProducts = products.filter(product => {
-                const matchesCategory = currentCategoryFilter === 'all' || product.category === currentCategoryFilter;
-                const matchesSearch = product.name.toLowerCase().includes(currentSearchTerm.toLowerCase()) || 
-                                    product.description.toLowerCase().includes(currentSearchTerm.toLowerCase());
-                return matchesCategory && matchesSearch;
-            });
-            
-            if (filteredProducts.length === 0) {
-                productsList.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-box-open"></i>
-                        <h3>لا توجد منتجات حالياً</h3>
-                        <p>لم يتم إضافة أي منتجات بعد. قم بإضافة منتجات جديدة لبدء إدارة متجرك.</p>
-                        <button class="btn btn-primary" onclick="showProductForm()">
-                            <i class="fas fa-plus"></i> إضافة منتج جديد
-                        </button>
+        async function loadProducts() {
+            try {
+                const querySnapshot = await getDocs(productsRef);
+                const productsList = document.getElementById('productsList');
+                const products = [];
+                querySnapshot.forEach((doc) => {
+                    products.push({ id: doc.id, ...doc.data() });
+                });
+                
+                products.sort((a, b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
+                
+                const filteredProducts = products.filter(product => {
+                    const matchesCategory = currentCategoryFilter === 'all' || product.category === currentCategoryFilter;
+                    const matchesSearch = product.name.toLowerCase().includes(currentSearchTerm.toLowerCase()) || 
+                                        product.description.toLowerCase().includes(currentSearchTerm.toLowerCase());
+                    return matchesCategory && matchesSearch;
+                });
+                
+                if (filteredProducts.length === 0) {
+                    productsList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <h3>لا توجد منتجات حالياً</h3>
+                            <p>لم يتم إضافة أي منتجات بعد. قم بإضافة منتجات جديدة لبدء إدارة متجرك.</p>
+                            <button class="btn btn-primary" onclick="showProductForm()">
+                                <i class="fas fa-plus"></i> إضافة منتج جديد
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                productsList.innerHTML = filteredProducts.map(product => {
+                    const finalPrice = product.discount > 0 
+                        ? product.price - (product.price * product.discount / 100)
+                        : product.price;
+                        
+                    return `
+                    <div class="product-card">
+                        ${product.badge ? `<span class="product-badge">${sanitizeInput(product.badge)}</span>` : ''}
+                        <div class="product-image">
+                            ${product.image ? `<img src="${product.image}" alt="${sanitizeInput(product.name)}">` : getCategoryIcon(product.category)}
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">${sanitizeInput(product.name)}</h3>
+                            <div class="product-price">
+                                ${product.discount > 0 ? `
+                                    <span class="discount-badge">خصم ${product.discount}%</span>
+                                    <span class="original-price">${product.price.toFixed(2)} جنيه</span>
+                                ` : ''}
+                                ${finalPrice.toFixed(2)} جنيه
+                            </div>
+                            <span class="product-category">${getCategoryName(product.category)}</span>
+                            <div class="product-rating">
+                                ${generateStarRating(product.rating)}
+                                <span class="rating-text">(${product.rating}.0)</span>
+                            </div>
+                            <p class="product-description">${sanitizeInput(product.description)}</p>
+                            <div class="product-actions">
+                                <button class="btn btn-primary btn-sm" onclick="editProduct('${product.id}')">
+                                    <i class="fas fa-edit"></i> تعديل
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteProduct('${product.id}')">
+                                    <i class="fas fa-trash"></i> حذف
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                `;
-                return;
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error("Error loading products: ", error);
+                showNotification('خطأ في تحميل المنتجات', 'error');
             }
-            
-            productsList.innerHTML = filteredProducts.map(product => {
-                const finalPrice = product.discount > 0 
-                    ? product.price - (product.price * product.discount / 100)
-                    : product.price;
-                    
-                return `
-                <div class="product-card">
-                    ${product.badge ? `<span class="product-badge">${sanitizeInput(product.badge)}</span>` : ''}
-                    <div class="product-image">
-                        ${product.image ? `<img src="${product.image}" alt="${sanitizeInput(product.name)}">` : getCategoryIcon(product.category)}
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">${sanitizeInput(product.name)}</h3>
-                        <div class="product-price">
-                            ${product.discount > 0 ? `
-                                <span class="discount-badge">خصم ${product.discount}%</span>
-                                <span class="original-price">${product.price.toFixed(2)} جنيه</span>
-                            ` : ''}
-                            ${finalPrice.toFixed(2)} جنيه
-                        </div>
-                        <span class="product-category">${getCategoryName(product.category)}</span>
-                        <div class="product-rating">
-                            ${generateStarRating(product.rating)}
-                            <span class="rating-text">(${product.rating}.0)</span>
-                        </div>
-                        <p class="product-description">${sanitizeInput(product.description)}</p>
-                        <div class="product-actions">
-                            <button class="btn btn-primary btn-sm" onclick="editProduct(${product.id})">
-                                <i class="fas fa-edit"></i> تعديل
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">
-                                <i class="fas fa-trash"></i> حذف
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                `;
-            }).join('');
         }
 
         // إنشاء تقييم النجوم
@@ -1314,7 +1351,7 @@
         }
 
         // حفظ المنتج
-        function saveProduct() {
+        async function saveProduct() {
             const productId = document.getElementById('productId').value;
             const name = sanitizeInput(document.getElementById('productName').value.trim());
             const price = parseFloat(document.getElementById('productPrice').value);
@@ -1330,7 +1367,7 @@
                 return;
             }
             
-            if (price < 0) { // السماح بـ 0 لكن منع القيم السالبة
+            if (price < 0) {
                 showNotification('السعر لا يمكن أن يكون سالباً', 'error');
                 return;
             }
@@ -1340,115 +1377,127 @@
                 return;
             }
             
-            let products = JSON.parse(localStorage.getItem('rawad-products')) || [];
+            const productData = {
+                name,
+                price,
+                discount,
+                category,
+                description,
+                rating,
+                badge,
+                image: imageData || '',
+                createdAt: Timestamp.fromDate(new Date())
+            };
             
-            const existingProduct = products.find(p => p.name === name && p.id != productId);
-            if (existingProduct) {
-                showNotification('اسم المنتج موجود بالفعل', 'error');
-                return;
-            }
-            
-            if (productId && !confirm('هل أنت متأكد من تعديل هذا المنتج؟')) {
-                return;
-            }
-            
-            if (productId) {
-                const index = products.findIndex(p => p.id == productId);
-                if (index !== -1) {
-                    products[index] = {
-                        id: parseInt(productId),
-                        name,
-                        price,
-                        discount,
-                        category,
-                        description,
-                        rating,
-                        badge,
-                        image: imageData || products[index].image || ''
-                    };
+            try {
+                if (productId) {
+                    const productRef = doc(db, "products", productId);
+                    await updateDoc(productRef, productData);
                     showNotification('تم تعديل المنتج بنجاح');
+                } else {
+                    await addDoc(productsRef, productData);
+                    showNotification('تم إضافة المنتج بنجاح');
                 }
-            } else {
-                const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-                products.push({
-                    id: newId,
-                    name,
-                    price,
-                    discount,
-                    category,
-                    description,
-                    rating,
-                    badge,
-                    image: imageData || ''
-                });
-                showNotification('تم إضافة المنتج بنجاح');
+                
+                hideProductForm();
+                loadProducts();
+            } catch (error) {
+                console.error("Error saving product: ", error);
+                showNotification('خطأ في حفظ المنتج', 'error');
             }
-            
-            localStorage.setItem('rawad-products', JSON.stringify(products));
-            hideProductForm();
-            loadProducts();
         }
 
         // تعديل منتج
-        function editProduct(id) {
-            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-            const product = products.find(p => p.id === id);
-            
-            if (product) {
-                document.getElementById('productForm').classList.remove('hidden');
-                document.getElementById('formTitle').textContent = 'تعديل المنتج';
-                document.getElementById('productId').value = product.id;
-                document.getElementById('productName').value = product.name;
-                document.getElementById('productPrice').value = product.price;
-                document.getElementById('productDiscount').value = product.discount || 0;
-                document.getElementById('productCategory').value = product.category;
-                document.getElementById('productDescription').value = product.description;
-                document.getElementById('productRating').value = product.rating;
-                document.getElementById('productBadge').value = product.badge || '';
-                document.getElementById('productImageData').value = product.image || '';
+        async function editProduct(id) {
+            try {
+                const productRef = doc(db, "products", id);
+                const productSnap = await getDoc(productRef);
                 
-                if (product.image) {
-                    document.getElementById('previewImage').src = product.image;
-                    document.getElementById('imagePreview').style.display = 'block';
+                if (productSnap.exists()) {
+                    const product = productSnap.data();
+                    document.getElementById('productForm').classList.remove('hidden');
+                    document.getElementById('formTitle').textContent = 'تعديل المنتج';
+                    document.getElementById('productId').value = id;
+                    document.getElementById('productName').value = product.name;
+                    document.getElementById('productPrice').value = product.price;
+                    document.getElementById('productDiscount').value = product.discount || 0;
+                    document.getElementById('productCategory').value = product.category;
+                    document.getElementById('productDescription').value = product.description;
+                    document.getElementById('productRating').value = product.rating;
+                    document.getElementById('productBadge').value = product.badge || '';
+                    document.getElementById('productImageData').value = product.image || '';
+                    
+                    if (product.image) {
+                        document.getElementById('previewImage').src = product.image;
+                        document.getElementById('imagePreview').style.display = 'block';
+                    } else {
+                        document.getElementById('imagePreview').style.display = 'none';
+                    }
                 } else {
-                    document.getElementById('imagePreview').style.display = 'none';
+                    showNotification('المنتج غير موجود', 'error');
                 }
+            } catch (error) {
+                console.error("Error editing product: ", error);
+                showNotification('خطأ في تحميل بيانات المنتج', 'error');
             }
         }
 
         // حذف منتج
-        function deleteProduct(id) {
+        async function deleteProduct(id) {
             if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
-                let products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('rawad-products', JSON.stringify(products));
-                showNotification('تم حذف المنتج بنجاح');
-                loadProducts();
+                try {
+                    const productRef = doc(db, "products", id);
+                    await deleteDoc(productRef);
+                    showNotification('تم حذف المنتج بنجاح');
+                    loadProducts();
+                } catch (error) {
+                    console.error("Error deleting product: ", error);
+                    showNotification('خطأ في حذف المنتج', 'error');
+                }
             }
         }
 
         // حذف جميع المنتجات
-        function clearAllProducts() {
+        async function clearAllProducts() {
             if (confirm('هل أنت متأكد من حذف جميع المنتجات؟ لا يمكن التراجع عن هذا الإجراء.')) {
-                localStorage.removeItem('rawad-products');
-                showNotification('تم حذف جميع المنتجات');
-                loadProducts();
+                try {
+                    const querySnapshot = await getDocs(productsRef);
+                    const batch = writeBatch(db);
+                    querySnapshot.forEach((doc) => {
+                        batch.delete(doc.ref);
+                    });
+                    await batch.commit();
+                    showNotification('تم حذف جميع المنتجات');
+                    loadProducts();
+                } catch (error) {
+                    console.error("Error clearing products: ", error);
+                    showNotification('خطأ في حذف المنتجات', 'error');
+                }
             }
         }
 
         // تصدير المنتجات
-        function exportProducts() {
-            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-            if (products.length === 0) {
-                showNotification('لا توجد منتجات لتصديرها', 'error');
-                return;
+        async function exportProducts() {
+            try {
+                const querySnapshot = await getDocs(productsRef);
+                const products = [];
+                querySnapshot.forEach((doc) => {
+                    products.push(doc.data());
+                });
+                if (products.length === 0) {
+                    showNotification('لا توجد منتجات لتصديرها', 'error');
+                    return;
+                }
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products));
+                const downloadAnchor = document.createElement('a');
+                downloadAnchor.setAttribute('href', dataStr);
+                downloadAnchor.setAttribute('download', 'products.json');
+                downloadAnchor.click();
+                showNotification('تم تصدير المنتجات بنجاح');
+            } catch (error) {
+                console.error("Error exporting products: ", error);
+                showNotification('خطأ في تصدير المنتجات', 'error');
             }
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute('href', dataStr);
-            downloadAnchor.setAttribute('download', 'products.json');
-            downloadAnchor.click();
-            showNotification('تم تصدير المنتجات بنجاح');
         }
 
         // مزامنة مع الصفحة الرئيسية
@@ -1483,26 +1532,35 @@
         }
 
         // إظهار نافذة الأكواد
-        function showCodeModal() {
-            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-            
-            if (products.length === 0) {
-                showNotification('لا توجد منتجات لإنشاء أكواد لها', 'error');
-                return;
+        async function showCodeModal() {
+            try {
+                const querySnapshot = await getDocs(productsRef);
+                const products = [];
+                querySnapshot.forEach((doc) => {
+                    products.push(doc.data());
+                });
+                
+                if (products.length === 0) {
+                    showNotification('لا توجد منتجات لإنشاء أكواد لها', 'error');
+                    return;
+                }
+                
+                const jsCode = generateJSCode(products);
+                document.getElementById('jsCodeContent').textContent = jsCode;
+                
+                const htmlCode = generateHTMLCode(products);
+                document.getElementById('htmlCodeContent').textContent = htmlCode;
+                
+                document.getElementById('codeModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                document.querySelectorAll('.copy-btn').forEach(btn => {
+                    btn.classList.remove('copied');
+                });
+            } catch (error) {
+                console.error("Error showing code modal: ", error);
+                showNotification('خطأ في إنشاء الأكواد', 'error');
             }
-            
-            const jsCode = generateJSCode(products);
-            document.getElementById('jsCodeContent').textContent = jsCode;
-            
-            const htmlCode = generateHTMLCode(products);
-            document.getElementById('htmlCodeContent').textContent = htmlCode;
-            
-            document.getElementById('codeModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            document.querySelectorAll('.copy-btn').forEach(btn => {
-                btn.classList.remove('copied');
-            });
         }
 
         // توليد كود JavaScript
@@ -1662,7 +1720,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return `
             <div class="product-card fade-in" data-category="${product.category}">
                 <div class="product-image">
-                    ${product.image ? `<img src="${product.image}" alt="${sanitizeInput(product.name)}">` : getCategoryIcon(product.category)}
+                    ${product.image ? `<img src="${sanitizeInput(product.name)}">` : getCategoryIcon(product.category)}
                     ${product.badge ? `<span class="product-badge">${sanitizeInput(product.badge)}</span>` : ''}
                 </div>
                 <div class="product-info">
