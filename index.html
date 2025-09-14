@@ -2010,76 +2010,7 @@
     </script>
 </head>
 <body>
-     <script type="module">
-        // تحميل المنتجات من Firebase
-        async function loadProducts(category = 'all') {
-          const grid = document.getElementById('productsGrid');
-          if (!grid) return;
-          
-          try {
-            const querySnapshot = await getDocs(collection(db, "products"));
-            const products = [];
-            querySnapshot.forEach((doc) => {
-              products.push({ id: doc.id, ...doc.data() });
-            });
-            
-            // فرز المنتجات
-            products.sort((a, b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0));
-            
-            let filteredProducts = category === 'all' ? products : products.filter(p => p.category === category);
-            
-            if (filteredProducts.length === 0) {
-              grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);"><i class="fas fa-box-open" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i><h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لا توجد منتجات في هذا التصنيف حالياً</h3><p style="margin-bottom: 1.5rem;">سيتم إضافة منتجات جديدة قريباً</p><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن المنتجات المتاحة" class="btn btn-primary" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> استفسر عن المنتجات</a></div>';
-              return;
-            }
-            
-            grid.innerHTML = filteredProducts.map(product => {
-              const finalPrice = product.discount > 0 
-                ? product.price - (product.price * product.discount / 100)
-                : product.price;
-                
-              return `
-                <div class="product-card fade-in" data-category="${product.category}">
-                    <div class="product-image">
-                        ${product.image ? `<img src="${product.image}" alt="${product.name}">` : getCategoryIcon(product.category)}
-                        ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
-                        <div class="product-price">
-                            ${product.discount > 0 ? `
-                                <span class="discount-badge">خصم ${product.discount}%</span>
-                                <span class="original-price">${product.price.toFixed(2)} جنيه</span>
-                            ` : ''}
-                            ${finalPrice.toFixed(2)} جنيه
-                        </div>
-                        <div class="product-rating">
-                            <div class="stars">
-                                ${'★'.repeat(product.rating)}${'☆'.repeat(5-product.rating)}
-                            </div>
-                            <span style="color: var(--gray-600); font-size: 0.9rem;">(${product.rating}.0)</span>
-                        </div>
-                        <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1.2rem; line-height: 1.5;">${product.description}</p>
-                        <div class="product-actions">
-                            <button class="add-to-cart" onclick="addToCart(${product.id})">
-                                <i class="fas fa-cart-plus"></i> أضف للسلة
-                            </button>
-                            <button class="wishlist-btn" onclick="toggleWishlist(${product.id})" title="إضافة للمفضلة">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-              `;
-            }).join('');
-
-            updateFilterButtons(category);
-            animateProductCards();
-          } catch (error) {
-            console.error("Error loading products: ", error);
-            showNotification('خطأ في تحميل المنتجات', 'error');
-          }
-        }
+    
     <!-- Header Top -->
     <div class="header-top">
         <div class="container">
@@ -4236,4 +4167,5 @@ document.addEventListener('DOMContentLoaded', function() {
     </script>
 </body>
 </html>
+
 
