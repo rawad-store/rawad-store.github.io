@@ -1,63 +1,80 @@
-const CACHE_NAME = 'rawad-store-cache-v2';
+const CACHE_NAME = 'rawad-store-cache-v1';
 const urlsToCache = [
-    '/',
-    '/index.html',  // اسم الملف الرئيسي إذا كان مختلفًا
-    '/styles.css',  // إذا فصلت CSS إلى ملف خارجي
-    '/scripts.js',  // إذا فصلت JS إلى ملف خارجي
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-    'https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap',
-    'https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/preview.jpg',
-    // أضف أي صور أو موارد أخرى هنا (مثل أيقونات المنتجات إذا كانت موجودة)
+  '/',
+  '/index.html',
+  '/styles.css',  // إذا كان الـ CSS منفصلاً
+  '/scripts.js',  // إذا كان الـ JS منفصلاً
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
+  'https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap',
+  'https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/preview.jpg',
+  'https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/icon-192x192.png',
+  'https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/icon-512x512.png'
+  // أضف أي أصول أخرى مثل صور المنتجات
 ];
 
-self.addEventListener('install', (event) => {
-    event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then((cache) => {
-                return cache.addAll(urlsToCache);
-            })
-    );
+// Install Event: Cache Assets
+self.addEventListener('install', function(event) {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(function(cache) {
+        console.log('Opened cache');
+        return cache.addAll(urlsToCache);
+      })
+  );
+  self.skipWaiting();
 });
 
-self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        caches.match(event.request)
-            .then((response) => {
-                if (response) {
-                    return response;  // Return from cache
-                }
-                return fetch(event.request).then(
-                    (networkResponse) => {
-                        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-                            return networkResponse;
-                        }
-                        const responseToCache = networkResponse.clone();
-                        caches.open(CACHE_NAME)
-                            .then((cache) => {
-                                cache.put(event.request, responseToCache);
-                            });
-                        return networkResponse;
-                    }
-                );
-            })
-            .catch(() => {
-                // Offline fallback page (create a simple offline.html if needed)
-                return caches.match('/offline.html') || new Response('غير متصل بالإنترنت', { status: 503 });
-            })
-    );
-});
-
-self.addEventListener('activate', (event) => {
-    const cacheWhitelist = [CACHE_NAME];
-    event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cacheName) => {
-                    if (cacheWhitelist.indexOf(cacheName) === -1) {
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
+// Activate Event: Clean Old Caches
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.map(function(cacheName) {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
         })
-    );
+      );
+    })
+  );
+  self.clients.claim();
+});
+
+// Fetch Event: Serve from Cache or Network
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request)
+      .then(function(response) {
+        if (response) {
+          return response;
+        }
+        return fetch(event.request).then(
+          function(response) {
+            if(!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+            var responseToCache = response.clone();
+            caches.open(CACHE_NAME)
+              .then(function(cache) {
+                cache.put(event.request, responseToCache);
+              });
+            return response;
+          }
+        );
+      }).catch(() => {
+        // إرجاع صفحة غير متصل إذا لزم الأمر
+        return caches.match('/offline.html');  // أنشئ صفحة offline.html إذا أردت
+      })
+  );
+});
+
+// Push Notification Event
+self.addEventListener('push', function(event) {
+  const data = event.data.json();
+  const options = {
+    body: data.body,
+    icon: 'https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/icon-192x192.png',
+    badge: 'https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/icon-192x192.png'
+  };
+  event.waitUntil(self.registration.showNotification(data.title, options));
 });
