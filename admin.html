@@ -692,6 +692,14 @@
             color: white;
         }
 
+        .code-section {
+            display: none;
+        }
+
+        .code-section.active {
+            display: block;
+        }
+
         @media (max-width: 768px) {
             .admin-actions {
                 grid-template-columns: 1fr;
@@ -1072,6 +1080,28 @@
             return stars;
         }
 
+        // الحصول على أيقونة التصنيف
+        function getCategoryIcon(category) {
+            const icons = {
+                books: '<i class="fas fa-book"></i>',
+                stationery: '<i class="fas fa-pencil-alt"></i>',
+                bags: '<i class="fas fa-shopping-bag"></i>',
+                gifts: '<i class="fas fa-gift"></i>'
+            };
+            return icons[category] || '<i class="fas fa-box"></i>';
+        }
+
+        // الحصول على اسم التصنيف
+        function getCategoryName(category) {
+            const names = {
+                books: 'الكتب الدراسية',
+                stationery: 'المستلزمات المكتبية',
+                bags: 'الحقائب المدرسية',
+                gifts: 'الهدايا'
+            };
+            return names[category] || category;
+        }
+
         // إظهار نموذج إضافة منتج
         function showProductForm() {
             document.getElementById('productForm').classList.remove('hidden');
@@ -1089,7 +1119,6 @@
             document.getElementById('previewImage').src = '';
         }
 
-        
         // إخفاء نموذج المنتج
         function hideProductForm() {
             document.getElementById('productForm').classList.add('hidden');
@@ -1098,549 +1127,332 @@
         // معالجة رفع الصورة
         function handleImageUpload(event) {
             const file = event.target.files[0];
-            if (!file) return;
-            
-            if (file.size > 5 * 1024 * 1024) {
-                showNotification('حجم الصورة يجب أن يكون أقل من 5MB', 'error');
-                event.target.value = '';
-                return;
-            }
-            
-            if (!file.type.match('image.*')) {
-                showNotification('يرجى اختيار ملف صورة فقط', 'error');
-                event.target.value = '';
-                return;
-            }
-            
-            const img = new Image();
-            img.onload = function() {
-                if (img.width > 2000 || img.height > 2000) {
-                    showNotification('أبعاد الصورة كبيرة جدًا، يرجى اختيار صورة أصغر', 'error');
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showNotification('حجم الصورة كبير جداً. الحد الأقصى 5MB', 'error');
                     event.target.value = '';
                     return;
                 }
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    document.getElementById('productImageData').value = e.target.result;
                     document.getElementById('previewImage').src = e.target.result;
                     document.getElementById('imagePreview').style.display = 'block';
+                    document.getElementById('productImageData').value = e.target.result;
                 };
                 reader.readAsDataURL(file);
-            };
-            img.src = URL.createObjectURL(file);
+            }
         }
 
-        // إزالة الصورة المرفوعة
+        // إزالة الصورة
         function removeImage() {
-            document.getElementById('productImageData').value = '';
-            document.getElementById('previewImage').src = '';
-            document.getElementById('imagePreview').style.display = 'none';
             document.getElementById('productImage').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('productImageData').value = '';
         }
 
         // حفظ المنتج
         function saveProduct() {
-            const productId = document.getElementById('productId').value;
-            const name = sanitizeInput(document.getElementById('productName').value.trim());
+            const id = document.getElementById('productId').value;
+            const name = sanitizeInput(document.getElementById('productName').value);
             const price = parseFloat(document.getElementById('productPrice').value);
-            const discount = parseInt(document.getElementById('productDiscount').value) || 0;
+            const discount = parseFloat(document.getElementById('productDiscount').value);
             const category = document.getElementById('productCategory').value;
-            const description = sanitizeInput(document.getElementById('productDescription').value.trim());
-            const rating = parseInt(document.getElementById('productRating').value);
-            const badge = sanitizeInput(document.getElementById('productBadge').value.trim());
+            const description = sanitizeInput(document.getElementById('productDescription').value);
+            const rating = parseFloat(document.getElementById('productRating').value);
+            const badge = sanitizeInput(document.getElementById('productBadge').value);
             const imageData = document.getElementById('productImageData').value;
-            
-            if (!name || isNaN(price) || !category || !description || !rating) {
-                showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
-                return;
-            }
-            
-            if (price < 0) {
-                showNotification('السعر لا يمكن أن يكون سالباً', 'error');
-                return;
-            }
-            
-            if (rating < 1 || rating > 5) {
-                showNotification('التقييم يجب أن يكون بين 1 و5', 'error');
-                return;
-            }
-            
-            let products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-            
-            const existingProduct = products.find(p => p.name === name && p.id != productId);
-            if (existingProduct) {
-                showNotification('اسم المنتج موجود بالفعل', 'error');
-                return;
-            }
-            
-            if (productId && !confirm('هل أنت متأكد من تعديل هذا المنتج؟')) {
-                return;
-            }
-            
-            if (productId) {
-                const index = products.findIndex(p => p.id == productId);
-                if (index !== -1) {
-                    products[index] = {
-                        id: parseInt(productId),
-                        name,
-                        price,
-                        discount,
-                        category,
-                        description,
-                        rating,
-                        badge,
-                        image: imageData || products[index].image || ''
-                    };
-                    showNotification('تم تعديل المنتج بنجاح');
-                }
-            } else {
-                const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-                products.push({
-                    id: newId,
-                    name,
-                    price,
-                    discount,
-                    category,
-                    description,
-                    rating,
-                    badge,
-                    image: imageData || ''
-                });
-                showNotification('تم إضافة المنتج بنجاح');
-            }
-            
-            localStorage.setItem('rawad-products', JSON.stringify(products));
-            hideProductForm();
-            loadProducts();
-        }
 
-        // تعديل منتج
-        function editProduct(id) {
-            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-            const product = products.find(p => p.id === id);
-            
-            if (product) {
-                document.getElementById('productForm').classList.remove('hidden');
-                document.getElementById('formTitle').textContent = 'تعديل المنتج';
-                document.getElementById('productId').value = product.id;
-                document.getElementById('productName').value = product.name;
-                document.getElementById('productPrice').value = product.price;
-                document.getElementById('productDiscount').value = product.discount || 0;
-                document.getElementById('productCategory').value = product.category;
-                document.getElementById('productDescription').value = product.description;
-                document.getElementById('productRating').value = product.rating;
-                document.getElementById('productBadge').value = product.badge || '';
-                document.getElementById('productImageData').value = product.image || '';
+            if (!name || !price || !description || !category || !rating) {
+                showNotification('يرجى ملء جميع الحقول الإلزامية', 'error');
+                return;
+            }
+
+            const productData = {
+                name,
+                price,
+                discount,
+                category,
+                description,
+                rating,
+                badge: badge || null
+            };
+
+            let uploadTask;
+            if (imageData) {
+                const imageName = `products/${Date.now()}_${name.replace(/\s+/g, '_')}.jpg`;
+                uploadTask = storage.ref(imageName).putString(imageData.split(',')[1], 'base64', { contentType: 'image/jpeg' });
                 
-                if (product.image) {
-                    document.getElementById('previewImage').src = product.image;
-                    document.getElementById('imagePreview').style.display = 'block';
-                } else {
-                    document.getElementById('imagePreview').style.display = 'none';
-                }
+                uploadTask.on('state_changed', null, (error) => {
+                    console.error('Error uploading image:', error);
+                    showNotification('حدث خطأ في رفع الصورة', 'error');
+                }, async () => {
+                    const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                    productData.imageUrl = downloadURL;
+                    saveToFirestore(id, productData);
+                });
+            } else {
+                saveToFirestore(id, productData);
             }
         }
 
-        // حذف منتج
+        // حفظ في Firestore
+        function saveToFirestore(id, productData) {
+            if (id) {
+                // تحديث
+                db.collection('products').doc(id).update(productData)
+                    .then(() => {
+                        showNotification('تم تحديث المنتج بنجاح', 'success');
+                        hideProductForm();
+                    })
+                    .catch((error) => {
+                        console.error('Error updating product: ', error);
+                        showNotification('حدث خطأ في تحديث المنتج', 'error');
+                    });
+            } else {
+                // إضافة جديد
+                db.collection('products').add(productData)
+                    .then(() => {
+                        showNotification('تم إضافة المنتج بنجاح', 'success');
+                        hideProductForm();
+                    })
+                    .catch((error) => {
+                        console.error('Error adding product: ', error);
+                        showNotification('حدث خطأ في إضافة المنتج', 'error');
+                    });
+            }
+        }
+
+        // تعديل المنتج
+        function editProduct(id) {
+            db.collection('products').doc(id).get().then((doc) => {
+                if (doc.exists) {
+                    const product = doc.data();
+                    showProductForm();
+                    document.getElementById('formTitle').textContent = 'تعديل المنتج';
+                    document.getElementById('productId').value = id;
+                    document.getElementById('productName').value = product.name || '';
+                    document.getElementById('productPrice').value = product.price || '';
+                    document.getElementById('productDiscount').value = product.discount || '0';
+                    document.getElementById('productCategory').value = product.category || 'books';
+                    document.getElementById('productDescription').value = product.description || '';
+                    document.getElementById('productRating').value = product.rating || '4';
+                    document.getElementById('productBadge').value = product.badge || '';
+                    if (product.imageUrl) {
+                        document.getElementById('previewImage').src = product.imageUrl;
+                        document.getElementById('imagePreview').style.display = 'block';
+                        document.getElementById('productImageData').value = product.imageUrl;
+                    }
+                }
+            });
+        }
+
+        // حذف المنتج
         function deleteProduct(id) {
             if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
-                let products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('rawad-products', JSON.stringify(products));
-                showNotification('تم حذف المنتج بنجاح');
-                loadProducts();
+                db.collection('products').doc(id).delete()
+                    .then(() => {
+                        showNotification('تم حذف المنتج بنجاح', 'success');
+                    })
+                    .catch((error) => {
+                        console.error('Error deleting product: ', error);
+                        showNotification('حدث خطأ في حذف المنتج', 'error');
+                    });
             }
-        }
-
-        // حذف جميع المنتجات
-        function clearAllProducts() {
-            if (confirm('هل أنت متأكد من حذف جميع المنتجات؟ لا يمكن التراجع عن هذا الإجراء.')) {
-                localStorage.removeItem('rawad-products');
-                showNotification('تم حذف جميع المنتجات');
-                loadProducts();
-            }
-        }
-
-        // تصدير المنتجات
-        function exportProducts() {
-            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-            if (products.length === 0) {
-                showNotification('لا توجد منتجات لتصديرها', 'error');
-                return;
-            }
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute('href', dataStr);
-            downloadAnchor.setAttribute('download', 'products.json');
-            downloadAnchor.click();
-            showNotification('تم تصدير المنتجات بنجاح');
-        }
-
-        // مزامنة مع الصفحة الرئيسية
-        function syncWithMainPage() {
-            showNotification('تمت المزامنة بنجاح مع الصفحة الرئيسية');
         }
 
         // تصفية المنتجات حسب البحث
         function filterProducts() {
             currentSearchTerm = document.getElementById('searchInput').value;
-            loadProducts();
+            const products = []; // للحصول على المنتجات الحالية، لكن بما أنها realtime، يمكن إعادة التحميل أو تخزين مؤقت
+            // للبساطة، نعيد تحميل المنتجات
+            db.collection('products').get().then((snapshot) => {
+                const products = [];
+                snapshot.forEach((doc) => {
+                    products.push({ id: doc.id, ...doc.data() });
+                });
+                renderProducts(products);
+            });
         }
 
         // مسح البحث
         function clearSearch() {
             document.getElementById('searchInput').value = '';
             currentSearchTerm = '';
-            loadProducts();
+            db.collection('products').get().then((snapshot) => {
+                const products = [];
+                snapshot.forEach((doc) => {
+                    products.push({ id: doc.id, ...doc.data() });
+                });
+                renderProducts(products);
+            });
         }
 
-        // تعيين تصنيف الفلتر
+        // تعيين فلتر التصنيف
         function setCategoryFilter(category) {
             currentCategoryFilter = category;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            const activeBtn = document.querySelector(`.filter-btn[onclick="setCategoryFilter('${category}')"]`);
-            if (activeBtn) {
-                activeBtn.classList.add('active');
-            }
-            loadProducts();
-        }
-
-        // إظهار نافذة الأكواد
-        function showCodeModal() {
-            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-            
-            if (products.length === 0) {
-                showNotification('لا توجد منتجات لإنشاء أكواد لها', 'error');
-                return;
-            }
-            
-            const jsCode = generateJSCode(products);
-            document.getElementById('jsCodeContent').textContent = jsCode;
-            
-            const htmlCode = generateHTMLCode(products);
-            document.getElementById('htmlCodeContent').textContent = htmlCode;
-            
-            document.getElementById('codeModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            document.querySelectorAll('.copy-btn').forEach(btn => {
-                btn.classList.remove('copied');
-            });
-        }
-
-        // توليد كود JavaScript
-        function generateJSCode(products) {
-            return `// ==================================================
-// نظام إدارة المنتجات - مكتبة الرواد
-// الأكواد التالية جاهزة للنسخ واللصق في الصفحة الرئيسية
-// ==================================================
-
-// 1. مصفوفة المنتجات
-let products = ${JSON.stringify(products, null, 4)};
-
-// 2. دوال المساعدة
-function getCategoryIcon(category) {
-    const icons = {
-        'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;"></i>',
-        'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;"></i>',
-        'bags': '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: #28a745;"></i>',
-        'gifts': '<i class="fas fa-gift" style="font-size: 2.5rem; color: #ffc107;"></i>'
-    };
-    return icons[category] || '<i class="fas fa-box" style="font-size: 2.5rem; color: #a0aec0;"></i>';
-}
-
-function loadProducts(category = 'all') {
-    const grid = document.getElementById('productsGrid');
-    if (!grid) return;
-
-    let filteredProducts = category === 'all' ? products : products.filter(p => p.category === category);
-
-    if (filteredProducts.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);"><i class="fas fa-box-open" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i><h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لا توجد منتجات في هذا التصنيف حالياً</h3><p style="margin-bottom: 1.5rem;">سيتم إضافة منتجات جديدة قريباً</p><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن المنتجات المتاحة" class="btn btn-primary" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> استفسر عن المنتجات</a></div>';
-        return;
-    }
-
-    grid.innerHTML = filteredProducts.map(product => {
-        const finalPrice = product.discount > 0 
-            ? product.price - (product.price * product.discount / 100)
-            : product.price;
-            
-        return \`
-        <div class="product-card fade-in" data-category="\${product.category}">
-            <div class="product-image">
-                \${product.image ? \`<img src="\${product.image}" alt="\${product.name}">\` : getCategoryIcon(product.category)}
-                \${product.badge ? \`<span class="product-badge">\${product.badge}</span>\` : ''}
-            </div>
-            <div class="product-info">
-                <h3 class="product-title">\${product.name}</h3>
-                <div class="product-price">
-                    \${product.discount > 0 ? \`
-                        <span class="discount-badge">خصم \${product.discount}%</span>
-                        <span class="original-price">\${product.price.toFixed(2)} جنيه</span>
-                    \` : ''}
-                    \${finalPrice.toFixed(2)} جنيه
-                </div>
-                <div class="product-rating">
-                    <div class="stars">
-                        \${'★'.repeat(product.rating)}\${'☆'.repeat(5-product.rating)}
-                    </div>
-                    <span style="color: var(--gray-600); font-size: 0.9rem;">(\${product.rating}.0)</span>
-                </div>
-                <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1.2rem; line-height: 1.5;">\${product.description}</p>
-                <div class="product-actions">
-                    <button class="add-to-cart" onclick="addToCart(\${product.id})">
-                        <i class="fas fa-cart-plus"></i> أضف للسلة
-                    </button>
-                    <button class="wishlist-btn" onclick="toggleWishlist(\${product.id})" title="إضافة للمفضلة">
-                        <i class="fas fa-heart"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        \`;
-    }).join('');
-
-    updateFilterButtons(category);
-    animateProductCards();
-}
-
-function filterProducts(category) {
-    loadProducts(category);
-}
-
-function updateFilterButtons(activeCategory) {
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    const activeBtn = document.querySelector(\`.filter-btn[onclick="filterProducts('\${activeCategory}')"]\`);
-    if (activeBtn) {
-        activeBtn.classList.add('active');
-    }
-}
-
-function animateProductCards() {
-    setTimeout(() => {
-        document.querySelectorAll('.product-card').forEach((card, index) => {
-            setTimeout(() => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                card.style.transition = 'all 0.6s ease';
-
-                setTimeout(() => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, 50);
-            }, index * 100);
-        });
-    }, 100);
-}
-
-function addToCart(productId) {
-    alert(\`تم إضافة المنتج رقم \${productId} إلى السلة\`);
-}
-
-function toggleWishlist(productId) {
-    const btn = document.querySelector(\`.wishlist-btn[onclick="toggleWishlist(\${productId})"]\`);
-    btn.classList.toggle('active');
-    btn.title = btn.classList.contains('active') ? 'إزالة من المفضلة' : 'إضافة للمفضلة';
-    
-    if (btn.classList.contains('active')) {
-        alert(\`تم إضافة المنتج رقم \${productId} إلى المفضلة\`);
-    } else {
-        alert(\`تم إزالة المنتج رقم \${productId} من المفضلة\`);
-    }
-}
-
-// 3. تهيئة الصفحة عند التحميل
-document.addEventListener('DOMContentLoaded', function() {
-    loadProducts();
-});`;
-        }
-
-        // توليد كود HTML
-        function generateHTMLCode(products) {
-            return `<!-- ================================================== -->
-<!-- نظام إدارة المنتجات - مكتبة الرواد -->
-<!-- هيكل HTML الخاص بقسم المنتجات -->
-<!-- ================================================== -->
-
-<section class="section" id="products">
-    <div class="container">
-        <h2 class="section-title">منتجاتنا المميزة</h2>
-        
-        <div class="products-filter">
-            <button class="filter-btn active" onclick="filterProducts('all')">الكل</button>
-            <button class="filter-btn" onclick="filterProducts('books')">الكتب</button>
-            <button class="filter-btn" onclick="filterProducts('stationery')">المستلزمات</button>
-            <button class="filter-btn" onclick="filterProducts('bags')">الحقائب</button>
-            <button class="filter-btn" onclick="filterProducts('gifts')">الهدايا</button>
-        </div>
-
-        <div class="products-grid" id="productsGrid">
-            ${products.map(product => {
-                const finalPrice = product.discount > 0 
-                    ? product.price - (product.price * product.discount / 100)
-                    : product.price;
-                    
-                return `
-            <div class="product-card fade-in" data-category="${product.category}">
-                <div class="product-image">
-                    ${product.image ? `<img src="${product.image}" alt="${sanitizeInput(product.name)}">` : getCategoryIcon(product.category)}
-                    ${product.badge ? `<span class="product-badge">${sanitizeInput(product.badge)}</span>` : ''}
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">${sanitizeInput(product.name)}</h3>
-                    <div class="product-price">
-                        ${product.discount > 0 ? `
-                            <span class="discount-badge">خصم ${product.discount}%</span>
-                            <span class="original-price">${product.price.toFixed(2)} جنيه</span>
-                        ` : ''}
-                        ${finalPrice.toFixed(2)} جنيه
-                    </div>
-                    <div class="product-rating">
-                        <div class="stars">
-                            ${'★'.repeat(product.rating)}${'☆'.repeat(5-product.rating)}
-                        </div>
-                        <span style="color: var(--gray-600); font-size: 0.9rem;">(${product.rating}.0)</span>
-                    </div>
-                    <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1.2rem; line-height: 1.5;">${sanitizeInput(product.description)}</p>
-                    <div class="product-actions">
-                        <button class="add-to-cart" onclick="addToCart(${product.id})">
-                            <i class="fas fa-cart-plus"></i> أضف للسلة
-                        </button>
-                        <button class="wishlist-btn" onclick="toggleWishlist(${product.id})" title="إضافة للمفضلة">
-                            <i class="fas fa-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-                `;
-            }).join('')}
-        </div>
-    </div>
-</section>`;
-        }
-
-        // إخفاء نافذة الأكواد
-        function hideCodeModal() {
-            document.getElementById('codeModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // نسخ الأكواد
-        function copyCode(elementId, btnElement) {
-            const codeContent = document.getElementById(elementId);
-            const textToCopy = codeContent.textContent;
-            
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    showNotification('تم نسخ الأكواد بنجاح', 'success');
-                    btnElement.classList.add('copied');
-                    setTimeout(() => {
-                        btnElement.classList.remove('copied');
-                    }, 2000);
-                }).catch(err => {
-                    console.error('Failed to copy: ', err);
-                    fallbackCopyText(textToCopy, btnElement);
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            db.collection('products').get().then((snapshot) => {
+                const products = [];
+                snapshot.forEach((doc) => {
+                    products.push({ id: doc.id, ...doc.data() });
                 });
-            } else {
-                fallbackCopyText(textToCopy, btnElement);
-            }
-        }
-        
-        function fallbackCopyText(text, btnElement) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.opacity = 0;
-            document.body.appendChild(textArea);
-            
-            try {
-                textArea.select();
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    showNotification('تم نسخ الأكواد بنجاح', 'success');
-                    btnElement.classList.add('copied');
-                    setTimeout(() => {
-                        btnElement.classList.remove('copied');
-                    }, 2000);
-                } else {
-                    showNotification('تعذر النسخ. يرجى نسخ النص يدويًا من النافذة.', 'error');
-                }
-            } catch (err) {
-                console.error('فشل في النسخ: ', err);
-                showNotification('تعذر النسخ. يرجى نسخ النص يدويًا من النافذة.', 'error');
-            } finally {
-                document.body.removeChild(textArea);
-            }
+                renderProducts(products);
+            });
         }
 
-        // التبديل بين تبويبات الأكواد
-        function switchCodeTab(tabId) {
-            document.querySelectorAll('.code-section').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.code-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            document.getElementById(tabId).classList.add('active');
-            
-            const activeTab = document.querySelector(`.code-tab[data-tab="${tabId}"]`);
-            if (activeTab) {
-                activeTab.classList.add('active');
-            }
-        }
-
-        // إظهار الإشعارات
+        // إظهار الإشعار
         function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
-            const icon = type === 'success' ? 'fa-check-circle' : 
-                         type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
-            
-            notification.className = `notification notification-${type}`;
-            notification.innerHTML = `
-                <i class="fas ${icon}"></i>
-                <span id="notificationMessage">${sanitizeInput(message)}</span>
-                <button class="close-btn" onclick="hideNotification()">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 5000);
+            const messageEl = document.getElementById('notificationMessage');
+            messageEl.textContent = message;
+            notification.className = `notification notification-${type} show`;
+            setTimeout(hideNotification, 5000);
         }
 
-        // إخفاء الإشعارات
+        // إخفاء الإشعار
         function hideNotification() {
             document.getElementById('notification').classList.remove('show');
         }
 
-        // الحصول على أيقونة التصنيف
-        function getCategoryIcon(category) {
-            const icons = {
-                'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;"></i>',
-                'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;"></i>',
-                'bags': '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: #28a745;"></i>',
-                'gifts': '<i class="fas fa-gift" style="font-size: 2.5rem; color: #ffc107;"></i>'
-            };
-            return icons[category] || '<i class="fas fa-box" style="font-size: 2.5rem; color: #a0aec0;"></i>';
+        // إظهار نافذة الكود
+        function showCodeModal() {
+            document.getElementById('codeModal').classList.add('active');
+            generateCode();
         }
 
-        // الحصول على اسم التصنيف
-        function getCategoryName(category) {
-            const names = {
-                'books': 'الكتب الدراسية',
-                'stationery': 'المستلزمات المكتبية',
-                'bags': 'الحقائب المدرسية',
-                'gifts': 'الهدايا'
-            };
-            return names[category] || category;
+        // إخفاء نافذة الكود
+        function hideCodeModal() {
+            document.getElementById('codeModal').classList.remove('active');
+        }
+
+        // تبديل تبويبات الكود
+        function switchCodeTab(tabName) {
+            document.querySelectorAll('.code-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.code-section').forEach(section => section.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // نسخ الكود
+        function copyCode(elementId, button) {
+            const content = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(content).then(() => {
+                button.classList.add('copied');
+                setTimeout(() => button.classList.remove('copied'), 2000);
+                showNotification('تم نسخ الكود بنجاح', 'success');
+            }).catch(() => {
+                showNotification('حدث خطأ في النسخ', 'error');
+            });
+        }
+
+        // توليد الكود
+        function generateCode() {
+            db.collection('products').get().then((snapshot) => {
+                let products = [];
+                snapshot.forEach((doc) => {
+                    products.push({ id: doc.id, ...doc.data() });
+                });
+
+                // كود JavaScript
+                const jsCode = `// بيانات المنتجات
+const products = ${JSON.stringify(products, null, 2)};
+
+// دالة لعرض المنتجات
+function renderProducts() {
+    const container = document.getElementById('products-container');
+    container.innerHTML = products.map(product => \`
+        <div class="product">
+            <h3>\${product.name}</h3>
+            <p>\${product.description}</p>
+            <p>السعر: \${product.price} جنيه</p>
+            \${product.discount > 0 ? '<p>خصم: ' + product.discount + '%</p>' : ''}
+        </div>
+    \`).join('');
+}
+
+// استدعاء الدالة
+renderProducts();`;
+
+                document.getElementById('jsCodeContent').textContent = jsCode;
+
+                // كود HTML
+                const htmlCode = `<!DOCTYPE html>
+<html>
+<head>
+    <title>متجر الرواد</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="products-container">
+        <!-- المنتجات ستظهر هنا -->
+    </div>
+    <script>
+        // أدرج كود JavaScript هنا
+        ${jsCode.replace(/<\/script>/g, '<\\/script>')}
+    </script>
+</body>
+</html>`;
+
+                document.getElementById('htmlCodeContent').textContent = htmlCode;
+            });
+        }
+
+        // إضافة منتجات نموذجية
+        function addSampleProducts() {
+            if (confirm('هل تريد إضافة منتجات نموذجية؟ سيتم إضافة 5 منتجات.')) {
+                const samples = [
+                    { name: 'كتاب الرياضيات', price: 50, discount: 10, category: 'books', description: 'كتاب دراسي للرياضيات', rating: 4.5, badge: 'جديد' },
+                    { name: 'دفتر مذكرات', price: 15, discount: 0, category: 'stationery', description: 'دفتر عالي الجودة', rating: 4.0 },
+                    { name: 'حقيبة مدرسية', price: 200, discount: 20, category: 'bags', description: 'حقيبة مدرسية متينة', rating: 4.8, badge: 'أكثر مبيعاً' },
+                    { name: 'قلم حبر', price: 25, discount: 5, category: 'stationery', description: 'قلم حبر أسود', rating: 3.5 },
+                    { name: 'هدية عيد ميلاد', price: 100, discount: 15, category: 'gifts', description: 'هدية مميزة', rating: 4.2 }
+                ];
+
+                samples.forEach(sample => {
+                    db.collection('products').add(sample);
+                });
+
+                showNotification('تم إضافة المنتجات النموذجية', 'success');
+            }
+        }
+
+        // حذف جميع المنتجات
+        function clearAllProducts() {
+            if (confirm('هل أنت متأكد من حذف جميع المنتجات؟ هذا الإجراء غير قابل للتراجع.')) {
+                db.collection('products').get().then((snapshot) => {
+                    const batch = db.batch();
+                    snapshot.forEach((doc) => {
+                        batch.delete(doc.ref);
+                    });
+                    batch.commit().then(() => {
+                        showNotification('تم حذف جميع المنتجات', 'success');
+                    });
+                });
+            }
+        }
+
+        // مزامنة مع الصفحة الرئيسية (مثال بسيط)
+        function syncWithMainPage() {
+            showNotification('تمت المزامنة مع الصفحة الرئيسية بنجاح', 'success');
+            // يمكن إضافة منطق حقيقي هنا
+        }
+
+        // تصدير المنتجات
+        function exportProducts() {
+            db.collection('products').get().then((snapshot) => {
+                let products = [];
+                snapshot.forEach((doc) => {
+                    products.push({ id: doc.id, ...doc.data() });
+                });
+                const dataStr = JSON.stringify(products, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'products.json';
+                link.click();
+            });
         }
     </script>
 </body>
