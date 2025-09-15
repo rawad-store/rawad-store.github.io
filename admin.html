@@ -5,6 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام إدارة المنتجات - مكتبة الرواد</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLAq1eYQ67zKLGs2my5_paM3GByrfPwYU",
+            authDomain: "rawad-library.firebaseapp.com",
+            projectId: "rawad-library",
+            storageBucket: "rawad-library.firebasestorage.app",
+            messagingSenderId: "981528745525",
+            appId: "1:981528745525:web:2c2cab42b19c107ad2437c",
+            measurementId: "G-4HDXZ6STTW"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        // جعل المتغيرات متاحة عالمياً
+        window.db = db;
+        window.productsRef = collection(db, "products");
+        window.addDoc = addDoc;
+        window.updateDoc = updateDoc;
+        window.deleteDoc = deleteDoc;
+        window.doc = doc;
+        window.onSnapshot = onSnapshot;
+        window.query = query;
+        window.orderBy = orderBy;
+    </script>
+    
     <style>
         :root {
             --primary-color: #1e3d59;
@@ -922,11 +953,7 @@
     <script>
         // تهيئة التطبيق
         document.addEventListener('DOMContentLoaded', function() {
-            if (!localStorage.getItem('rawad-products')) {
-                addSampleProducts();
-            } else {
-                loadProducts();
-            }
+            initializeFirebaseListener();
             
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
@@ -948,6 +975,37 @@
                 });
             });
         });
+
+        // الاستماع للتغييرات في Firebase
+        function initializeFirebaseListener() {
+            const q = query(productsRef, orderBy("name"));
+            
+            onSnapshot(q, (snapshot) => {
+                const products = [];
+                snapshot.forEach((doc) => {
+                    products.push({ id: doc.id, ...doc.data() });
+                });
+                
+                // حفظ في localStorage للتخزين المحلي
+                localStorage.setItem('rawad-products', JSON.stringify(products));
+                
+                // تحديث الواجهة
+                loadProducts();
+                
+                // إظهار إشعار إذا كان هناك تحديث
+                if (snapshot.docChanges().length > 0) {
+                    showNotification('تم تحديث قائمة المنتجات تلقائياً', 'info');
+                }
+            }, (error) => {
+                console.error("Error listening to products: ", error);
+                // إذا فشل الاتصال، استخدم البيانات المحلية
+                if (localStorage.getItem('rawad-products')) {
+                    loadProducts();
+                } else {
+                    addSampleProducts();
+                }
+            });
+        }
 
         // المتغيرات العامة
         let currentCategoryFilter = 'all';
@@ -1163,10 +1221,24 @@
         }
 
         // إضافة المنتجات النموذجية
-        function addSampleProducts() {
-            localStorage.setItem('rawad-products', JSON.stringify(sampleProducts));
-            showNotification('تم إضافة 20 منتج نموذجي بنجاح');
-            loadProducts();
+        async function addSampleProducts() {
+            try {
+                // حذف المنتجات الحالية أولاً
+                const existingProducts = JSON.parse(localStorage.getItem('rawad-products') || '[]');
+                for (const product of existingProducts) {
+                    await deleteDoc(doc(db, "products", product.id));
+                }
+                
+                // إضافة المنتجات النموذجية
+                for (const product of sampleProducts) {
+                    await addDoc(productsRef, product);
+                }
+                
+                showNotification('تم إضافة 20 منتج نموذجي بنجاح');
+            } catch (error) {
+                console.error("Error adding sample products: ", error);
+                showNotification('حدث خطأ أثناء إضافة المنتجات النموذجية', 'error');
+            }
         }
 
         // تحميل المنتجات
@@ -1222,10 +1294,10 @@
                         </div>
                         <p class="product-description">${sanitizeInput(product.description)}</p>
                         <div class="product-actions">
-                            <button class="btn btn-primary btn-sm" onclick="editProduct(${product.id})">
+                            <button class="btn btn-primary btn-sm" onclick="editProduct('${product.id}')">
                                 <i class="fas fa-edit"></i> تعديل
                             </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">
+                            <button class="btn btn-danger btn-sm" onclick="deleteProduct('${product.id}')">
                                 <i class="fas fa-trash"></i> حذف
                             </button>
                         </div>
@@ -1314,7 +1386,7 @@
         }
 
         // حفظ المنتج
-        function saveProduct() {
+        async function saveProduct() {
             const productId = document.getElementById('productId').value;
             const name = sanitizeInput(document.getElementById('productName').value.trim());
             const price = parseFloat(document.getElementById('productPrice').value);
@@ -1330,7 +1402,7 @@
                 return;
             }
             
-            if (price < 0) { // السماح بـ 0 لكن منع القيم السالبة
+            if (price < 0) {
                 showNotification('السعر لا يمكن أن يكون سالباً', 'error');
                 return;
             }
@@ -1340,38 +1412,8 @@
                 return;
             }
             
-            let products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-            
-            const existingProduct = products.find(p => p.name === name && p.id != productId);
-            if (existingProduct) {
-                showNotification('اسم المنتج موجود بالفعل', 'error');
-                return;
-            }
-            
-            if (productId && !confirm('هل أنت متأكد من تعديل هذا المنتج؟')) {
-                return;
-            }
-            
-            if (productId) {
-                const index = products.findIndex(p => p.id == productId);
-                if (index !== -1) {
-                    products[index] = {
-                        id: parseInt(productId),
-                        name,
-                        price,
-                        discount,
-                        category,
-                        description,
-                        rating,
-                        badge,
-                        image: imageData || products[index].image || ''
-                    };
-                    showNotification('تم تعديل المنتج بنجاح');
-                }
-            } else {
-                const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-                products.push({
-                    id: newId,
+            try {
+                const productData = {
                     name,
                     price,
                     discount,
@@ -1380,59 +1422,83 @@
                     rating,
                     badge,
                     image: imageData || ''
-                });
-                showNotification('تم إضافة المنتج بنجاح');
+                };
+                
+                if (productId) {
+                    // تحديث منتج موجود
+                    await updateDoc(doc(db, "products", productId), productData);
+                    showNotification('تم تعديل المنتج بنجاح');
+                } else {
+                    // إضافة منتج جديد
+                    await addDoc(productsRef, productData);
+                    showNotification('تم إضافة المنتج بنجاح');
+                }
+                
+                hideProductForm();
+            } catch (error) {
+                console.error("Error saving product: ", error);
+                showNotification('حدث خطأ أثناء حفظ المنتج', 'error');
             }
-            
-            localStorage.setItem('rawad-products', JSON.stringify(products));
-            hideProductForm();
-            loadProducts();
         }
 
         // تعديل منتج
-        function editProduct(id) {
-            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-            const product = products.find(p => p.id === id);
-            
-            if (product) {
-                document.getElementById('productForm').classList.remove('hidden');
-                document.getElementById('formTitle').textContent = 'تعديل المنتج';
-                document.getElementById('productId').value = product.id;
-                document.getElementById('productName').value = product.name;
-                document.getElementById('productPrice').value = product.price;
-                document.getElementById('productDiscount').value = product.discount || 0;
-                document.getElementById('productCategory').value = product.category;
-                document.getElementById('productDescription').value = product.description;
-                document.getElementById('productRating').value = product.rating;
-                document.getElementById('productBadge').value = product.badge || '';
-                document.getElementById('productImageData').value = product.image || '';
+        async function editProduct(id) {
+            try {
+                const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
+                const product = products.find(p => p.id === id);
                 
-                if (product.image) {
-                    document.getElementById('previewImage').src = product.image;
-                    document.getElementById('imagePreview').style.display = 'block';
-                } else {
-                    document.getElementById('imagePreview').style.display = 'none';
+                if (product) {
+                    document.getElementById('productForm').classList.remove('hidden');
+                    document.getElementById('formTitle').textContent = 'تعديل المنتج';
+                    document.getElementById('productId').value = product.id;
+                    document.getElementById('productName').value = product.name;
+                    document.getElementById('productPrice').value = product.price;
+                    document.getElementById('productDiscount').value = product.discount || 0;
+                    document.getElementById('productCategory').value = product.category;
+                    document.getElementById('productDescription').value = product.description;
+                    document.getElementById('productRating').value = product.rating;
+                    document.getElementById('productBadge').value = product.badge || '';
+                    document.getElementById('productImageData').value = product.image || '';
+                    
+                    if (product.image) {
+                        document.getElementById('previewImage').src = product.image;
+                        document.getElementById('imagePreview').style.display = 'block';
+                    } else {
+                        document.getElementById('imagePreview').style.display = 'none';
+                    }
                 }
+            } catch (error) {
+                console.error("Error editing product: ", error);
+                showNotification('حدث خطأ أثناء تحميل بيانات المنتج', 'error');
             }
         }
 
         // حذف منتج
-        function deleteProduct(id) {
+        async function deleteProduct(id) {
             if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
-                let products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('rawad-products', JSON.stringify(products));
-                showNotification('تم حذف المنتج بنجاح');
-                loadProducts();
+                try {
+                    await deleteDoc(doc(db, "products", id));
+                    showNotification('تم حذف المنتج بنجاح');
+                } catch (error) {
+                    console.error("Error deleting product: ", error);
+                    showNotification('حدث خطأ أثناء حذف المنتج', 'error');
+                }
             }
         }
 
         // حذف جميع المنتجات
-        function clearAllProducts() {
+        async function clearAllProducts() {
             if (confirm('هل أنت متأكد من حذف جميع المنتجات؟ لا يمكن التراجع عن هذا الإجراء.')) {
-                localStorage.removeItem('rawad-products');
-                showNotification('تم حذف جميع المنتجات');
-                loadProducts();
+                try {
+                    const products = JSON.parse(localStorage.getItem('rawad-products') || '[]');
+                    for (const product of products) {
+                        await deleteDoc(doc(db, "products", product.id));
+                    }
+                    showNotification('تم حذف جميع المنتجات');
+                } catch (error) {
+                    console.error("Error clearing products: ", error);
+                    showNotification('حدث خطأ أثناء حذف المنتجات', 'error');
+                }
             }
         }
 
@@ -1729,7 +1795,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const textArea = document.createElement('textarea');
             textArea.value = text;
             textArea.style.position = 'fixed';
-            textArea.style.opacity = 0;
+            textArea.style.opacity = '0';
             document.body.appendChild(textArea);
             
             try {
