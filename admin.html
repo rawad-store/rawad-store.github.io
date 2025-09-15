@@ -911,14 +911,33 @@
         </div>
     </div>
 
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <!-- Firebase Storage -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
     <script>
+        // تهيئة Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBLAq1eYQ67zKLGs2my5_paM3GByrfPwYU",
+            authDomain: "rawad-library.firebaseapp.com",
+            projectId: "rawad-library",
+            storageBucket: "rawad-library.firebasestorage.app",
+            messagingSenderId: "981528745525",
+            appId: "1:981528745525:web:2c2cab42b19c107ad2437c",
+            measurementId: "G-4HDXZ6STTW"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
         // تهيئة التطبيق
         document.addEventListener('DOMContentLoaded', function() {
-            if (!localStorage.getItem('rawad-products')) {
-                addSampleProducts();
-            } else {
-                loadProducts();
-            }
+            loadProducts();
             
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
@@ -944,227 +963,40 @@
         // المتغيرات العامة
         let currentCategoryFilter = 'all';
         let currentSearchTerm = '';
-
-        // المنتجات النموذجية
-        const sampleProducts = [
-            {
-                "id": 1,
-                "name": "كتب دراسية ومراجع",
-                "price": 100,
-                "discount": 10,
-                "category": "books",
-                "description": "جميع المراحل الدراسية - طبعة حديثة",
-                "rating": 5,
-                "badge": "جديد"
-            },
-            {
-                "id": 2,
-                "name": "مجموعة أقلام متنوعة",
-                "price": 50,
-                "discount": 5,
-                "category": "stationery",
-                "description": "مجموعة أقلام عالية الجودة - متنوع",
-                "rating": 5,
-                "badge": "الأكثر مبيعاً"
-            },
-            {
-                "id": 3,
-                "name": "حقيبة مدرسية - تصميم عصري",
-                "price": 350,
-                "discount": 15,
-                "category": "bags",
-                "description": "حقيبة مدرسية بتصميم عصري ومقاومة للماء",
-                "rating": 5,
-                "badge": "مميز"
-            },
-            {
-                "id": 4,
-                "name": "دفتر ملاحظات",
-                "price": 25,
-                "discount": 0,
-                "category": "stationery",
-                "description": "دفتر ملاحظات متنوع",
-                "rating": 4,
-                "badge": ""
-            },
-            {
-                "id": 5,
-                "name": "كشكول وكراس",
-                "price": 30,
-                "discount": 0,
-                "category": "books",
-                "description": "تشكيلات متنوعة ومميزة",
-                "rating": 5,
-                "badge": ""
-            },
-            {
-                "id": 6,
-                "name": "هدايا قيمة",
-                "price": 200,
-                "discount": 20,
-                "category": "gifts",
-                "description": "هدايا مميزة ومتنوعة",
-                "rating": 5,
-                "badge": "مميز"
-            },
-            {
-                "id": 7,
-                "name": "اكسسوارات",
-                "price": 75,
-                "discount": 10,
-                "category": "gifts",
-                "description": "تشكيلة متنوعة",
-                "rating": 4,
-                "badge": "جديد"
-            },
-            {
-                "id": 8,
-                "name": "فولدرات وحافظات",
-                "price": 40,
-                "discount": 0,
-                "category": "stationery",
-                "description": "متنوع",
-                "rating": 4,
-                "badge": "رائع"
-            },
-            {
-                "id": 9,
-                "name": "ورق تصوير",
-                "price": 45,
-                "discount": 5,
-                "category": "stationery",
-                "description": "ممتاز",
-                "rating": 4,
-                "badge": "جودة"
-            },
-            {
-                "id": 10,
-                "name": "قاموس عربي إنجليزي",
-                "price": 120,
-                "discount": 10,
-                "category": "books",
-                "description": "قاموس شامل ومحدث",
-                "rating": 5,
-                "badge": "مميز"
-            },
-            {
-                "id": 11,
-                "name": "حقيبة كمبيوتر",
-                "price": 280,
-                "discount": 15,
-                "category": "bags",
-                "description": "مناسبة لأجهزة اللابتوب",
-                "rating": 4,
-                "badge": "جديد"
-            },
-            {
-                "id": 12,
-                "name": "أقلام تخطيط",
-                "price": 35,
-                "discount": 0,
-                "category": "stationery",
-                "description": "مجموعة ألوان متنوعة",
-                "rating": 4,
-                "badge": ""
-            },
-            {
-                "id": 13,
-                "name": "مجموعة أدوات هندسية",
-                "price": 65,
-                "discount": 10,
-                "category": "stationery",
-                "description": "أدوات دقيقة ومتينة",
-                "rating": 5,
-                "badge": "جودة"
-            },
-            {
-                "id": 14,
-                "name": "كتاب القصص المصورة",
-                "price": 85,
-                "discount": 5,
-                "category": "books",
-                "description": "قصص تعليمية ممتعة",
-                "rating": 4,
-                "badge": ""
-            },
-            {
-                "id": 15,
-                "name": "حافظة مستندات",
-                "price": 55,
-                "discount": 0,
-                "category": "stationery",
-                "description": "متينة وتصميم عملي",
-                "rating": 4,
-                "badge": ""
-            },
-            {
-                "id": 16,
-                "name": "مجموعة هدايا تخرج",
-                "price": 300,
-                "discount": 25,
-                "category": "gifts",
-                "description": "هدايا مميزة للخريجين",
-                "rating": 5,
-                "badge": "مميز"
-            },
-            {
-                "id": 17,
-                "name": "حقيبة رياضية",
-                "price": 220,
-                "discount": 15,
-                "category": "bags",
-                "description": "مناسبة للرياضة والأنشطة",
-                "rating": 4,
-                "badge": "جديد"
-            },
-            {
-                "id": 18,
-                "name": "موسوعة علمية",
-                "price": 180,
-                "discount": 10,
-                "category": "books",
-                "description": "شاملة ومفصلة",
-                "rating": 5,
-                "badge": "الأكثر مبيعاً"
-            },
-            {
-                "id": 19,
-                "name": "طابع وزينة",
-                "price": 30,
-                "discount": 0,
-                "category": "gifts",
-                "description": "تشكيلة متنوعة من الزينة",
-                "rating": 4,
-                "badge": ""
-            },
-            {
-                "id": 20,
-                "name": "مجموعة ألوان فنية",
-                "price": 90,
-                "discount": 15,
-                "category": "stationery",
-                "description": "ألوان عالية الجودة",
-                "rating": 5,
-                "badge": "جديد"
-            }
-        ];
+        let unsubscribeProducts = null;
 
         // تعقيم المدخلات لمنع XSS
         function sanitizeInput(input) {
             return input.replace(/[<>"'&]/g, '');
         }
 
-        // إضافة المنتجات النموذجية
-        function addSampleProducts() {
-            localStorage.setItem('rawad-products', JSON.stringify(sampleProducts));
-            showNotification('تم إضافة 20 منتج نموذجي بنجاح');
-            loadProducts();
-        }
-
-        // تحميل المنتجات
+        // تحميل المنتجات من Firebase مع التحديث التلقائي
         function loadProducts() {
             const productsList = document.getElementById('productsList');
-            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
+            
+            // إلغاء أي اشتراك سابق
+            if (unsubscribeProducts) {
+                unsubscribeProducts();
+            }
+            
+            // الاشتراك في التحديثات الفورية
+            unsubscribeProducts = db.collection('products')
+                .onSnapshot((snapshot) => {
+                    const products = [];
+                    snapshot.forEach((doc) => {
+                        products.push({ id: doc.id, ...doc.data() });
+                    });
+                    
+                    renderProducts(products);
+                }, (error) => {
+                    console.error("Error loading products: ", error);
+                    showNotification('حدث خطأ في تحميل المنتجات', 'error');
+                });
+        }
+
+        // عرض المنتجات في الشبكة
+        function renderProducts(products) {
+            const productsList = document.getElementById('productsList');
             
             const filteredProducts = products.filter(product => {
                 const matchesCategory = currentCategoryFilter === 'all' || product.category === currentCategoryFilter;
@@ -1196,7 +1028,7 @@
                 <div class="product-card">
                     ${product.badge ? `<span class="product-badge">${sanitizeInput(product.badge)}</span>` : ''}
                     <div class="product-image">
-                        ${product.image ? `<img src="${product.image}" alt="${sanitizeInput(product.name)}">` : getCategoryIcon(product.category)}
+                        ${product.imageUrl ? `<img src="${product.imageUrl}" alt="${sanitizeInput(product.name)}">` : getCategoryIcon(product.category)}
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">${sanitizeInput(product.name)}</h3>
@@ -1214,10 +1046,10 @@
                         </div>
                         <p class="product-description">${sanitizeInput(product.description)}</p>
                         <div class="product-actions">
-                            <button class="btn btn-primary btn-sm" onclick="editProduct(${product.id})">
+                            <button class="btn btn-primary btn-sm" onclick="editProduct('${product.id}')">
                                 <i class="fas fa-edit"></i> تعديل
                             </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">
+                            <button class="btn btn-danger btn-sm" onclick="deleteProduct('${product.id}')">
                                 <i class="fas fa-trash"></i> حذف
                             </button>
                         </div>
@@ -1257,6 +1089,7 @@
             document.getElementById('previewImage').src = '';
         }
 
+        
         // إخفاء نموذج المنتج
         function hideProductForm() {
             document.getElementById('productForm').classList.add('hidden');
