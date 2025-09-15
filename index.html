@@ -6,8 +6,16 @@
     <title>مكتبة الرواد - الصوة | متجر الكتب والمستلزمات المدرسية</title>
     <meta name="description" content="متجر مكتبة الرواد - أكبر مجموعة من الكتب الدراسية والمستلزمات المكتبية بأفضل الأسعار">
     
+    <!-- PWA Configuration -->
+    <meta name="theme-color" content="#1e3d59">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="مكتبة الرواد">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/icon-192x192.png">
+    <link rel="manifest" href="/manifest.json">
+
     <!-- Meta Tags for Social Media Sharing -->
-    <meta property="og:title" content="مكتبة الرواد -الصوة | متجر الكتب والمستلزمات المدرسية">
+    <meta property="og:title" content="مكتبة الرواد - الصوة | متجر الكتب والمستلزمات المدرسية">
     <meta property="og:description" content="مكتبة الرواد توفر أكبر مجموعة من الكتب الدراسية والمستلزمات المكتبية. اطلب خدمات الطباعة والتصوير واستلمها بسهولة .">
     <meta property="og:image" content="https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/preview.jpg">
     <meta property="og:url" content="https://rawad-store.github.io/">
@@ -152,11 +160,10 @@
 
         /* Enhanced Header */
         .header-top {
-            background: linear-gradient(135deg, var(--dark-color), #495057);
+            background: linear-gradient(135deg, var(--primary-color), #2a5a87);
             color: white;
-            padding: 0.75rem 0;
-            font-size: 0.9rem;
-            position: relative;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
@@ -772,6 +779,7 @@
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
             transition: left 0.6s;
+            z-index: 1;
         }
 
         .category-card:hover::before {
@@ -797,6 +805,8 @@
             font-size: 1.8rem;
             box-shadow: 0 8px 25px rgba(30, 61, 89, 0.3);
             transition: var(--transition);
+            position: relative;
+            z-index: 2;
         }
 
         .category-card:hover .category-icon {
@@ -809,12 +819,16 @@
             margin-bottom: 0.8rem;
             font-size: 1.2rem;
             font-weight: 600;
+            position: relative;
+            z-index: 2;
         }
 
         .category-card p {
             color: var(--gray-600);
             font-size: 0.9rem;
             line-height: 1.6;
+            position: relative;
+            z-index: 2;
         }
 
         /* Mobile Menu Toggle */
@@ -880,6 +894,7 @@
             font-size: 0.7rem;
             font-weight: 600;
             box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            z-index: 10;
         }
 
         .product-info {
@@ -905,7 +920,7 @@
         .product-price {
             font-size: 1.2rem;
             font-weight: 700;
-            color: #28a745;   /* أخضر للسعر */
+            color: #28a745;
             margin-bottom: 0.7rem;
         }
 
@@ -1378,7 +1393,7 @@
         .footer-contact i {
             color: var(--accent-color);
             margin-top: 0.2rem;
-            font-size: 1rem;
+            font-size: 1.rem;
         }
 
         .footer-contact strong {
@@ -1983,8 +1998,32 @@
             }
         }
     </style>
+     <!-- Firebase SDK -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+      import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBLAq1eYQ67zKLGs2my5_paM3GByrfPwYU",
+        authDomain: "rawad-library.firebaseapp.com",
+        projectId: "rawad-library",
+        storageBucket: "rawad-library.firebasestorage.app",
+        messagingSenderId: "981528745525",
+        appId: "1:981528745525:web:2c2cab42b19c107ad2437c",
+        measurementId: "G-4HDXZ6STTW"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      
+      // جعل المتغيرات متاحة عالمياً
+      window.db = db;
+      window.productsRef = collection(db, "products");
+      window.getDocs = getDocs;
+    </script>
 </head>
 <body>
+    
     <!-- Header Top -->
     <div class="header-top">
         <div class="container">
@@ -2246,9 +2285,14 @@
     </section>
 
     <!-- Offers Section -->
-    <section class="section" id="offers" style="background: linear-gradient(135deg, var(--secondary-color), #ff8c5a); color: white; padding: 4rem 0; position: relative; overflow: hidden;">
-        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="offer-gradient"><stop offset="0%" stop-color="rgba(255,255,255,0.05)"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs><circle cx="100" cy="100" r="200" fill="url(%23offer-gradient)"/><circle cx="900" cy="900" r="300" fill="url(%23offer-gradient)"/></svg>'); opacity: 0.3;"></div>
-        <div class="container" style="position: relative; z-index: 1;">
+    <section class="section" id="offers" style="background: #2b8fd0; /* أزرق تركواز */ color: white; padding: 4rem 0; position: relative; overflow: hidden;">
+    
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="offer-gradient"><stop offset="0%" stop-color="rgba(255,255,255,0.05)"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs><circle cx="100" cy="100" r="200" fill="url(%23offer-gradient)"/><circle cx="900" cy="900" r="300" fill="url(%23offer-gradient)"/></svg>'); 
+        opacity: 0.3;">
+    </div>
+
+    <div class="container" style="position: relative; z-index: 1;">
             <h2 class="section-title">عروضنا الحصرية</h2>
             <div class="offers-grid">
                 <div class="offer-card">
@@ -2310,8 +2354,8 @@
                     <div class="contact-icon">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
-                    <h4>العنوان</h4>
-                    <p>أمام سنترال الصوة - المجمع<br>محافظة الشرقية، أبوحماد</p>
+                    <h4>العنوان:</h4>
+                    <span style="color: Light Blue;">أمام سنترال الصوة - بالمجمع<br>محافظة الشرقية، أبوحماد</span>
                     <a href="https://maps.app.goo.gl/AYcYJXjYipwdSgRQA" target="_blank" class="btn btn-outline-primary" style="margin-top: 0.5rem;">
                         <i class="fas fa-map" style="color: #ffffff"></i> عرض على الخريطة
                     </a>
@@ -2365,8 +2409,8 @@
     </section>
 
     <!-- Footer -->
-<footer style="background: linear-gradient(135deg, var(--dark-color), #6c757d); color: white; padding: 4rem 0 2rem; position: relative; overflow: hidden;">
-        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 20\"><defs><pattern id=\"footer-pattern\" width=\"100\" height=\"20\" patternUnits=\"userSpaceOnUse\"><circle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(73, 80, 87, 0.8)\"/></pattern></defs><rect width=\"100\" height=\"20\" fill=\"url(%23footer-pattern)\"/></svg>'); opacity: 0.3;"></div>
+<footer style="background: #2c3e50; /* بدلاً من التدرج */ color: white; padding: 4rem 0 2rem; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 20\"><defs><pattern id=\"footer-pattern\" width=\"100\" height=\"20\" patternUnits=\"userSpaceOnUse\"><circle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(73, 80, 87, 1)\"/></pattern></defs><rect width=\"100\" height=\"20\" fill=\"url(%23footer-pattern)\"/></svg>'); opacity: 0.3;"></div>
         <div class="container" style="position: relative; z-index: 1;">
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; margin-bottom: 3rem;">
                 <div>
@@ -2420,17 +2464,17 @@
                         <li style="margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.8rem;">
                             <i class="fas fa-map-marker-alt" style="color: var(--accent-color); margin-top: 0.2rem; font-size: 1.1rem;"></i>
                             <div>
-                                <strong style="color: white;">العنوان:</strong><br>
-                                <span style="color: var(--gray-300);">أمام سنترال الصوة - بالمجمع<br>محافظة الشرقية، أبوحماد</span>
-                                <a href="https://maps.app.goo.gl/AYcYJXjYipwdSgRQA" target="_blank" class="btn btn-outline-primary" style="margin-top: 0.5rem;">
-                                    <i class="fas fa-map" style="color: #ffffff" ></i> عرض على الخريطة
-                                </a>
+                                <strong style="color: #FF6B35; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-size: 16px;">📍 العنوان:</strong><br>
+                     <span style="color: #ffffff; font-size: 14px; line-height: 1.5;">أمام سنترال الصوة - بالمجمع<br>محافظة الشرقية، أبوحماد</span>
+                     <a href="https://maps.app.goo.gl/AYcYJXjYipwdSgRQA" target="_blank" class="btn btn-outline-primary" style="margin-top: 0.8rem; border-color: #FF6B35; color: #FF6B35; border-width: 2px; padding: 8px 16px; transition: all 0.3s;">
+                            <i class="fas fa-map" style="color: #FF6B35; margin-left: 5px;"></i> عرض على الخريطة
+                     </a>
                              </div>
                         </li>
                         <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem;">
                             <i class="fas fa-phone" style="color: var(--accent-color); font-size: 1.1rem;"></i>
                             <div>
-                                <strong style="color: white;">الهاتف:</strong><br>
+                                <strong style="color: white;"> الهاتف:</strong><br>
                                 <a href="tel:+201126630356" style="color: var(--gray-300); text-decoration: none;">+20 1126630356</a>
                             </div>
                         </li>
@@ -2562,224 +2606,287 @@
     <script>
         // ==================================================
         // نظام إدارة المنتجات - مكتبة الرواد
+        // الأكواد التالية جاهزة للنسخ واللصق في الصفحة الرئيسية
         // ==================================================
 
         // 1. مصفوفة المنتجات
-        let products = [
-            {
-                "id": 1,
-                "name": "كتب دراسية ومراجع",
-                "price": 100,
-                "discount": 10,
-                "category": "books",
-                "description": "جميع المراحل الدراسية - طبعة حديثة",
-                "rating": 5,
-                "badge": "جديد"
-            },
-            {
-                "id": 2,
-                "name": "مجموعة أقلام متنوعة",
-                "price": 50,
-                "discount": 5,
-                "category": "stationery",
-                "description": "مجموعة أقلام عالية الجودة - متنوع",
-                "rating": 5,
-                "badge": "الأكثر مبيعاً"
-            },
-            {
-                "id": 3,
-                "name": "حقيبة مدرسية - تصميم عصري",
-                "price": 350,
-                "discount": 15,
-                "category": "bags",
-                "description": "حقيبة مدرسية بتصميم عصري ومقاومة للماء",
-                "rating": 5,
-                "badge": "مميز"
-            },
-            {
-                "id": 4,
-                "name": "دفتر ملاحظات",
-                "price": 25,
-                "discount": 0,
-                "category": "stationery",
-                "description": "دفتر ملاحظات متنوع",
-                "rating": 4,
-                "badge": ""
-            },
-            {
-                "id": 5,
-                "name": "كشكول وكراس",
-                "price": 30,
-                "discount": 0,
-                "category": "books",
-                "description": "تشكيلات متنوعة ومميزة",
-                "rating": 5,
-                "badge": ""
-            },
-            {
-                "id": 6,
-                "name": "هدايا قيمة",
-                "price": 200,
-                "discount": 20,
-                "category": "gifts",
-                "description": "هدايا مميزة ومتنوعة",
-                "rating": 5,
-                "badge": "مميز"
-            },
-            {
-                "id": 7,
-                "name": "اكسسوارات",
-                "price": 75,
-                "discount": 10,
-                "category": "gifts",
-                "description": "تشكيلة متنوعة",
-                "rating": 4,
-                "badge": "جديد"
-            },
-            {
-                "id": 8,
-                "name": "فولدرات وحافظات",
-                "price": 40,
-                "discount": 0,
-                "category": "stationery",
-                "description": "متنوع",
-                "rating": 4,
-                "badge": "رائع"
-            },
-            {
-                "id": 9,
-                "name": "ورق تصوير",
-                "price": 45,
-                "discount": 5,
-                "category": "stationery",
-                "description": "ممتاز",
-                "rating": 4,
-                "badge": "جودة"
-            },
-            {
-                "id": 10,
-                "name": "قاموس عربي إنجليزي",
-                "price": 120,
-                "discount": 10,
-                "category": "books",
-                "description": "قاموس شامل ومحدث",
-                "rating": 5,
-                "badge": "مميز"
-            },
-            {
-                "id": 11,
-                "name": "حقيبة كمبيوتر",
-                "price": 280,
-                "discount": 15,
-                "category": "bags",
-                "description": "مناسبة لأجهزة اللابتوب",
-                "rating": 4,
-                "badge": "جديد"
-            },
-            {
-                "id": 12,
-                "name": "أقلام تخطيط",
-                "price": 35,
-                "discount": 0,
-                "category": "stationery",
-                "description": "مجموعة ألوان متنوعة",
-                "rating": 4,
-                "badge": ""
-            },
-            {
-                "id": 13,
-                "name": "مجموعة أدوات هندسية",
-                "price": 65,
-                "discount": 10,
-                "category": "stationery",
-                "description": "أدوات دقيقة ومتينة",
-                "rating": 5,
-                "badge": "جودة"
-            },
-            {
-                "id": 14,
-                "name": "كتاب القصص المصورة",
-                "price": 85,
-                "discount": 5,
-                "category": "books",
-                "description": "قصص تعليمية ممتعة",
-                "rating": 4,
-                "badge": ""
-            },
-            {
-                "id": 15,
-                "name": "حافظة مستندات",
-                "price": 55,
-                "discount": 0,
-                "category": "stationery",
-                "description": "متينة وتصميم عملي",
-                "rating": 4,
-                "badge": ""
-            },
-            {
-                "id": 16,
-                "name": "مجموعة هدايا تخرج",
-                "price": 300,
-                "discount": 25,
-                "category": "gifts",
-                "description": "هدايا مميزة للخريجين",
-                "rating": 5,
-                "badge": "مميز"
-            },
-            {
-                "id": 17,
-                "name": "حقيبة رياضية",
-                "price": 220,
-                "discount": 15,
-                "category": "bags",
-                "description": "مناسبة للرياضة والأنشطة",
-                "rating": 4,
-                "badge": "جديد"
-            },
-            {
-                "id": 18,
-                "name": "موسوعة علمية",
-                "price": 180,
-                "discount": 10,
-                "category": "books",
-                "description": "شاملة ومفصلة",
-                "rating": 5,
-                "badge": "الأكثر مبيعاً"
-            },
-            {
-                "id": 19,
-                "name": "طابع وزينة",
-                "price": 30,
-                "discount": 0,
-                "category": "gifts",
-                "description": "تشكيلة متنوعة من الزينة",
-                "rating": 4,
-                "badge": ""
-            },
-            {
-                "id": 20,
-                "name": "مجموعة ألوان فنية",
-                "price": 90,
-                "discount": 15,
-                "category": "stationery",
-                "description": "ألوان عالية الجودة",
-                "rating": 5,
-                "badge": "جديد"
-            }
-        ];
+        let products = [];
+        let cart = [];
+        let wishlist = [];
+        let currentFilter = 'all';
+        let customerData = {
+            name: '',
+            customDate: '',
+            customTime: '',
+            notes: ''
+        };
 
-        // 2. دوال المساعدة
-        function getCategoryIcon(category) {
-            const icons = {
-                'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;"></i>',
-                'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;"></i>',
-                'bags': '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: #28a745;"></i>',
-                'gifts': '<i class="fas fa-gift" style="font-size: 2.5rem; color: #ffc107;"></i>'
-            };
-            return icons[category] || '<i class="fas fa-box" style="font-size: 2.5rem; color: #a0aec0;"></i>';
+        // 2. تهيئة التطبيق
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            loadProducts();
+            updateCartCount();
+            updateWishlistCount();
+            initializeAnimations();
+            initializeEventListeners();
+            loadCustomerData();
+        });
+
+        // 3. تحميل المنتجات من Firebase
+        async function loadProducts(category = 'all') {
+            try {
+                showLoading();
+                const querySnapshot = await getDocs(productsRef);
+                products = [];
+                
+                querySnapshot.forEach((doc) => {
+                    products.push({ id: doc.id, ...doc.data() });
+                });
+                
+                // إذا لم توجد منتجات، استخدم المنتجات الافتراضية
+                if (products.length === 0) {
+                    products = getDefaultProducts();
+                }
+                
+                renderProducts(category);
+                hideLoading();
+            } catch (error) {
+                console.error("Error loading products: ", error);
+                // استخدام المنتجات الافتراضية في حالة الخطأ
+                products = getDefaultProducts();
+                renderProducts(category);
+                hideLoading();
+            }
         }
 
-        function loadProducts(category = 'all') {
+        // 4. المنتجات الافتراضية
+        function getDefaultProducts() {
+            return [
+                {
+                    "id": 1,
+                    "name": "طقم أقلام تظليل",
+                    "price": 55,
+                    "discount": 10,
+                    "category": "stationery",
+                    "description": "مجموعة أقلام عالية الجودة",
+                    "rating": 5,
+                    "badge": "جديد",
+                    "image": ""
+                },
+                {
+                    "id": 2,
+                    "name": "مجموعة أقلام متنوعة",
+                    "price": 40,
+                    "discount": 5,
+                    "category": "stationery",
+                    "description": "مجموعة أقلام عالية الجودة - متنوع",
+                    "rating": 5,
+                    "badge": "الأكثر مبيعاً",
+                    "image": ""
+                },
+                {
+                    "id": 3,
+                    "name": "حقيبة مدرسية - تصميم عصري",
+                    "price": 350,
+                    "discount": 15,
+                    "category": "bags",
+                    "description": "حقيبة مدرسية بتصميم عصري ومقاومة للماء",
+                    "rating": 5,
+                    "badge": "مميز",
+                    "image": ""
+                },
+                {
+                    "id": 4,
+                    "name": "دفتر ملاحظات",
+                    "price": 25,
+                    "discount": 0,
+                    "category": "stationery",
+                    "description": "دفتر ملاحظات متنوع",
+                    "rating": 4,
+                    "badge": "",
+                    "image": ""
+                },
+                {
+                    "id": 5,
+                    "name": "كشكول وكراس",
+                    "price": 30,
+                    "discount": 0,
+                    "category": "books",
+                    "description": "تشكيلات متنوعة ومميزة",
+                    "rating": 5,
+                    "badge": "",
+                    "image": ""
+                },
+                {
+                    "id": 6,
+                    "name": "هدايا قيمة",
+                    "price": 200,
+                    "discount": 20,
+                    "category": "gifts",
+                    "description": "هدايا مميزة ومتنوعة",
+                    "rating": 5,
+                    "badge": "مميز",
+                    "image": ""
+                },
+                {
+                    "id": 7,
+                    "name": "اكسسوارات",
+                    "price": 75,
+                    "discount": 10,
+                    "category": "gifts",
+                    "description": "تشكيلة متنوعة",
+                    "rating": 4,
+                    "badge": "جديد",
+                    "image": ""
+                },
+                {
+                    "id": 8,
+                    "name": "فولدرات وحافظات",
+                    "price": 40,
+                    "discount": 0,
+                    "category": "stationery",
+                    "description": "متنوع",
+                    "rating": 4,
+                    "badge": "رائع",
+                    "image": ""
+                },
+                {
+                    "id": 9,
+                    "name": "ورق تصوير",
+                    "price": 45,
+                    "discount": 5,
+                    "category": "stationery",
+                    "description": "ممتاز",
+                    "rating": 4,
+                    "badge": "جودة",
+                    "image": ""
+                },
+                {
+                    "id": 10,
+                    "name": "قاموس عربي إنجليزي",
+                    "price": 120,
+                    "discount": 10,
+                    "category": "books",
+                    "description": "قاموس شامل ومحدث",
+                    "rating": 5,
+                    "badge": "مميز",
+                    "image": ""
+                },
+                {
+                    "id": 11,
+                    "name": "حقيبة كمبيوتر",
+                    "price": 280,
+                    "discount": 15,
+                    "category": "bags",
+                    "description": "مناسبة لأجهزة اللابتوب",
+                    "rating": 4,
+                    "badge": "جديد",
+                    "image": ""
+                },
+                {
+                    "id": 12,
+                    "name": "أقلام تخطيط",
+                    "price": 35,
+                    "discount": 0,
+                    "category": "stationery",
+                    "description": "مجموعة ألوان متنوعة",
+                    "rating": 4,
+                    "badge": "",
+                    "image": ""
+                },
+                {
+                    "id": 13,
+                    "name": "مجموعة أدوات هندسية",
+                    "price": 65,
+                    "discount": 10,
+                    "category": "stationery",
+                    "description": "أدوات دقيقة ومتينة",
+                    "rating": 5,
+                    "badge": "جودة",
+                    "image": ""
+                },
+                {
+                    "id": 14,
+                    "name": "كتاب القصص المصورة",
+                    "price": 85,
+                    "discount": 5,
+                    "category": "books",
+                    "description": "قصص تعليمية ممتعة",
+                    "rating": 4,
+                    "badge": "",
+                    "image": ""
+                },
+                {
+                    "id": 15,
+                    "name": "حافظة مستندات",
+                    "price": 55,
+                    "discount": 0,
+                    "category": "stationery",
+                    "description": "متينة وتصميم عملي",
+                    "rating": 4,
+                    "badge": "",
+                    "image": ""
+                },
+                {
+                    "id": 16,
+                    "name": "مجموعة هدايا تخرج",
+                    "price": 300,
+                    "discount": 25,
+                    "category": "gifts",
+                    "description": "هدايا مميزة للخريجين",
+                    "rating": 5,
+                    "badge": "مميز",
+                    "image": ""
+                },
+                {
+                    "id": 17,
+                    "name": "حقيبة رياضية",
+                    "price": 220,
+                    "discount": 15,
+                    "category": "bags",
+                    "description": "مناسبة للرياضة والأنشطة",
+                    "rating": 4,
+                    "badge": "جديد",
+                    "image": ""
+                },
+                {
+                    "id": 18,
+                    "name": "موسوعة علمية",
+                    "price": 180,
+                    "discount": 10,
+                    "category": "books",
+                    "description": "شاملة ومفصلة",
+                    "rating": 5,
+                    "badge": "الأكثر مبيعاً",
+                    "image": ""
+                },
+                {
+                    "id": 19,
+                    "name": "طابع وزينة",
+                    "price": 30,
+                    "discount": 0,
+                    "category": "gifts",
+                    "description": "تشكيلة متنوعة من الزينة",
+                    "rating": 4,
+                    "badge": "",
+                    "image": ""
+                },
+                {
+                    "id": 20,
+                    "name": "مجموعة ألوان فنية",
+                    "price": 90,
+                    "discount": 15,
+                    "category": "stationery",
+                    "description": "ألوان عالية الجودة",
+                    "rating": 5,
+                    "badge": "جديد",
+                    "image": ""
+                }
+            ];
+        }
+
+        // 5. عرض المنتجات
+        function renderProducts(category = 'all') {
             const grid = document.getElementById('productsGrid');
             if (!grid) return;
 
@@ -2808,7 +2915,7 @@
                                 <span class="discount-badge">خصم ${product.discount}%</span>
                                 <span class="original-price">${product.price.toFixed(2)} جنيه</span>
                             ` : ''}
-                            <span class="final-price">${finalPrice.toFixed(2)} جنيه</span>
+                            ${finalPrice.toFixed(2)} جنيه
                         </div>
                         <div class="product-rating">
                             <div class="stars">
@@ -2816,12 +2923,12 @@
                             </div>
                             <span style="color: var(--gray-600); font-size: 0.9rem;">(${product.rating}.0)</span>
                         </div>
-                        <p class="product-description">${product.description}</p>
+                        <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1.2rem; line-height: 1.5;">${product.description}</p>
                         <div class="product-actions">
                             <button class="add-to-cart" onclick="addToCart(${product.id})">
                                 <i class="fas fa-cart-plus"></i> أضف للسلة
                             </button>
-                            <button class="wishlist-btn" onclick="toggleWishlist(${product.id})" title="إضافة للمفضلة">
+                            <button class="wishlist-btn ${wishlist.includes(product.id) ? 'active' : ''}" onclick="toggleWishlist(${product.id})" title="${wishlist.includes(product.id) ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">
                                 <i class="fas fa-heart"></i>
                             </button>
                         </div>
@@ -2834,9 +2941,20 @@
             animateProductCards();
         }
 
+        // 6. دوال المساعدة
+        function getCategoryIcon(category) {
+            const icons = {
+                'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;"></i>',
+                'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;"></i>',
+                'bags': '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: #28a745;"></i>',
+                'gifts': '<i class="fas fa-gift" style="font-size: 2.5rem; color: #ffc107;"></i>'
+            };
+            return icons[category] || '<i class="fas fa-box" style="font-size: 2.5rem; color: #a0aec0;"></i>';
+        }
+
         function filterProducts(category) {
             currentFilter = category;
-            loadProducts(category);
+            renderProducts(category);
         }
 
         function updateFilterButtons(activeCategory) {
@@ -2853,21 +2971,27 @@
             setTimeout(() => {
                 document.querySelectorAll('.product-card').forEach((card, index) => {
                     setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(30px)';
+                        card.style.transition = 'all 0.6s ease';
+
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
                     }, index * 100);
                 });
             }, 100);
         }
 
-        // 3. إدارة السلة
-        let cart = [];
-        let wishlist = [];
-        let currentFilter = 'all';
-
+        // 7. إدارة السلة
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
+            
+            // حساب السعر بعد الخصم
+            const discountPercentage = product.discount || 0;
+            const discountedPrice = product.price - (product.price * discountPercentage / 100);
             
             const existingItem = cart.find(item => item.id === productId);
             
@@ -2877,7 +3001,9 @@
                 cart.push({
                     id: product.id,
                     name: product.name,
-                    price: product.price,
+                    price: discountedPrice, // السعر بعد الخصم
+                    originalPrice: product.price, // السعر الأصلي
+                    discount: discountPercentage, // نسبة الخصم
                     category: product.category,
                     quantity: 1
                 });
@@ -2952,7 +3078,21 @@
                         </div>
                         <div class="cart-item-info">
                             <div class="cart-item-title">${item.name}</div>
-                            <div class="cart-item-price">${item.price} جنيه للقطعة</div>
+                            ${item.discount > 0 ? `
+                                <div class="cart-item-price">
+                                    <span style="text-decoration: line-through; color: var(--gray-500); margin-left: 0.5rem; font-size: 0.9rem;">
+                                        ${item.originalPrice} جنيه
+                                    </span>
+                                    <span style="color: var(--accent-color); font-weight: bold;">
+                                        ${item.price.toFixed(2)} جنيه للقطعة
+                                    </span>
+                                    <span style="background: var(--accent-color); color: white; padding: 0.2rem 0.5rem; border-radius: 0.3rem; font-size: 0.8rem; margin-right: 0.5rem;">
+                                        خصم ${item.discount}%
+                                    </span>
+                                </div>
+                            ` : `
+                                <div class="cart-item-price">${item.price.toFixed(2)} جنيه للقطعة</div>
+                            `}
                         </div>
                         <div class="cart-item-controls">
                             <div class="quantity-controls">
@@ -2960,13 +3100,13 @@
                                 <span class="quantity-display">${item.quantity}</span>
                                 <button class="quantity-btn plus" onclick="addToCart(${item.id})">+</button>
                             </div>
-                            <div class="cart-item-total">${item.price * item.quantity} جنيه</div>
+                            <div class="cart-item-total">${(item.price * item.quantity).toFixed(2)} جنيه</div>
                         </div>
                     </div>
                 `).join('');
                 
                 const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                document.getElementById('cartTotal').textContent = total;
+                document.getElementById('cartTotal').textContent = total.toFixed(2);
                 cartFooter.style.display = 'block';
             }
         }
@@ -2982,7 +3122,7 @@
             document.body.style.overflow = 'auto';
         }
 
-        // 4. إدارة المفضلة
+        // 8. إدارة المفضلة
         function toggleWishlist(productId) {
             const index = wishlist.indexOf(productId);
             const product = products.find(p => p.id === productId);
@@ -3035,27 +3175,47 @@
                     </div>
                 `;
             } else {
-                wishlistItems.innerHTML = wishlistProducts.map(item => `
-                    <div class="cart-item">
-                        <div class="cart-item-image">
-                            ${getCategoryIcon(item.category)}
+                wishlistItems.innerHTML = wishlistProducts.map(item => {
+                    // حساب السعر بعد الخصم للمنتج في المفضلة
+                    const discountPercentage = item.discount || 0;
+                    const discountedPrice = item.price - (item.price * discountPercentage / 100);
+                    
+                    return `
+                        <div class="cart-item">
+                            <div class="cart-item-image">
+                                ${getCategoryIcon(item.category)}
+                            </div>
+                            <div class="cart-item-info">
+                                <div class="cart-item-title">${item.name}</div>
+                                ${discountPercentage > 0 ? `
+                                    <div class="cart-item-price">
+                                        <span style="text-decoration: line-through; color: var(--gray-500; margin-left: 0.5rem; font-size: 0.9rem;">
+                                            ${item.price} جنيه
+                                        </span>
+                                        <span style="color: var(--accent-color); font-weight: bold;">
+                                            ${discountedPrice.toFixed(2)} جنيه
+                                        </span>
+                                        <span style="background: var(--accent-color); color: white; padding: 0.2rem 0.5rem; border-radius: 0.3rem; font-size: 0.8rem; margin-right: 0.5rem;">
+                                            خصم ${discountPercentage}%
+                                        </span>
+                                    </div>
+                                ` : `
+                                    <div class="cart-item-price">${item.price} جنيه</div>
+                                `}
+                                <p style="font-size: 0.85rem; color: var(--gray-600); margin-top: 0.5rem;">${item.description}</p>
+                            </div>
+                            <div class="cart-item-controls">
+                                <button class="btn btn-primary" onclick="addToCart(${item.id}); showNotification('تم إضافة المنتج إلى السلة!', 'success');" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                    <i class="fas fa-cart-plus"></i>
+                                    أضف للسلة
+                                </button>
+                                <button class="quantity-btn" onclick="toggleWishlist(${item.id})" style="background: var(--danger-color); color: white;" title="إزالة من المفضلة">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="cart-item-info">
-                            <div class="cart-item-title">${item.name}</div>
-                            <div class="cart-item-price">${item.price} جنيه</div>
-                            <p style="font-size: 0.85rem; color: var(--gray-600); margin-top: 0.5rem;">${item.description}</p>
-                        </div>
-                        <div class="cart-item-controls">
-                            <button class="btn btn-primary" onclick="addToCart(${item.id}); showNotification('تم إضافة المنتج إلى السلة!', 'success');" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
-                                <i class="fas fa-cart-plus"></i>
-                                أضف للسلة
-                            </button>
-                            <button class="quantity-btn" onclick="toggleWishlist(${item.id})" style="background: var(--danger-color); color: white;" title="إزالة من المفضلة">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
             }
         }
 
@@ -3091,45 +3251,7 @@
             }
         }
 
-        // 5. إتمام الطلب
-        function checkout() {
-            if (cart.length === 0) return;
-            
-            showLoading();
-            
-            setTimeout(() => {
-                let message = "مرحباً، أريد طلب المنتجات التالية:\n\n";
-                let total = 0;
-                
-                cart.forEach(item => {
-                    const itemTotal = item.price * item.quantity;
-                    total += itemTotal;
-                    message += `• ${item.name}\n  الكمية: ${item.quantity}\n  السعر: ${itemTotal} جنيه\n\n`;
-                });
-                
-                message += `الإجمالي: ${total} جنيه\n\n`;
-                message += `العنوان: أمام سنترال الصوة - المجمع\n`;
-                message += `شكراً لكم`;
-                
-                const whatsappUrl = `https://wa.me/+201126630356?text=${encodeURIComponent(message)}`;
-                window.open(whatsappUrl, '_blank');
-                
-                hideLoading();
-                closeCart();
-                showNotification('تم توجيهك إلى واتساب لإتمام الطلب', 'success');
-            }, 1000);
-        }
-
-        // 6. تهيئة الصفحة عند التحميل
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeApp();
-            loadProducts();
-            updateCartCount();
-            updateWishlistCount();
-            initializeAnimations();
-            initializeEventListeners();
-        });
-
+        // 9. إدارة البيانات المحلية
         function initializeApp() {
             const savedCart = localStorage.getItem('rawad-cart');
             const savedWishlist = localStorage.getItem('rawad-wishlist');
@@ -3256,7 +3378,7 @@
             });
         }
 
-        // 7. وظائف البحث
+        // 10. وظائف البحث
         function handleSearchInput(e) {
             clearTimeout(window.searchTimeout);
             const searchTerm = e.target.value.toLowerCase().trim();
@@ -3319,7 +3441,7 @@
         function performSearch() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             if (searchTerm === '') {
-                loadProducts(currentFilter);
+                renderProducts(currentFilter);
                 return;
             }
 
@@ -3395,10 +3517,10 @@
 
         function clearSearch() {
             document.getElementById('searchInput').value = '';
-            loadProducts(currentFilter);
+            renderProducts(currentFilter);
         }
 
-        // 8. وظائف مساعدة أخرى
+        // 11. وظائف مساعدة أخرى
         function toggleMobileMenu() {
             const navMenu = document.getElementById('navMenu');
             const toggleBtn = document.querySelector('.mobile-menu-toggle');
@@ -3463,17 +3585,410 @@
             document.getElementById('loadingOverlay').style.display = 'none';
         }
 
-        // Performance Monitoring
-        if ('performance' in window) {
-            window.addEventListener('load', function() {
-                setTimeout(() => {
-                    const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-                    console.log(`وقت تحميل الصفحة: ${loadTime}ms`);
-                }, 0);
+        // 12. إدارة بيانات العميل
+        function loadCustomerData() {
+            const savedData = localStorage.getItem('customerData');
+            if (savedData) {
+                try {
+                    customerData = JSON.parse(savedData);
+                } catch (e) {
+                    console.error('Failed to parse saved customer data', e);
+                }
+            }
+        }
+
+        function showCustomerForm() {
+            // إذا كان النموذج معروضًا بالفعل، لا تقم بعرضه مرة أخرى
+            if (document.getElementById('customerFormOverlay')) {
+                return;
+            }
+
+            // إنشاء النموذج
+            const formHtml = `
+                <div id="customerFormOverlay" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.7);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 10000;
+                    font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                ">
+                    <div style="
+                        background: white;
+                        padding: 30px;
+                        border-radius: 15px;
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                        width: 90%;
+                        max-width: 500px;
+                        text-align: center;
+                        max-height: 90vh;
+                        overflow-y: auto;
+                    ">
+                        <h2 style="color: #2c3e50; margin-bottom: 25px; font-size: 24px;">
+                            📝 بيانات الطلب
+                        </h2>
+                        
+                        <div style="margin-bottom: 20px; text-align: right;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">
+                                👤 اسم العميل:
+                            </label>
+                            <input type="text" id="customerNameInput" value="${customerData.name}" 
+                                   placeholder="اكتب اسمك هنا..." style="
+                                width: 100%;
+                                padding: 12px;
+                                border: 2px solid #bdc3c7;
+                                border-radius: 8px;
+                                font-size: 16px;
+                                box-sizing: border-box;
+                                text-align: right;
+                                font-family: 'Cairo', sans-serif;
+                            ">
+                            <small style="color: #e74c3c; display: none;" id="nameError">يرجى إدخال اسم العميل</small>
+                        </div>
+
+                        <div style="margin-bottom: 20px; text-align: right;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">
+                                📅 التاريخ (اختياري):
+                            </label>
+                            <input type="date" id="customDateInput" value="${customerData.customDate}" style="
+                                width: 100%;
+                                padding: 12px;
+                                border: 2px solid #bdc3c7;
+                                border-radius: 8px;
+                                font-size: 16px;
+                                box-sizing: border-box;
+                                font-family: 'Cairo', sans-serif;
+                            ">
+                            <small style="color: #7f8c8d; font-size: 12px;">
+                                اتركه فارغاً لاستخدام التاريخ الحالي
+                            </small>
+                        </div>
+
+                        <div style="margin-bottom: 20px; text-align: right;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">
+                                🕒 الوقت (اختياري):
+                            </label>
+                            <input type="time" id="customTimeInput" value="${customerData.customTime}" style="
+                                width: 100%;
+                                padding: 12px;
+                                border: 2px solid #bdc3c7;
+                                border-radius: 8px;
+                                font-size: 16px;
+                                box-sizing: border-box;
+                                font-family: 'Cairo', sans-serif;
+                            ">
+                            <small style="color: #7f8c8d; font-size: 12px;">
+                                اتركه فارغاً لاستخدام الوقت الحالي
+                            </small>
+                        </div>
+
+                        <div style="margin-bottom: 30px; text-align: right;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">
+                                ✏️ ملاحظات (اختياري):
+                            </label>
+                            <textarea id="customerNotesInput" placeholder="اكتب أي تعليمات إضافية..." style="
+                                width: 100%;
+                                padding: 12px;
+                                border: 2px solid #bdc3c7;
+                                border-radius: 8px;
+                                font-size: 16px;
+                                box-sizing: box;
+                                min-height: 80px;
+                                resize: vertical;
+                                text-align: right;
+                                font-family: 'Cairo', sans-serif;
+                            ">${customerData.notes}</textarea>
+                        </div>
+
+                        <div style="display: flex; gap: 15px; justify-content: center;">
+                            <button onclick="submitCustomerForm()" style="
+                                background: #27ae60;
+                                color: white;
+                                border: none;
+                                padding: 12px 25px;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-size: 16px;
+                                font-weight: bold;
+                                transition: all 0.3s;
+                                font-family: 'Cairo', sans-serif;
+                            " onmouseover="this.style.backgroundColor='#2ecc71'" 
+                               onmouseout="this.style.backgroundColor='#27ae60'">
+                                ✅ متابعة الطلب
+                            </button>
+                            
+                            <button onclick="closeCustomerForm()" style="
+                                background: #e74c3c;
+                                color: white;
+                                border: none;
+                                padding: 12px 25px;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-size: 16px;
+                                font-weight: bold;
+                                transition: all 0.3s;
+                                font-family: 'Cairo', sans-serif;
+                            " onmouseover="this.style.backgroundColor='#c0392b'" 
+                               onmouseout="this.style.backgroundColor='#e74c3c'">
+                                ❌ إلغاء
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // إضافة النموذج إلى الصفحة
+            document.body.insertAdjacentHTML('beforeend', formHtml);
+            
+            // التركيز على حقل الاسم
+            document.getElementById('customerNameInput').focus();
+            
+            // إضافة مستمعين للأحداث للتحقق من الصحة أثناء الكتابة
+            const nameInput = document.getElementById('customerNameInput');
+            const nameError = document.getElementById('nameError');
+            
+            nameInput.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    this.style.borderColor = '#bdc3c7';
+                    nameError.style.display = 'none';
+                }
             });
         }
 
-        // Add special offers banner
+        function closeCustomerForm() {
+            const overlay = document.getElementById('customerFormOverlay');
+            if (overlay) {
+                overlay.remove();
+            }
+        }
+
+        function submitCustomerForm() {
+            const nameInput = document.getElementById('customerNameInput');
+            const dateInput = document.getElementById('customDateInput');
+            const timeInput = document.getElementById('customTimeInput');
+            const notesInput = document.getElementById('customerNotesInput');
+            const nameError = document.getElementById('nameError');
+
+            // التحقق من إدخال الاسم
+            if (!nameInput.value.trim()) {
+                nameInput.style.borderColor = '#e74c3c';
+                nameError.style.display = 'block';
+                nameInput.focus();
+                return;
+            }
+
+            // حفظ البيانات
+            customerData.name = nameInput.value.trim();
+            customerData.customDate = dateInput.value;
+            customerData.customTime = timeInput.value;
+            customerData.notes = notesInput.value.trim();
+            
+            // حفظ البيانات في localStorage
+            try {
+                localStorage.setItem('customerData', JSON.stringify(customerData));
+            } catch (e) {
+                console.error('Failed to save customer data', e);
+            }
+
+            // إغلاق النموذج
+            closeCustomerForm();
+
+            // متابعة عملية الشراء
+            proceedWithCheckout();
+        }
+
+        // 13. الدفع والطلبات
+        function checkout() {
+            if (cart.length === 0) {
+                showNotification('سلة التسوق فارغة', 'error');
+                return;
+            }
+
+            showLoading();
+            
+            // إظهار نموذج بيانات العميل
+            showCustomerForm();
+            
+            hideLoading();
+        }
+
+        function proceedWithCheckout() {
+            showLoading();
+
+            let customerName = customerData.name || "عميل كريم";
+            let now = new Date();
+            let date, time;
+
+            // استخدام التاريخ المخصص أو الحالي
+            if (customerData.customDate) {
+                const customDate = new Date(customerData.customDate);
+                date = customDate.toLocaleDateString('ar-EG', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            } else {
+                date = now.toLocaleDateString('ar-EG', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            }
+
+            // استخدام الوقت المخصص أو الحالي
+            if (customerData.customTime) {
+                // تحويل الوقت من صيغة 24 ساعة إلى 12 ساعة
+                const [hours, minutes] = customerData.customTime.split(':');
+                const timeObj = new Date();
+                timeObj.setHours(parseInt(hours), parseInt(minutes));
+                time = timeObj.toLocaleTimeString('ar-EG', { 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    hour12: true 
+                });
+            } else {
+                time = now.toLocaleTimeString('ar-EG', { 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    hour12: true 
+                });
+            }
+
+            let message = `🌟 مرحباً بكم بمتجر الرواد يا ${customerName}! 🌟\n\n`;
+            message += `📅 التاريخ: ${date}\n🕒 الوقت: ${time}\n\n`;
+            message += `🛒 تفاصيل طلبك:\n\n`;
+
+            let total = 0;
+            let totalBeforeDiscount = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                const itemTotalBeforeDiscount = item.originalPrice * item.quantity;
+                total += itemTotal;
+                totalBeforeDiscount += itemTotalBeforeDiscount;
+
+                message += `✨ ${index + 1}. ${item.name}\n`;
+                message += `   🔢 الكمية: ${item.quantity}\n`;
+
+                if (item.discount > 0) {
+                    message += `   💲 السعر الأصلي: ${itemTotalBeforeDiscount} جنيه\n`;
+                    message += `   🎉 بعد الخصم: ${itemTotal} جنيه\n`;
+                    message += `   💰 التوفير: ${itemTotalBeforeDiscount - itemTotal} جنيه\n`;
+                } else {
+                    message += `   💲 السعر: ${itemTotal} جنيه\n`;
+                }
+
+                message += `\n`;
+            });
+
+            message += `📊 الإجمالي قبل الخصم: ${totalBeforeDiscount} جنيه\n`;
+            message += `🎊 الإجمالي بعد الخصم: ${total} جنيه\n`;
+
+            if (totalBeforeDiscount > total) {
+                message += `🌟 وفرت معنا: ${totalBeforeDiscount - total} جنيه 🌟\n`;
+            }
+
+            if (customerData.notes) {
+                message += `\n✏️ ملاحظات العميل: ${customerData.notes}\n`;
+            }
+
+            message += `\n🏠 العنوان: أمام سنترال الصوة - بالمجمع\n\n`;
+            message += `شكراً يا ${customerName} على ثقتك بنا ❤️😊`;
+
+            const whatsappUrl = `https://wa.me/201126630356?text=${encodeURIComponent(message)}`;
+
+            // حل لتجنب popup blocker: إنشاء عنصر <a> مخفي ومحاكاة نقرة
+            var link = document.createElement('a');
+            link.href = whatsappUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer'; // للأمان
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            hideLoading();
+            closeCart();
+            showNotification('تم توجيهك إلى واتساب لإتمام الطلب', 'success');
+            
+            // مسح السلة بعد إتمام الطلب
+            clearCart();
+        }
+
+        // 14. PWA Service Worker Registration
+        if ('serviceWorker' in navigator && 'PushManager' in window) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(function(registration) {
+                        console.log('Service Worker registered with scope: ', registration.scope);
+                        
+                        // Request permission for notifications
+                        Notification.requestPermission().then(function(permission) {
+                            if (permission === 'granted') {
+                                console.log('Notification permission granted.');
+                            }
+                        });
+                    })
+                    .catch(function(error) {
+                        console.error('Service Worker registration failed: ', error);
+                    });
+            });
+        }
+
+        // 15. PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallButton(); // عرض زر التثبيت تلقائيًا
+        });
+
+        function showInstallButton() {
+            // يمكنك إضافة زر للتثبيت هنا
+            const installBtn = document.createElement('button');
+            installBtn.textContent = 'تثبيت التطبيق';
+            installBtn.style.position = 'fixed';
+            installBtn.style.bottom = '20px';
+            installBtn.style.left = '20px';
+            installBtn.style.zIndex = '1000';
+            installBtn.style.padding = '10px 20px';
+            installBtn.style.background = '#1e3d59';
+            installBtn.style.color = 'white';
+            installBtn.style.border = 'none';
+            installBtn.style.borderRadius = '5px';
+            installBtn.style.cursor = 'pointer';
+            document.body.appendChild(installBtn);
+
+            installBtn.addEventListener('click', (e) => {
+                installBtn.style.display = 'none';
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            });
+        }
+
+        // 16. Offline Detection
+        window.addEventListener('offline', function() {
+            showNotification('أنت غير متصل بالإنترنت. بعض الميزات قد تكون محدودة.', 'warning');
+        });
+
+        window.addEventListener('online', function() {
+            showNotification('تم استعادة الاتصال بالإنترنت.', 'success');
+        });
+
+        // 17. Add special offers banner
         function showSpecialOffer() {
             const banner = document.createElement('div');
             banner.style.cssText = `
@@ -3504,11 +4019,6 @@
         }
 
         setTimeout(showSpecialOffer, 3000);
-        
-        // تهيئة الصفحة
-        document.addEventListener('DOMContentLoaded', () => {
-            loadProducts();
-        });
     </script>
 </body>
 </html>
