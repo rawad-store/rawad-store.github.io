@@ -1,11 +1,12 @@
 // Firebase Configuration (Replace with your Firebase project config)
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBLAq1eYQ67zKLGs2my5_paM3GByrfPwYU",
+  authDomain: "rawad-library.firebaseapp.com",
+  projectId: "rawad-library",
+  storageBucket: "rawad-library.firebasestorage.app",
+  messagingSenderId: "981528745525",
+  appId: "1:981528745525:web:2c2cab42b19c107ad2437c",
+  measurementId: "G-4HDXZ6STTW"
 };
 
 // Initialize Firebase
