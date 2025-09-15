@@ -1,12 +1,12 @@
-// Firebase Configuration (Replace with your Firebase project config)
+// Firebase Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBLAq1eYQ67zKLGs2my5_paM3GByrfPwYU",
-  authDomain: "rawad-library.firebaseapp.com",
-  projectId: "rawad-library",
-  storageBucket: "rawad-library.firebasestorage.app",
-  messagingSenderId: "981528745525",
-  appId: "1:981528745525:web:2c2cab42b19c107ad2437c",
-  measurementId: "G-4HDXZ6STTW"
+    apiKey: "AIzaSyBLAq1eYQ67zKLGs2my5_paM3GByrfPwYU",
+    authDomain: "rawad-library.firebaseapp.com",
+    projectId: "rawad-library",
+    storageBucket: "rawad-library.firebasestorage.app",
+    messagingSenderId: "981528745525",
+    appId: "1:981528745525:web:2c2cab42b19c107ad2437c",
+    measurementId: "G-4HDXZ6STTW"
 };
 
 // Initialize Firebase
@@ -15,10 +15,9 @@ const db = firebase.firestore();
 const storage = firebase.storage();
 const productsRef = db.collection('products');
 
-// Sample products
+// Sample products (replace with your full list of 20 products)
 const sampleProducts = [
     {
-        id: "prod_1",
         name: "كتب دراسية ومراجع",
         price: 100,
         discount: 10,
@@ -27,7 +26,33 @@ const sampleProducts = [
         rating: 5,
         badge: "جديد"
     },
-    // ... (include all 20 sample products from the original code with unique IDs)
+    {
+        name: "دفاتر مدرسية فاخرة",
+        price: 50,
+        discount: 5,
+        category: "stationery",
+        description: "دفاتر عالية الجودة للطلاب",
+        rating: 4.5,
+        badge: "الأكثر مبيعاً"
+    },
+    {
+        name: "حقيبة مدرسية متينة",
+        price: 200,
+        discount: 15,
+        category: "bags",
+        description: "حقيبة مقاومة للماء للاستخدام اليومي",
+        rating: 4.8,
+        badge: "مميز"
+    },
+    {
+        name: "مجموعة هدايا فاخرة",
+        price: 150,
+        discount: 0,
+        category: "gifts",
+        description: "تشمل أقلام ودفاتر وإكسسوارات",
+        rating: 4.2
+    }
+    // Add the remaining 16 products here
 ];
 
 // Robust input sanitization
@@ -60,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('codeModal').addEventListener('click', (e) => {
-        if (e.target === this) hideCodeModal();
+        if (e.target === e.currentTarget) hideCodeModal();
     });
 
     document.querySelectorAll('.code-tab').forEach(tab => {
@@ -359,10 +384,10 @@ async function addSampleProducts() {
         }
 
         const addPromises = sampleProducts.map(product =>
-            productsRef.add({ ...product, id: undefined })
+            productsRef.add({ ...product })
         );
         await Promise.all(addPromises);
-        showNotification('تم إضافة 20 منتج نموذجي بنجاح', 'success');
+        showNotification('تم إضافة المنتجات النموذجية بنجاح', 'success');
     } catch (error) {
         showNotification('خطأ في إضافة المنتجات النموذجية: ' + error.message, 'error');
         console.error('Add sample products error:', error);
@@ -451,7 +476,6 @@ async function importProducts() {
 // Mock sync with main page
 async function syncWithMainPage() {
     try {
-        // Simulate syncing by updating a "lastSync" timestamp in Firestore
         await db.collection('sync').doc('lastSync').set({ timestamp: firebase.firestore.FieldValue.serverTimestamp() });
         showNotification('تمت المزامنة بنجاح مع الصفحة الرئيسية', 'success');
     } catch (error) {
@@ -561,9 +585,9 @@ function loadProducts(category = 'all') {
             
         return \`
         <div class="product-card fade-in" data-category="\${product.category}">
+            ${product.badge ? \`<span class="product-badge">\${product.badge}</span>\` : ''}
             <div class="product-image">
                 \${product.image ? \`<img src="\${product.image}" alt="\${product.name}" loading="lazy">\` : getCategoryIcon(product.category)}
-                \${product.badge ? \`<span class="product-badge">\${product.badge}</span>\` : ''}
             </div>
             <div class="product-info">
                 <h3 class="product-title">\${product.name}</h3>
@@ -574,11 +598,12 @@ function loadProducts(category = 'all') {
                     \` : ''}
                     \${finalPrice.toFixed(2)} جنيه
                 </div>
+                <span class="product-category">\${getCategoryName(product.category)}</span>
                 <div class="product-rating">
                     \${generateStarRating(product.rating)}
-                    <span style="color: #6c757d; font-size: 0.9rem;">(\${product.rating.toFixed(1)})</span>
+                    <span class="rating-text">(\${product.rating.toFixed(1)})</span>
                 </div>
-                <p style="font-size: 0.9rem; color: #6c757d; margin-bottom: 1.2rem; line-height: 1.5;">\${product.description}</p>
+                <p class="product-description">\${product.description}</p>
                 <div class="product-actions">
                     <button class="add-to-cart" onclick="addToCart('\${product.id}')">
                         <i class="fas fa-cart-plus"></i> أضف للسلة
@@ -601,29 +626,24 @@ function filterProducts(category) {
 }
 
 function updateFilterButtons(activeCategory) {
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
     const activeBtn = document.querySelector(\`.filter-btn[onclick="filterProducts('\${activeCategory}')"]\`);
-    if (activeBtn) {
-        activeBtn.classList.add('active');
-    }
+    if (activeBtn) activeBtn.classList.add('active');
 }
 
 function animateProductCards() {
-    setTimeout(() => {
-        document.querySelectorAll('.product-card').forEach((card, index) => {
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach((card, index) => {
+        setTimeout(() => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
             setTimeout(() => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                card.style.transition = 'all 0.6s ease';
-                setTimeout(() => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, 50);
-            }, index * 100);
-        });
-    }, 100);
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 50);
+        }, index * 100);
+    });
 }
 
 function addToCart(productId) {
@@ -634,18 +654,13 @@ function toggleWishlist(productId) {
     const btn = document.querySelector(\`.wishlist-btn[onclick="toggleWishlist('\${productId}')"]\`);
     btn.classList.toggle('active');
     btn.title = btn.classList.contains('active') ? 'إزالة من المفضلة' : 'إضافة للمفضلة';
-    
-    if (btn.classList.contains('active')) {
-        alert(\`تم إضافة المنتج رقم \${productId} إلى المفضلة\`);
-    } else {
-        alert(\`تم إزالة المنتج رقم \${productId} من المفضلة\`);
-    }
+    alert(btn.classList.contains('active') 
+        ? \`تم إضافة المنتج رقم \${productId} إلى المفضلة\`
+        : \`تم إزالة المنتج رقم \${productId} من المفضلة\`);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadProducts();
-});`;
-}
+document.addEventListener('DOMContentLoaded', () => loadProducts());
+`}
 
 // Generate HTML code
 function generateHTMLCode(products) {
@@ -658,51 +673,13 @@ function generateHTMLCode(products) {
         
         <div class="products-filter">
             <button class="filter-btn active" onclick="filterProducts('all')">الكل</button>
-            <button class="filter-btn" onclick="filterProducts('books')">الكتب</button>
-            <button class="filter-btn" onclick="filterProducts('stationery')">المستلزمات</button>
-            <button class="filter-btn" onclick="filterProducts('bags')">الحقائب</button>
+            <button class="filter-btn" onclick="filterProducts('books')">الكتب الدراسية</button>
+            <button class="filter-btn" onclick="filterProducts('stationery')">المستلزمات المكتبية</button>
+            <button class="filter-btn" onclick="filterProducts('bags')">الحقائب المدرسية</button>
             <button class="filter-btn" onclick="filterProducts('gifts')">الهدايا</button>
         </div>
 
-        <div class="products-grid" id="productsGrid">
-            ${products.map(product => {
-                const finalPrice = product.discount > 0 
-                    ? product.price - (product.price * product.discount / 100)
-                    : product.price;
-                    
-                return `
-            <div class="product-card fade-in" data-category="${product.category}">
-                <div class="product-image">
-                    ${product.image ? `<img src="${product.image}" alt="${sanitizeInput(product.name)}" loading="lazy">` : getCategoryIcon(product.category)}
-                    ${product.badge ? `<span class="product-badge">${sanitizeInput(product.badge)}</span>` : ''}
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">${sanitizeInput(product.name)}</h3>
-                    <div class="product-price">
-                        ${product.discount > 0 ? `
-                            <span class="discount-badge">خصم ${product.discount}%</span>
-                            <span class="original-price">${product.price.toFixed(2)} جنيه</span>
-                        ` : ''}
-                        ${finalPrice.toFixed(2)} جنيه
-                    </div>
-                    <div class="product-rating">
-                        ${generateStarRating(product.rating)}
-                        <span style="color: #6c757d; font-size: 0.9rem;">(${product.rating.toFixed(1)})</span>
-                    </div>
-                    <p style="font-size: 0.9rem; color: #6c757d; margin-bottom: 1.2rem; line-height: 1.5;">${sanitizeInput(product.description)}</p>
-                    <div class="product-actions">
-                        <button class="add-to-cart" onclick="addToCart('${product.id}')">
-                            <i class="fas fa-cart-plus"></i> أضف للسلة
-                        </button>
-                        <button class="wishlist-btn" onclick="toggleWishlist('${product.id}')" title="إضافة للمفضلة">
-                            <i class="fas fa-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-                `;
-            }).join('')}
-        </div>
+        <div class="products-grid" id="productsGrid"></div>
     </div>
 </section>`;
 }
@@ -715,73 +692,36 @@ function hideCodeModal() {
 
 // Copy code
 function copyCode(elementId, btnElement) {
-    const codeContent = document.getElementById(elementId);
-    const textToCopy = codeContent.textContent;
-
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(textToCopy).then(() => {
-            showNotification('تم نسخ الأكواد بنجاح', 'success');
-            btnElement.classList.add('copied');
-            setTimeout(() => btnElement.classList.remove('copied'), 2000);
-        }).catch(err => {
-            console.error('Failed to copy:', err);
-            fallbackCopyText(textToCopy, btnElement);
-        });
-    } else {
-        fallbackCopyText(textToCopy, btnElement);
-    }
-}
-
-function fallbackCopyText(text, btnElement) {
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    textArea.style.position = 'fixed';
-    textArea.style.opacity = 0;
-    document.body.appendChild(textArea);
-
-    try {
-        textArea.select();
-        const successful = document.execCommand('copy');
-        if (successful) {
-            showNotification('تم نسخ الأكواد بنجاح', 'success');
-            btnElement.classList.add('copied');
-            setTimeout(() => btnElement.classList.remove('copied'), 2000);
-        } else {
-            showNotification('تعذر النسخ. يرجى نسخ النص يدويًا.', 'error');
-        }
-    } catch (err) {
-        showNotification('تعذر النسخ: ' + err.message, 'error');
-        console.error('Fallback copy error:', err);
-    } finally {
-        document.body.removeChild(textArea);
-    }
+    const codeContent = document.getElementById(elementId).textContent;
+    navigator.clipboard.writeText(codeContent).then(() => {
+        showNotification('تم نسخ الكود بنجاح', 'success');
+        btnElement.classList.add('copied');
+        setTimeout(() => btnElement.classList.remove('copied'), 2000);
+    }).catch(err => {
+        console.error('Failed to copy:', err);
+        showNotification('تعذر النسخ. يرجى نسخ النص يدويًا.', 'error');
+    });
 }
 
 // Switch code tabs
 function switchCodeTab(tabId) {
-    document.querySelectorAll('.code-section').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.code-section').forEach(section => section.classList.remove('active'));
     document.querySelectorAll('.code-tab').forEach(tab => tab.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
-    const activeTab = document.querySelector(`.code-tab[data-tab="${tabId}"]`);
-    if (activeTab) activeTab.classList.add('active');
+    document.querySelector(`.code-tab[data-tab="${tabId}"]`).classList.add('active');
 }
 
 // Show notification
 function showNotification(message, type = 'success') {
     const notification = document.getElementById('notification');
-    const iconClass = type === 'success' ? 'fa-check-circle' :
-                     type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+    const icon = type === 'success' ? 'fa-check-circle' :
+                type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
 
     notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
-        <i class="fas ${iconClass}"></i>
-        <span id="notificationMessage">${sanitizeInput(message)}</span>
-        <button class="close-btn" onclick="hideNotification()">
-            <i class="fas fa-times"></i>
-        </button>
-    `;
+    document.getElementById('notificationIcon').className = `fas ${icon}`;
+    document.getElementById('notificationMessage').innerHTML = sanitizeInput(message);
     notification.classList.add('show');
-    setTimeout(() => notification.classList.remove('show'), 5000);
+    setTimeout(hideNotification, 5000);
 }
 
 // Hide notification
@@ -792,10 +732,10 @@ function hideNotification() {
 // Get category icon
 function getCategoryIcon(category) {
     const icons = {
-        'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;"></i>',
-        'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;"></i>',
-        'bags': '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: #28a745;"></i>',
-        'gifts': '<i class="fas fa-gift" style="font-size: 2.5rem; color: #ffc107;"></i>'
+        books: '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;"></i>',
+        stationery: '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;"></i>',
+        bags: '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: #28a745;"></i>',
+        gifts: '<i class="fas fa-gift" style="font-size: 2.5rem; color: #ffc107;"></i>'
     };
     return icons[category] || '<i class="fas fa-box" style="font-size: 2.5rem; color: #a0aec0;"></i>';
 }
@@ -803,10 +743,10 @@ function getCategoryIcon(category) {
 // Get category name
 function getCategoryName(category) {
     const names = {
-        'books': 'الكتب الدراسية',
-        'stationery': 'المستلزمات المكتبية',
-        'bags': 'الحقائب المدرسية',
-        'gifts': 'الهدايا'
+        books: 'الكتب الدراسية',
+        stationery: 'المستلزمات المكتبية',
+        bags: 'الحقائب المدرسية',
+        gifts: 'الهدايا'
     };
     return names[category] || category;
 }
