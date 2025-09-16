@@ -962,7 +962,7 @@
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
       import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-      import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+      import { getFirestore, collection, addDoc, getDoc , doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
       import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
 
       const firebaseConfig = {
@@ -989,7 +989,7 @@
       window.onAuthStateChanged = onAuthStateChanged;
       window.collection = collection;
       window.addDoc = addDoc;
-      window.getDocs = getDocs;
+      window.getDoc  = getDoc ;
       window.doc = doc;
       window.updateDoc = updateDoc;
       window.deleteDoc = deleteDoc;
@@ -1202,7 +1202,7 @@
             try {
                 const productsList = document.getElementById('productsList');
                 const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
-                const querySnapshot = await getDocs(q);
+                const querySnapshot = await getDoc (q);
                 
                 const products = [];
                 querySnapshot.forEach((doc) => {
@@ -1437,7 +1437,7 @@
         async function editProduct(id) {
             try {
                 const productRef = doc(db, "products", id);
-                const productDoc = await getDocs(productRef);
+                const productDoc = await getDoc (productRef);
                 
                 if (productDoc.exists()) {
                     const product = productDoc.data();
@@ -1487,7 +1487,7 @@
         async function clearAllProducts() {
             if (confirm('هل أنت متأكد من حذف جميع المنتجات؟ لا يمكن التراجع عن هذا الإجراء.')) {
                 try {
-                    const querySnapshot = await getDocs(collection(db, "products"));
+                    const querySnapshot = await getDoc (collection(db, "products"));
                     const deletePromises = [];
                     
                     querySnapshot.forEach((doc) => {
@@ -1507,7 +1507,7 @@
         // تصدير المنتجات
         async function exportProducts() {
             try {
-                const querySnapshot = await getDocs(collection(db, "products"));
+                const querySnapshot = await getDoc (collection(db, "products"));
                 const products = [];
                 
                 querySnapshot.forEach((doc) => {
@@ -1565,7 +1565,7 @@
         // إظهار نافذة الأكواد
         async function showCodeModal() {
             try {
-                const querySnapshot = await getDocs(collection(db, "products"));
+                const querySnapshot = await getDoc (collection(db, "products"));
                 const products = [];
                 
                 querySnapshot.forEach((doc) => {
