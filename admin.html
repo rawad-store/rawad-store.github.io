@@ -861,6 +861,7 @@
                 
                 <input type="hidden" id="productId">
                 <input type="hidden" id="productImageData">
+                <input type="hidden" id="existingImageUrl">
                 
                 <div class="form-actions">
                     <button class="btn btn-success" onclick="saveProduct()">
@@ -962,7 +963,7 @@
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
       import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-      import { getFirestore, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+      import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
       import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
 
       const firebaseConfig = {
@@ -990,7 +991,6 @@
       window.collection = collection;
       window.addDoc = addDoc;
       window.getDocs = getDocs;
-      window.getDoc = getDoc;
       window.doc = doc;
       window.updateDoc = updateDoc;
       window.deleteDoc = deleteDoc;
@@ -1000,6 +1000,7 @@
       window.uploadBytes = uploadBytes;
       window.getDownloadURL = getDownloadURL;
       window.deleteObject = deleteObject;
+      window.getDoc = getDoc;
 
       // التحقق من حالة تسجيل الدخول
       onAuthStateChanged(auth, (user) => {
@@ -1261,7 +1262,7 @@
                                 <button class="btn btn-primary btn-sm" onclick="editProduct('${product.id}')">
                                     <i class="fas fa-edit"></i> تعديل
                                 </button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteProduct('${product.id}')">
+                                <button class="btn btn-danger btn-sm" onclick="deleteProduct('${product.id}', '${product.image || ''}')">
                                     <i class="fas fa-trash"></i> حذف
                                 </button>
                             </div>
@@ -1301,6 +1302,7 @@
             document.getElementById('productRating').value = '4';
             document.getElementById('productBadge').value = '';
             document.getElementById('productImageData').value = '';
+            document.getElementById('existingImageUrl').value = '';
             document.getElementById('imagePreview').style.display = 'none';
             document.getElementById('previewImage').src = '';
         }
@@ -1365,6 +1367,7 @@
             const rating = parseInt(document.getElementById('productRating').value);
             const badge = sanitizeInput(document.getElementById('productBadge').value.trim());
             const imageData = document.getElementById('productImageData').value;
+            const existingImageUrl = document.getElementById('existingImageUrl').value;
             
             if (!name || isNaN(price) || !category || !description || !rating) {
                 showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
@@ -1382,16 +1385,22 @@
             }
             
             try {
-                let imageUrl = '';
+                let imageUrl = existingImageUrl;
                 
                 // إذا كان هناك صورة جديدة تم تحميلها
                 if (imageData) {
-                    // رفع الصورة إلى Firebase Storage
+                    // رفع الصورة الجديدة إلى Firebase Storage
                     const storageRef = ref(storage, `products/${Date.now()}_${name}`);
                     const response = await fetch(imageData);
                     const blob = await response.blob();
                     const snapshot = await uploadBytes(storageRef, blob);
                     imageUrl = await getDownloadURL(snapshot.ref);
+                    
+                    // حذف الصورة القديمة إذا وجدت
+                    if (existingImageUrl) {
+                        const oldRef = ref(storage, existingImageUrl);
+                        await deleteObject(oldRef).catch(() => console.warn('Failed to delete old image'));
+                    }
                 }
                 
                 if (productId) {
@@ -1434,14 +1443,14 @@
             }
         }
 
-        // تعديل منتج - الإصلاح الرئيسي هنا
+        // تعديل منتج
         async function editProduct(id) {
             try {
                 const productRef = doc(db, "products", id);
-                const productDoc = await getDoc(productRef);
+                const productSnap = await getDoc(productRef);
                 
-                if (productDoc.exists()) {
-                    const product = productDoc.data();
+                if (productSnap.exists()) {
+                    const product = productSnap.data();
                     document.getElementById('productForm').classList.remove('hidden');
                     document.getElementById('formTitle').textContent = 'تعديل المنتج';
                     document.getElementById('productId').value = id;
@@ -1452,29 +1461,38 @@
                     document.getElementById('productDescription').value = product.description;
                     document.getElementById('productRating').value = product.rating;
                     document.getElementById('productBadge').value = product.badge || '';
+                    document.getElementById('existingImageUrl').value = product.image || '';
+                    document.getElementById('productImageData').value = '';
                     
                     if (product.image) {
                         document.getElementById('previewImage').src = product.image;
                         document.getElementById('imagePreview').style.display = 'block';
-                        document.getElementById('productImageData').value = product.image;
                     } else {
                         document.getElementById('imagePreview').style.display = 'none';
-                        document.getElementById('productImageData').value = '';
                     }
                 } else {
                     showNotification('المنتج غير موجود', 'error');
                 }
             } catch (error) {
                 console.error("Error editing product: ", error);
-                showNotification('فشل تحميل بيانات المنتج', 'error');
+                showNotification('فشل في تحميل بيانات المنتج', 'error');
             }
         }
 
         // حذف منتج
-        async function deleteProduct(id) {
+        async function deleteProduct(id, imageUrl) {
             if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
                 try {
-                    await deleteDoc(doc(db, "products", id));
+                    // حذف الوثيقة من Firestore
+                    const productRef = doc(db, "products", id);
+                    await deleteDoc(productRef);
+                    
+                    // حذف الصورة إذا وجدت
+                    if (imageUrl) {
+                        const storageRef = ref(storage, imageUrl);
+                        await deleteObject(storageRef).catch(() => console.warn('Failed to delete image'));
+                    }
+                    
                     showNotification('تم حذف المنتج بنجاح');
                     loadProducts();
                 } catch (error) {
@@ -1491,8 +1509,13 @@
                     const querySnapshot = await getDocs(collection(db, "products"));
                     const deletePromises = [];
                     
-                    querySnapshot.forEach((doc) => {
-                        deletePromises.push(deleteDoc(doc.ref));
+                    querySnapshot.forEach((docSnap) => {
+                        const product = docSnap.data();
+                        deletePromises.push(deleteDoc(docSnap.ref));
+                        if (product.image) {
+                            const storageRef = ref(storage, product.image);
+                            deletePromises.push(deleteObject(storageRef).catch(() => console.warn('Failed to delete image')));
+                        }
                     });
                     
                     await Promise.all(deletePromises);
@@ -1688,7 +1711,7 @@ function updateFilterButtons(activeCategory) {
 
 function animateProductCards() {
     setTimeout(() => {
-        document.querySelectorAll('.product-card').forEach((card, index) {
+        document.querySelectorAll('.product-card').forEach((card, index) => {
             setTimeout(() => {
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(30px)';
