@@ -2943,6 +2943,11 @@
                 return;
             }
 
+            if (cart.length === 0) {
+                showNotification('سلة التسوق فارغة', 'error');
+                return;
+            }
+
             showLoading();
             
             // إظهار نموذج بيانات العميل
@@ -3074,8 +3079,8 @@
             showNotification('تم مسح البيانات المحفوظة', 'success');
         }
 
-        // دالة لتحميل البيانات المحفوظة عند بدء التحميل
-        function loadCustomerData() {
+        // تحميل البيانات عند بدء التشغيل
+        document.addEventListener('DOMContentLoaded', function() {
             const savedData = localStorage.getItem('customerData');
             if (savedData) {
                 try {
@@ -3084,11 +3089,6 @@
                     console.error('Failed to parse saved customer data', e);
                 }
             }
-        }
-
-        // تحميل البيانات عند بدء التشغيل
-        document.addEventListener('DOMContentLoaded', function() {
-            loadCustomerData();
         });
 
         // Performance Monitoring
