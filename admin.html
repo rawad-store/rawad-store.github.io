@@ -1434,52 +1434,40 @@
         }
 
         // تعديل منتج
-        async function editProduct(id) {
-            try {
-                const productRef = doc(db, "products", id);
-                const productDoc = await getDocs(productRef);
+        function editProduct(id) {
+            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
+            const product = products.find(p => p.id === id);
+            
+            if (product) {
+                document.getElementById('productForm').classList.remove('hidden');
+                document.getElementById('formTitle').textContent = 'تعديل المنتج';
+                document.getElementById('productId').value = product.id;
+                document.getElementById('productName').value = product.name;
+                document.getElementById('productPrice').value = product.price;
+                document.getElementById('productDiscount').value = product.discount || 0;
+                document.getElementById('productCategory').value = product.category;
+                document.getElementById('productDescription').value = product.description;
+                document.getElementById('productRating').value = product.rating;
+                document.getElementById('productBadge').value = product.badge || '';
+                document.getElementById('productImageData').value = product.image || '';
                 
-                if (productDoc.exists()) {
-                    const product = productDoc.data();
-                    document.getElementById('productForm').classList.remove('hidden');
-                    document.getElementById('formTitle').textContent = 'تعديل المنتج';
-                    document.getElementById('productId').value = id;
-                    document.getElementById('productName').value = product.name;
-                    document.getElementById('productPrice').value = product.price;
-                    document.getElementById('productDiscount').value = product.discount || 0;
-                    document.getElementById('productCategory').value = product.category;
-                    document.getElementById('productDescription').value = product.description;
-                    document.getElementById('productRating').value = product.rating;
-                    document.getElementById('productBadge').value = product.badge || '';
-                    
-                    if (product.image) {
-                        document.getElementById('previewImage').src = product.image;
-                        document.getElementById('imagePreview').style.display = 'block';
-                        document.getElementById('productImageData').value = product.image;
-                    } else {
-                        document.getElementById('imagePreview').style.display = 'none';
-                        document.getElementById('productImageData').value = '';
-                    }
+                if (product.image) {
+                    document.getElementById('previewImage').src = product.image;
+                    document.getElementById('imagePreview').style.display = 'block';
                 } else {
-                    showNotification('المنتج غير موجود', 'error');
+                    document.getElementById('imagePreview').style.display = 'none';
                 }
-            } catch (error) {
-                console.error("Error editing product: ", error);
-                showNotification('فشل تحميل بيانات المنتج', 'error');
             }
         }
 
         // حذف منتج
-        async function deleteProduct(id) {
+        function deleteProduct(id) {
             if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
-                try {
-                    await deleteDoc(doc(db, "products", id));
-                    showNotification('تم حذف المنتج بنجاح');
-                    loadProducts();
-                } catch (error) {
-                    console.error("Error deleting product: ", error);
-                    showNotification('فشل حذف المنتج', 'error');
-                }
+                let products = JSON.parse(localStorage.getItem('rawad-products')) || [];
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('rawad-products', JSON.stringify(products));
+                showNotification('تم حذف المنتج بنجاح');
+                loadProducts();
             }
         }
 
