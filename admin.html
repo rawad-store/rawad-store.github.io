@@ -1291,10 +1291,6 @@
 
         // إظهار نموذج إضافة منتج
         function showProductForm() {
-            if (!auth.currentUser) {
-                showNotification('يرجى تسجيل الدخول أولاً', 'error');
-                return;
-            }
             document.getElementById('productForm').classList.remove('hidden');
             document.getElementById('formTitle').textContent = 'إضافة منتج جديد';
             document.getElementById('productId').value = '';
@@ -1362,10 +1358,6 @@
 
         // حفظ المنتج
         async function saveProduct() {
-            if (!auth.currentUser) {
-                showNotification('يرجى تسجيل الدخول أولاً', 'error');
-                return;
-            }
             const productId = document.getElementById('productId').value;
             const name = sanitizeInput(document.getElementById('productName').value.trim());
             const price = parseFloat(document.getElementById('productPrice').value);
@@ -1387,17 +1379,11 @@
                 return;
             }
             
-            if (discount < 0 || discount > 100) {
-                showNotification('نسبة الخصم يجب أن تكون بين 0 و100', 'error');
-                return;
-            }
-            
             if (rating < 1 || rating > 5) {
                 showNotification('التقييم يجب أن يكون بين 1 و5', 'error');
                 return;
             }
             
-            toggleLoading(true);
             try {
                 let imageUrl = existingImageUrl;
                 
@@ -1453,19 +1439,12 @@
                 loadProducts();
             } catch (error) {
                 console.error("Error saving product: ", error);
-                showNotification('فشل حفظ المنتج: ' + error.message, 'error');
-            } finally {
-                toggleLoading(false);
+                showNotification('فشل حفظ المنتج', 'error');
             }
         }
 
         // تعديل منتج
         async function editProduct(id) {
-            if (!auth.currentUser) {
-                showNotification('يرجى تسجيل الدخول أولاً', 'error');
-                return;
-            }
-            toggleLoading(true);
             try {
                 const productRef = doc(db, "products", id);
                 const productSnap = await getDoc(productRef);
@@ -1475,12 +1454,12 @@
                     document.getElementById('productForm').classList.remove('hidden');
                     document.getElementById('formTitle').textContent = 'تعديل المنتج';
                     document.getElementById('productId').value = id;
-                    document.getElementById('productName').value = product.name || '';
-                    document.getElementById('productPrice').value = product.price || '';
+                    document.getElementById('productName').value = product.name;
+                    document.getElementById('productPrice').value = product.price;
                     document.getElementById('productDiscount').value = product.discount || 0;
-                    document.getElementById('productCategory').value = product.category || 'books';
-                    document.getElementById('productDescription').value = product.description || '';
-                    document.getElementById('productRating').value = product.rating || 4;
+                    document.getElementById('productCategory').value = product.category;
+                    document.getElementById('productDescription').value = product.description;
+                    document.getElementById('productRating').value = product.rating;
                     document.getElementById('productBadge').value = product.badge || '';
                     document.getElementById('existingImageUrl').value = product.image || '';
                     document.getElementById('productImageData').value = '';
@@ -1490,27 +1469,19 @@
                         document.getElementById('imagePreview').style.display = 'block';
                     } else {
                         document.getElementById('imagePreview').style.display = 'none';
-                        document.getElementById('previewImage').src = '';
                     }
                 } else {
                     showNotification('المنتج غير موجود', 'error');
                 }
             } catch (error) {
                 console.error("Error editing product: ", error);
-                showNotification('فشل في تحميل بيانات المنتج: ' + error.message, 'error');
-            } finally {
-                toggleLoading(false);
+                showNotification('فشل في تحميل بيانات المنتج', 'error');
             }
         }
 
         // حذف منتج
         async function deleteProduct(id, imageUrl) {
-            if (!auth.currentUser) {
-                showNotification('يرجى تسجيل الدخول أولاً', 'error');
-                return;
-            }
             if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
-                toggleLoading(true);
                 try {
                     // حذف الوثيقة من Firestore
                     const productRef = doc(db, "products", id);
@@ -1526,21 +1497,14 @@
                     loadProducts();
                 } catch (error) {
                     console.error("Error deleting product: ", error);
-                    showNotification('فشل حذف المنتج: ' + error.message, 'error');
-                } finally {
-                    toggleLoading(false);
+                    showNotification('فشل حذف المنتج', 'error');
                 }
             }
         }
 
         // حذف جميع المنتجات
         async function clearAllProducts() {
-            if (!auth.currentUser) {
-                showNotification('يرجى تسجيل الدخول أولاً', 'error');
-                return;
-            }
             if (confirm('هل أنت متأكد من حذف جميع المنتجات؟ لا يمكن التراجع عن هذا الإجراء.')) {
-                toggleLoading(true);
                 try {
                     const querySnapshot = await getDocs(collection(db, "products"));
                     const deletePromises = [];
@@ -1559,20 +1523,13 @@
                     loadProducts();
                 } catch (error) {
                     console.error("Error deleting all products: ", error);
-                    showNotification('فشل حذف جميع المنتجات: ' + error.message, 'error');
-                } finally {
-                    toggleLoading(false);
+                    showNotification('فشل حذف جميع المنتجات', 'error');
                 }
             }
         }
 
         // تصدير المنتجات
         async function exportProducts() {
-            if (!auth.currentUser) {
-                showNotification('يرجى تسجيل الدخول أولاً', 'error');
-                return;
-            }
-            toggleLoading(true);
             try {
                 const querySnapshot = await getDocs(collection(db, "products"));
                 const products = [];
@@ -1583,7 +1540,6 @@
                 
                 if (products.length === 0) {
                     showNotification('لا توجد منتجات لتصديرها', 'error');
-                    toggleLoading(false);
                     return;
                 }
                 
@@ -1595,24 +1551,18 @@
                 showNotification('تم تصدير المنتجات بنجاح');
             } catch (error) {
                 console.error("Error exporting products: ", error);
-                showNotification('فشل تصدير المنتجات: ' + error.message, 'error');
-            } finally {
-                toggleLoading(false);
+                showNotification('فشل تصدير المنتجات', 'error');
             }
         }
 
         // مزامنة مع الصفحة الرئيسية
         function syncWithMainPage() {
-            if (!auth.currentUser) {
-                showNotification('يرجى تسجيل الدخول أولاً', 'error');
-                return;
-            }
             showNotification('تمت المزامنة بنجاح مع الصفحة الرئيسية');
         }
 
         // تصفية المنتجات حسب البحث
         function filterProducts() {
-            currentSearchTerm = sanitizeInput(document.getElementById('searchInput').value);
+            currentSearchTerm = document.getElementById('searchInput').value;
             loadProducts();
         }
 
@@ -1638,11 +1588,6 @@
 
         // إظهار نافذة الأكواد
         async function showCodeModal() {
-            if (!auth.currentUser) {
-                showNotification('يرجى تسجيل الدخول أولاً', 'error');
-                return;
-            }
-            toggleLoading(true);
             try {
                 const querySnapshot = await getDocs(collection(db, "products"));
                 const products = [];
@@ -1653,7 +1598,6 @@
                 
                 if (products.length === 0) {
                     showNotification('لا توجد منتجات لإنشاء أكواد لها', 'error');
-                    toggleLoading(false);
                     return;
                 }
                 
@@ -1671,9 +1615,7 @@
                 });
             } catch (error) {
                 console.error("Error loading products for code generation: ", error);
-                showNotification('فشل تحميل المنتجات لإنشاء الأكواد: ' + error.message, 'error');
-            } finally {
-                toggleLoading(false);
+                showNotification('فشل تحميل المنتجات لإنشاء الأكواد', 'error');
             }
         }
 
