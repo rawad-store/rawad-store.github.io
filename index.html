@@ -1229,7 +1229,6 @@
             color: var(--gray-600);
         }
 
-        /* Working Hours */
         .hours-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -2001,7 +2000,7 @@
      <!-- Firebase SDK -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-      import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+      import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyBLAq1eYQ67zKLGs2my5_paM3GByrfPwYU",
@@ -2020,6 +2019,13 @@
       window.db = db;
       window.productsRef = collection(db, "products");
       window.getDocs = getDocs;
+      window.addDoc = addDoc;
+      window.updateDoc = updateDoc;
+      window.deleteDoc = deleteDoc;
+      window.doc = doc;
+      window.onSnapshot = onSnapshot;
+      window.query = query;
+      window.orderBy = orderBy;
     </script>
 </head>
 <body>
@@ -2606,7 +2612,7 @@
     <script>
         // ==================================================
         // نظام إدارة المنتجات - مكتبة الرواد
-        // الأكواد التالية جاهزة للنسخ واللصق في الصفحة الرئيسية
+        // تحسينات: إضافة onSnapshot للتحديث التلقائي، ترتيب المنتجات، تحسين الأداء، إضافة تعليقات
         // ==================================================
 
         // 1. مصفوفة المنتجات
@@ -2620,11 +2626,12 @@
             customTime: '',
             notes: ''
         };
+        let unsubscribeProducts; // لإدارة الاستماع إلى onSnapshot
 
         // 2. تهيئة التطبيق
         document.addEventListener('DOMContentLoaded', function() {
             initializeApp();
-            loadProducts();
+            loadProducts(); // تحميل المنتجات مع الاستماع التلقائي
             updateCartCount();
             updateWishlistCount();
             initializeAnimations();
@@ -2632,11 +2639,20 @@
             loadCustomerData();
         });
 
-        // 3. تحميل المنتجات من Firebase
-        async function loadProducts(category = 'all') {
-            try {
-                showLoading();
-                const querySnapshot = await getDocs(productsRef);
+        // 3. تحميل المنتجات من Firebase مع الاستماع التلقائي (onSnapshot)
+        function loadProducts(category = 'all') {
+            showLoading();
+            
+            // إنشاء استعلام مع ترتيب المنتجات حسب الاسم أو تاريخ الإضافة (افتراضياً حسب 'name')
+            const q = query(productsRef, orderBy('name', 'asc')); // يمكن تغيير 'name' إلى حقل آخر مثل 'createdAt'
+
+            // إزالة الاستماع السابق إذا وجد
+            if (unsubscribeProducts) {
+                unsubscribeProducts();
+            }
+
+            // الاستماع إلى التغييرات في الوقت الفعلي
+            unsubscribeProducts = onSnapshot(q, (querySnapshot) => {
                 products = [];
                 
                 querySnapshot.forEach((doc) => {
@@ -2648,15 +2664,15 @@
                     products = getDefaultProducts();
                 }
                 
-                renderProducts(category);
+                renderProducts(currentFilter || category); // إعادة عرض المنتجات مع الحفاظ على الفلتر الحالي
                 hideLoading();
-            } catch (error) {
+            }, (error) => {
                 console.error("Error loading products: ", error);
                 // استخدام المنتجات الافتراضية في حالة الخطأ
                 products = getDefaultProducts();
-                renderProducts(category);
+                renderProducts(currentFilter || category);
                 hideLoading();
-            }
+            });
         }
 
         // 4. المنتجات الافتراضية
