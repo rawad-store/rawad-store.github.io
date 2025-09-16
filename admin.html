@@ -913,8 +913,8 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label class="form-label">شارة المنتج (اختياري)</label>
-                                    <input type="text" class="form-input" id="productBadge" placeholder="مثل: جديد، عرض خاص">
+                                    <label class="form-label">شارة المنتج</label>
+                                    <input type="text" class="form-input" id="productBadge">
                                 </div>
                             </div>
                             
@@ -929,48 +929,43 @@
                                     <input type="file" class="file-input" id="productImage" accept="image/*">
                                     <div class="file-input-label">
                                         <i class="fas fa-cloud-upload-alt"></i>
-                                        اختر صورة المنتج
+                                        اختر صورة
                                     </div>
                                 </div>
                                 <div class="image-preview" id="imagePreview"></div>
                             </div>
                             
-                            <div class="text-center">
+                            <div class="form-row">
                                 <button type="submit" class="btn btn-success">
                                     <i class="fas fa-plus"></i>
                                     إضافة المنتج
-                                </button>
-                                <button type="button" class="btn btn-warning" onclick="resetForm()">
-                                    <i class="fas fa-undo"></i>
-                                    إعادة تعيين
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
 
-                <!-- Products Management Section -->
+                <!-- Products List Section -->
                 <div class="section">
                     <div class="section-header">
                         <h2 class="section-title">
-                            <i class="fas fa-list"></i>
-                            إدارة المنتجات
+                            <i class="fas fa-boxes"></i>
+                            قائمة المنتجات
                         </h2>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-info btn-sm" onclick="exportProducts()">
-                                <i class="fas fa-download"></i>
-                                تصدير البيانات
+                        <div class="section-actions">
+                            <button class="btn btn-warning btn-sm" onclick="exportProducts()">
+                                <i class="fas fa-file-export"></i>
+                                تصدير إلى CSV
                             </button>
                             <button class="btn btn-danger btn-sm" onclick="confirmClearAll()">
-                                <i class="fas fa-trash"></i>
+                                <i class="fas fa-trash-alt"></i>
                                 حذف الكل
                             </button>
                         </div>
                     </div>
                     <div class="section-content">
-                        <!-- Search and Filter -->
                         <div class="search-filter">
-                            <input type="text" class="form-input search-input" id="searchProducts" placeholder="البحث في المنتجات...">
+                            <input type="text" class="form-input search-input" id="searchProducts" placeholder="ابحث عن منتج...">
                             <select class="form-select filter-select" id="filterCategory">
                                 <option value="">جميع التصنيفات</option>
                                 <option value="books">الكتب الدراسية</option>
@@ -980,7 +975,6 @@
                             </select>
                         </div>
                         
-                        <!-- Products Table -->
                         <div style="overflow-x: auto;">
                             <table class="products-table">
                                 <thead>
