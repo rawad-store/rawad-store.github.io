@@ -962,7 +962,7 @@
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
       import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
-      import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+      import { getFirestore, collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
       import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-storage.js";
 
       const firebaseConfig = {
@@ -990,6 +990,7 @@
       window.collection = collection;
       window.addDoc = addDoc;
       window.getDocs = getDocs;
+      window.getDoc = getDoc;
       window.doc = doc;
       window.updateDoc = updateDoc;
       window.deleteDoc = deleteDoc;
@@ -1433,41 +1434,53 @@
             }
         }
 
-        // تعديل منتج
-        function editProduct(id) {
-            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-            const product = products.find(p => p.id === id);
-            
-            if (product) {
-                document.getElementById('productForm').classList.remove('hidden');
-                document.getElementById('formTitle').textContent = 'تعديل المنتج';
-                document.getElementById('productId').value = product.id;
-                document.getElementById('productName').value = product.name;
-                document.getElementById('productPrice').value = product.price;
-                document.getElementById('productDiscount').value = product.discount || 0;
-                document.getElementById('productCategory').value = product.category;
-                document.getElementById('productDescription').value = product.description;
-                document.getElementById('productRating').value = product.rating;
-                document.getElementById('productBadge').value = product.badge || '';
-                document.getElementById('productImageData').value = product.image || '';
+        // تعديل منتج - الإصلاح الرئيسي هنا
+        async function editProduct(id) {
+            try {
+                const productRef = doc(db, "products", id);
+                const productDoc = await getDoc(productRef);
                 
-                if (product.image) {
-                    document.getElementById('previewImage').src = product.image;
-                    document.getElementById('imagePreview').style.display = 'block';
+                if (productDoc.exists()) {
+                    const product = productDoc.data();
+                    document.getElementById('productForm').classList.remove('hidden');
+                    document.getElementById('formTitle').textContent = 'تعديل المنتج';
+                    document.getElementById('productId').value = id;
+                    document.getElementById('productName').value = product.name;
+                    document.getElementById('productPrice').value = product.price;
+                    document.getElementById('productDiscount').value = product.discount || 0;
+                    document.getElementById('productCategory').value = product.category;
+                    document.getElementById('productDescription').value = product.description;
+                    document.getElementById('productRating').value = product.rating;
+                    document.getElementById('productBadge').value = product.badge || '';
+                    
+                    if (product.image) {
+                        document.getElementById('previewImage').src = product.image;
+                        document.getElementById('imagePreview').style.display = 'block';
+                        document.getElementById('productImageData').value = product.image;
+                    } else {
+                        document.getElementById('imagePreview').style.display = 'none';
+                        document.getElementById('productImageData').value = '';
+                    }
                 } else {
-                    document.getElementById('imagePreview').style.display = 'none';
+                    showNotification('المنتج غير موجود', 'error');
                 }
+            } catch (error) {
+                console.error("Error editing product: ", error);
+                showNotification('فشل تحميل بيانات المنتج', 'error');
             }
         }
 
         // حذف منتج
-        function deleteProduct(id) {
+        async function deleteProduct(id) {
             if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
-                let products = JSON.parse(localStorage.getItem('rawad-products')) || [];
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('rawad-products', JSON.stringify(products));
-                showNotification('تم حذف المنتج بنجاح');
-                loadProducts();
+                try {
+                    await deleteDoc(doc(db, "products", id));
+                    showNotification('تم حذف المنتج بنجاح');
+                    loadProducts();
+                } catch (error) {
+                    console.error("Error deleting product: ", error);
+                    showNotification('فشل حذف المنتج', 'error');
+                }
             }
         }
 
@@ -1675,7 +1688,7 @@ function updateFilterButtons(activeCategory) {
 
 function animateProductCards() {
     setTimeout(() => {
-        document.querySelectorAll('.product-card').forEach((card, index) => {
+        document.querySelectorAll('.product-card').forEach((card, index) {
             setTimeout(() => {
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(30px)';
