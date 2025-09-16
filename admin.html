@@ -1076,7 +1076,6 @@
         // المنتجات النموذجية
         const sampleProducts = [
             {
-                "id": 1,
                 "name": "كتب دراسية ومراجع",
                 "price": 100,
                 "discount": 10,
@@ -1086,7 +1085,6 @@
                 "badge": "جديد"
             },
             {
-                "id": 2,
                 "name": "مجموعة أقلام متنوعة",
                 "price": 50,
                 "discount": 5,
@@ -1096,7 +1094,6 @@
                 "badge": "الأكثر مبيعاً"
             },
             {
-                "id": 3,
                 "name": "حقيبة مدرسية - تصميم عصري",
                 "price": 350,
                 "discount": 15,
@@ -1106,7 +1103,6 @@
                 "badge": "مميز"
             },
             {
-                "id": 4,
                 "name": "دفتر ملاحظات",
                 "price": 25,
                 "discount": 0,
@@ -1116,7 +1112,6 @@
                 "badge": ""
             },
             {
-                "id": 5,
                 "name": "كشكول وكراس",
                 "price": 30,
                 "discount": 0,
@@ -1126,7 +1121,6 @@
                 "badge": ""
             },
             {
-                "id": 6,
                 "name": "هدايا قيمة",
                 "price": 200,
                 "discount": 20,
@@ -1136,7 +1130,6 @@
                 "badge": "مميز"
             },
             {
-                "id": 7,
                 "name": "اكسسوارات",
                 "price": 75,
                 "discount": 10,
@@ -1146,7 +1139,6 @@
                 "badge": "جديد"
             },
             {
-                "id": 8,
                 "name": "فولدرات وحافظات",
                 "price": 40,
                 "discount": 0,
@@ -1156,7 +1148,6 @@
                 "badge": "رائع"
             },
             {
-                "id": 9,
                 "name": "ورق تصوير",
                 "price": 45,
                 "discount": 5,
@@ -1166,7 +1157,6 @@
                 "badge": "جودة"
             },
             {
-                "id": 10,
                 "name": "قاموس عربي إنجليزي",
                 "price": 120,
                 "discount": 10,
@@ -1185,12 +1175,37 @@
         // إضافة المنتجات النموذجية
         async function addSampleProducts() {
             try {
+                // جلب المنتجات الحالية للتحقق من التكرار
+                const existingProducts = await getDocs(collection(db, "products"));
+                const existingNames = new Set();
+                existingProducts.forEach(doc => {
+                    existingNames.add(doc.data().name);
+                });
+
+                const addPromises = [];
                 for (const product of sampleProducts) {
-                    await addDoc(collection(db, "products"), {
-                        ...product,
-                        createdAt: new Date()
-                    });
+                    // تجنب إضافة منتج بنفس الاسم
+                    if (!existingNames.has(product.name)) {
+                        addPromises.push(addDoc(collection(db, "products"), {
+                            name: product.name,
+                            price: product.price,
+                            discount: product.discount,
+                            category: product.category,
+                            description: product.description,
+                            rating: product.rating,
+                            badge: product.badge,
+                            createdAt: new Date(),
+                            updatedAt: new Date()
+                        }));
+                    }
                 }
+
+                if (addPromises.length === 0) {
+                    showNotification('جميع المنتجات النموذجية موجودة بالفعل', 'info');
+                    return;
+                }
+
+                await Promise.all(addPromises);
                 showNotification('تم إضافة المنتجات النموذجية بنجاح');
                 loadProducts();
             } catch (error) {
