@@ -1090,581 +1090,595 @@
 
     <!-- Notification -->
     <div id="notification" class="notification"></div>
+    
+<script>
+// Global Variables
+let currentUser = null;
+let allProducts = [];
+let filteredProducts = [];
+let editingProductId = null;
 
-    <script>
-        // Global Variables
-        let currentUser = null;
-        let allProducts = [];
-        let filteredProducts = [];
-        let editingProductId = null;
+// Category Names Mapping
+const categoryNames = {
+    'books': 'الكتب الدراسية',
+    'stationery': 'المستلزمات المكتبية',
+    'bags': 'الحقائب المدرسية',
+    'gifts': 'الهدايا'
+};
 
-        // Category Names Mapping
-        const categoryNames = {
-            'books': 'الكتب الدراسية',
-            'stationery': 'المستلزمات المكتبية',
-            'bags': 'الحقائب المدرسية',
-            'gifts': 'الهدايا'
+// Initialize App
+document.addEventListener('DOMContentLoaded', function() {
+    // Check authentication state
+    window.onAuthStateChanged(window.auth, (user) => {
+        if (user) {
+            currentUser = user;
+            showDashboard();
+            loadProducts();
+        } else {
+            showLogin();
+        }
+    });
+
+    // Setup event listeners
+    setupEventListeners();
+});
+
+function setupEventListeners() {
+    // Login form
+    document.getElementById('loginForm').addEventListener('submit', handleLogin);
+    
+    // Product form
+    document.getElementById('productForm').addEventListener('submit', handleAddProduct);
+    
+    // Image preview
+    document.getElementById('productImage').addEventListener('change', previewImage);
+    document.getElementById('editProductImage').addEventListener('change', previewEditImage);
+    
+    // Search and filter
+    document.getElementById('searchProducts').addEventListener('input', filterProducts);
+    document.getElementById('filterCategory').addEventListener('change', filterProducts);
+}
+
+// Authentication Functions
+async function handleLogin(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const errorDiv = document.getElementById('loginError');
+    
+    showLoading();
+    
+    try {
+        await window.signInWithEmailAndPassword(window.auth, email, password);
+        errorDiv.style.display = 'none';
+        showNotification('تم تسجيل الدخول بنجاح', 'success');
+    } catch (error) {
+        console.error('Login error:', error);
+        errorDiv.textContent = getErrorMessage(error.code);
+        errorDiv.style.display = 'block';
+        showNotification('فشل في تسجيل الدخول', 'error');
+    } finally {
+        hideLoading();
+    }
+}
+
+async function logout() {
+    try {
+        await window.signOut(window.auth);
+        showNotification('تم تسجيل الخروج بنجاح', 'success');
+    } catch (error) {
+        console.error('Logout error:', error);
+        showNotification('فشل في تسجيل الخروج', 'error');
+    }
+}
+
+function getErrorMessage(errorCode) {
+    switch (errorCode) {
+        case 'auth/user-not-found':
+            return 'المستخدم غير موجود';
+        case 'auth/wrong-password':
+            return 'كلمة المرور غير صحيحة';
+        case 'auth/invalid-email':
+            return 'البريد الإلكتروني غير صحيح';
+        case 'auth/too-many-requests':
+            return 'تم تجاوز عدد المحاولات المسموح';
+        default:
+            return 'حدث خطأ في تسجيل الدخول: ' + errorCode;
+    }
+}
+
+// UI Functions
+function showLogin() {
+    document.getElementById('loginContainer').classList.remove('d-none');
+    document.getElementById('adminDashboard').classList.add('d-none');
+}
+
+function showDashboard() {
+    document.getElementById('loginContainer').classList.add('d-none');
+    document.getElementById('adminDashboard').classList.remove('d-none');
+    document.getElementById('userEmail').textContent = currentUser.email;
+}
+
+function showLoading() {
+    document.getElementById('loadingOverlay').classList.remove('d-none');
+}
+
+function hideLoading() {
+    document.getElementById('loadingOverlay').classList.add('d-none');
+}
+
+// Product Management Functions
+async function handleAddProduct(e) {
+    e.preventDefault();
+    
+    const formData = getFormData();
+    if (!formData) return;
+    
+    showLoading();
+    
+    try {
+        let imageUrl = '';
+        
+        // Upload image if selected
+        const imageFile = document.getElementById('productImage').files[0];
+        if (imageFile) {
+            imageUrl = await uploadImage(imageFile);
+        }
+        
+        // Add product to Firestore
+        const productData = {
+            ...formData,
+            image: imageUrl,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
         };
+        
+        await window.addDoc(window.collection(window.db, "products"), productData);
+        
+        showNotification('تم إضافة المنتج بنجاح', 'success');
+        resetForm();
+        await loadProducts();
+        
+    } catch (error) {
+        console.error('Error adding product:', error);
+        showNotification('فشل في إضافة المنتج: ' + error.message, 'error');
+    } finally {
+        hideLoading();
+    }
+}
 
-        // Initialize App
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check authentication state
-            window.onAuthStateChanged(window.auth, (user) => {
-                if (user) {
-                    currentUser = user;
-                    showDashboard();
-                    loadProducts();
-                } else {
-                    showLogin();
-                }
-            });
+function getFormData() {
+    const name = document.getElementById('productName').value.trim();
+    const category = document.getElementById('productCategory').value;
+    const price = parseFloat(document.getElementById('productPrice').value);
+    const discount = parseInt(document.getElementById('productDiscount').value) || 0;
+    const rating = parseInt(document.getElementById('productRating').value);
+    const badge = document.getElementById('productBadge').value.trim();
+    const description = document.getElementById('productDescription').value.trim();
+    
+    if (!name || !category || isNaN(price) || !description) {
+        showNotification('يرجى ملء جميع الحقول المطلوبة', 'warning');
+        return null;
+    }
+    
+    return {
+        name,
+        category,
+        price,
+        discount,
+        rating,
+        badge,
+        description
+    };
+}
 
-            // Setup event listeners
-            setupEventListeners();
-        });
+async function uploadImage(file) {
+    const fileName = `products/${Date.now()}_${file.name}`;
+    const storageRef = window.ref(window.storage, fileName);
+    
+    try {
+        const snapshot = await window.uploadBytes(storageRef, file);
+        const downloadURL = await window.getDownloadURL(snapshot.ref);
+        return downloadURL;
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        throw new Error('فشل في رفع الصورة');
+    }
+}
 
-        function setupEventListeners() {
-            // Login form
-            document.getElementById('loginForm').addEventListener('submit', handleLogin);
-            
-            // Product form
-            document.getElementById('productForm').addEventListener('submit', handleAddProduct);
-            
-            // Image preview
-            document.getElementById('productImage').addEventListener('change', previewImage);
-            document.getElementById('editProductImage').addEventListener('change', previewEditImage);
-            
-            // Search and filter
-            document.getElementById('searchProducts').addEventListener('input', filterProducts);
-            document.getElementById('filterCategory').addEventListener('change', filterProducts);
-        }
+async function loadProducts() {
+    try {
+        showLoading();
+        const querySnapshot = await window.getDocs(window.query(
+            window.collection(window.db, "products"),
+            window.orderBy('createdAt', 'desc')
+        ));
+        allProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        filteredProducts = [...allProducts];
+        
+        displayProducts();
+        updateStatistics();
+        
+    } catch (error) {
+        console.error('Error loading products:', error);
+        showNotification('فشل في تحميل المنتجات: ' + error.message, 'error');
+    } finally {
+        hideLoading();
+    }
+}
 
-        // Authentication Functions
-        async function handleLogin(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            const errorDiv = document.getElementById('loginError');
-            
-            showLoading();
-            
-            try {
-                await window.signInWithEmailAndPassword(window.auth, email, password);
-                errorDiv.style.display = 'none';
-                showNotification('تم تسجيل الدخول بنجاح', 'success');
-            } catch (error) {
-                console.error('Login error:', error);
-                errorDiv.textContent = getErrorMessage(error.code);
-                errorDiv.style.display = 'block';
-                showNotification('فشل في تسجيل الدخول', 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        async function logout() {
-            try {
-                await window.signOut(window.auth);
-                showNotification('تم تسجيل الخروج بنجاح', 'success');
-            } catch (error) {
-                console.error('Logout error:', error);
-                showNotification('فشل في تسجيل الخروج', 'error');
-            }
-        }
-
-        function getErrorMessage(errorCode) {
-            switch (errorCode) {
-                case 'auth/user-not-found':
-                    return 'المستخدم غير موجود';
-                case 'auth/wrong-password':
-                    return 'كلمة المرور غير صحيحة';
-                case 'auth/invalid-email':
-                    return 'البريد الإلكتروني غير صحيح';
-                case 'auth/too-many-requests':
-                    return 'تم تجاوز عدد المحاولات المسموح';
-                default:
-                    return 'حدث خطأ في تسجيل الدخول';
-            }
-        }
-
-        // UI Functions
-        function showLogin() {
-            document.getElementById('loginContainer').classList.remove('d-none');
-            document.getElementById('adminDashboard').classList.add('d-none');
-        }
-
-        function showDashboard() {
-            document.getElementById('loginContainer').classList.add('d-none');
-            document.getElementById('adminDashboard').classList.remove('d-none');
-            document.getElementById('userEmail').textContent = currentUser.email;
-        }
-
-        function showLoading() {
-            document.getElementById('loadingOverlay').classList.remove('d-none');
-        }
-
-        function hideLoading() {
-            document.getElementById('loadingOverlay').classList.add('d-none');
-        }
-
-        // Product Management Functions
-        async function handleAddProduct(e) {
-            e.preventDefault();
-            
-            const formData = getFormData();
-            if (!formData) return;
-            
-            showLoading();
-            
-            try {
-                let imageUrl = '';
-                
-                // Upload image if selected
-                const imageFile = document.getElementById('productImage').files[0];
-                if (imageFile) {
-                    imageUrl = await uploadImage(imageFile);
-                }
-                
-                // Add product to Firestore
-                const productData = {
-                    ...formData,
-                    image: imageUrl,
-                    createdAt: new Date(),
-                    updatedAt: new Date()
-                };
-                
-                await window.addDoc(window.collection(window.db, "products"), productData);
-                
-                showNotification('تم إضافة المنتج بنجاح', 'success');
-                resetForm();
-                loadProducts();
-                
-            } catch (error) {
-                console.error('Error adding product:', error);
-                showNotification('فشل في إضافة المنتج', 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        function getFormData() {
-            const name = document.getElementById('productName').value.trim();
-            const category = document.getElementById('productCategory').value;
-            const price = parseFloat(document.getElementById('productPrice').value);
-            const discount = parseInt(document.getElementById('productDiscount').value) || 0;
-            const rating = parseInt(document.getElementById('productRating').value);
-            const badge = document.getElementById('productBadge').value.trim();
-            const description = document.getElementById('productDescription').value.trim();
-            
-            if (!name || !category || !price || !description) {
-                showNotification('يرجى ملء جميع الحقول المطلوبة', 'warning');
-                return null;
-            }
-            
-            return {
-                name,
-                category,
-                price,
-                discount,
-                rating,
-                badge,
-                description
-            };
-        }
-
-        async function uploadImage(file) {
-            const fileName = `products/${Date.now()}_${file.name}`;
-            const storageRef = window.ref(window.storage, fileName);
-            
-            const snapshot = await window.uploadBytes(storageRef, file);
-            const downloadURL = await window.getDownloadURL(snapshot.ref);
-            
-            return downloadURL;
-        }
-
-        async function loadProducts() {
-            try {
-                const querySnapshot = await window.getDocs(window.collection(window.db, "products"));
-                allProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                filteredProducts = [...allProducts];
-                
-                displayProducts();
-                updateStatistics();
-                
-            } catch (error) {
-                console.error('Error loading products:', error);
-                showNotification('فشل في تحميل المنتجات', 'error');
-            }
-        }
-
-        function displayProducts() {
-            const tbody = document.getElementById('productsTableBody');
-            
-            if (filteredProducts.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="text-center" style="padding: 2rem; color: var(--gray-500);">
-                            لا توجد منتجات
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            tbody.innerHTML = filteredProducts.map(product => {
-                const finalPrice = product.discount > 0 
-                    ? product.price - (product.price * product.discount / 100)
-                    : product.price;
-                
-                return `
-                    <tr>
-                        <td class="product-image-cell">
-                            ${product.image ? 
-                                `<img src="${product.image}" alt="${product.name}">` : 
-                                `<div style="width: 60px; height: 60px; background: var(--gray-200); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center;"><i class="fas fa-image"></i></div>`
-                            }
-                        </td>
-                        <td>
-                            <strong>${product.name}</strong>
-                            ${product.badge ? `<br><small style="color: var(--secondary-color);">${product.badge}</small>` : ''}
-                        </td>
-                        <td>${categoryNames[product.category]}</td>
-                        <td>
-                            <strong style="color: var(--success-color);">${finalPrice.toFixed(2)} جنيه</strong>
-                            ${product.discount > 0 ? `<br><small style="text-decoration: line-through; color: var(--gray-500);">${product.price.toFixed(2)} جنيه</small>` : ''}
-                        </td>
-                        <td>${product.discount}%</td>
-                        <td>
-                            <div style="color: #ffc107;">
-                                ${'★'.repeat(product.rating)}${'☆'.repeat(5 - product.rating)}
-                            </div>
-                        </td>
-                        <td>
-                            <div class="product-actions">
-                                <button class="btn btn-info btn-sm" onclick="editProduct('${product.id}')">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteProduct('${product.id}')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function updateStatistics() {
-            document.getElementById('totalProducts').textContent = allProducts.length;
-            document.getElementById('booksCount').textContent = allProducts.filter(p => p.category === 'books').length;
-            document.getElementById('stationeryCount').textContent = allProducts.filter(p => p.category === 'stationery').length;
-            document.getElementById('bagsCount').textContent = allProducts.filter(p => p.category === 'bags').length;
-        }
-
-        function filterProducts() {
-            const searchTerm = document.getElementById('searchProducts').value.toLowerCase();
-            const categoryFilter = document.getElementById('filterCategory').value;
-            
-            filteredProducts = allProducts.filter(product => {
-                const matchesSearch = !searchTerm || 
-                                      product.name.toLowerCase().includes(searchTerm) || 
-                                      product.description.toLowerCase().includes(searchTerm);
-                const matchesCategory = !categoryFilter || product.category === categoryFilter;
-                
-                return matchesSearch && matchesCategory;
-            });
-            
-            displayProducts();
-        }
-
-        async function deleteProduct(productId) {
-            if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
-                return;
-            }
-            
-            showLoading();
-            
-            try {
-                // Delete from Firestore
-                await window.deleteDoc(window.doc(window.db, "products", productId));
-                
-                // Delete image from Storage if exists
-                const product = allProducts.find(p => p.id === productId);
-                if (product && product.image) {
-                    try {
-                        const imageRef = window.ref(window.storage, product.image);
-                        await window.deleteObject(imageRef);
-                    } catch (error) {
-                        console.log('Image deletion failed (might not exist):', error);
+function displayProducts() {
+    const tbody = document.getElementById('productsTableBody');
+    
+    if (filteredProducts.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="7" class="text-center" style="padding: 2rem; color: var(--gray-500);">
+                    لا توجد منتجات
+                </td>
+            </tr>
+        `;
+        return;
+    }
+    
+    tbody.innerHTML = filteredProducts.map(product => {
+        const finalPrice = product.discount > 0 
+            ? product.price - (product.price * product.discount / 100)
+            : product.price;
+        
+        return `
+            <tr>
+                <td class="product-image-cell">
+                    ${product.image ? 
+                        `<img src="${product.image}" alt="${product.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 60 60\\'><rect width=\\'60\\' height=\\'60\\' fill=\\'#e9ecef\\'></rect><text x=\\'50%\\' y=\\'50%\\' dominant-baseline=\\'middle\\' text-anchor=\\'middle\\' fill=\\'#6c757d\\'>لا صورة</text></svg>';">` : 
+                        `<div style="width: 60px; height: 60px; background: var(--gray-200); border-radius: var(--border-radius); display: flex; align-items: center; justify-content: center;"><i class="fas fa-image"></i></div>`
                     }
-                }
-                
-                showNotification('تم حذف المنتج بنجاح', 'success');
-                loadProducts();
-                
+                </td>
+                <td>
+                    <strong>${product.name}</strong>
+                    ${product.badge ? `<br><small style="color: var(--secondary-color);">${product.badge}</small>` : ''}
+                </td>
+                <td>${categoryNames[product.category]}</td>
+                <td>
+                    <strong style="color: var(--success-color);">${finalPrice.toFixed(2)} جنيه</strong>
+                    ${product.discount > 0 ? `<br><small style="text-decoration: line-through; color: var(--gray-500);">${product.price.toFixed(2)} جنيه</small>` : ''}
+                </td>
+                <td>${product.discount}%</td>
+                <td>
+                    <div style="color: #ffc107;">
+                        ${'★'.repeat(product.rating)}${'☆'.repeat(5 - product.rating)}
+                    </div>
+                </td>
+                <td>
+                    <div class="product-actions">
+                        <button class="btn btn-info btn-sm" onclick="editProduct('${product.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteProduct('${product.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function updateStatistics() {
+    document.getElementById('totalProducts').textContent = allProducts.length;
+    document.getElementById('booksCount').textContent = allProducts.filter(p => p.category === 'books').length;
+    document.getElementById('stationeryCount').textContent = allProducts.filter(p => p.category === 'stationery').length;
+    document.getElementById('bagsCount').textContent = allProducts.filter(p => p.category === 'bags').length;
+}
+
+function filterProducts() {
+    const searchTerm = document.getElementById('searchProducts').value.toLowerCase().trim();
+    const categoryFilter = document.getElementById('filterCategory').value;
+    
+    filteredProducts = allProducts.filter(product => {
+        const matchesSearch = !searchTerm || 
+                             product.name.toLowerCase().includes(searchTerm) || 
+                             product.description.toLowerCase().includes(searchTerm);
+        const matchesCategory = !categoryFilter || product.category === categoryFilter;
+        
+        return matchesSearch && matchesCategory;
+    });
+    
+    displayProducts();
+}
+
+async function deleteProduct(productId) {
+    if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+        return;
+    }
+    
+    showLoading();
+    
+    try {
+        const product = allProducts.find(p => p.id === productId);
+        if (!product) throw new Error('المنتج غير موجود');
+        
+        // Delete from Firestore
+        await window.deleteDoc(window.doc(window.db, "products", productId));
+        
+        // Delete image from Storage if exists
+        if (product.image) {
+            try {
+                const imageRef = window.ref(window.storage, product.image);
+                await window.deleteObject(imageRef);
             } catch (error) {
-                console.error('Error deleting product:', error);
-                showNotification('فشل في حذف المنتج', 'error');
-            } finally {
-                hideLoading();
+                console.warn('Image deletion failed (might not exist):', error);
             }
         }
+        
+        showNotification('تم حذف المنتج بنجاح', 'success');
+        await loadProducts();
+        
+    } catch (error) {
+        console.error('Error deleting product:', error);
+        showNotification('فشل في حذف المنتج: ' + error.message, 'error');
+    } finally {
+        hideLoading();
+    }
+}
 
-        function editProduct(productId) {
-            const product = allProducts.find(p => p.id === productId);
-            if (!product) return;
+function editProduct(productId) {
+    const product = allProducts.find(p => p.id === productId);
+    if (!product) {
+        showNotification('المنتج غير موجود', 'error');
+        return;
+    }
+    
+    editingProductId = productId;
+    
+    // Fill edit form
+    document.getElementById('editProductId').value = productId;
+    document.getElementById('editProductName').value = product.name;
+    document.getElementById('editProductCategory').value = product.category;
+    document.getElementById('editProductPrice').value = product.price;
+    document.getElementById('editProductDiscount').value = product.discount || 0;
+    document.getElementById('editProductRating').value = product.rating;
+    document.getElementById('editProductBadge').value = product.badge || '';
+    document.getElementById('editProductDescription').value = product.description;
+    
+    // Show current image
+    const editImagePreview = document.getElementById('editImagePreview');
+    if (product.image) {
+        editImagePreview.innerHTML = `
+            <p>الصورة الحالية:</p>
+            <img src="${product.image}" alt="${product.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 200 200\\'><rect width=\\'200\\' height=\\'200\\' fill=\\'#e9ecef\\'></rect><text x=\\'50%\\' y=\\'50%\\' dominant-baseline=\\'middle\\' text-anchor=\\'middle\\' fill=\\'#6c757d\\'>لا صورة</text></svg>';">
+        `;
+    } else {
+        editImagePreview.innerHTML = '<p>لا توجد صورة حالية</p>';
+    }
+    
+    // Show modal
+    document.getElementById('editModal').style.display = 'block';
+}
+
+async function updateProduct() {
+    const formData = getEditFormData();
+    if (!formData) return;
+    
+    showLoading();
+    
+    try {
+        const existingProduct = allProducts.find(p => p.id === editingProductId);
+        if (!existingProduct) throw new Error('المنتج غير موجود');
+        
+        let imageUrl = existingProduct.image || '';
+        
+        // Upload new image if selected
+        const imageFile = document.getElementById('editProductImage').files[0];
+        if (imageFile) {
+            imageUrl = await uploadImage(imageFile);
             
-            editingProductId = productId;
+            // Delete old image if it exists
+            if (existingProduct.image) {
+                try {
+                    const oldImageRef = window.ref(window.storage, existingProduct.image);
+                    await window.deleteObject(oldImageRef);
+                } catch (error) {
+                    console.warn('Old image deletion failed:', error);
+                }
+            }
+        }
+        
+        // Update product in Firestore
+        const productData = {
+            ...formData,
+            image: imageUrl,
+            updatedAt: new Date().toISOString()
+        };
+        
+        await window.updateDoc(window.doc(window.db, "products", editingProductId), productData);
+        
+        showNotification('تم تحديث المنتج بنجاح', 'success');
+        closeEditModal();
+        await loadProducts();
+        
+    } catch (error) {
+        console.error('Error updating product:', error);
+        showNotification('فشل في تحديث المنتج: ' + error.message, 'error');
+    } finally {
+        hideLoading();
+    }
+}
+
+function getEditFormData() {
+    const name = document.getElementById('editProductName').value.trim();
+    const category = document.getElementById('editProductCategory').value;
+    const price = parseFloat(document.getElementById('editProductPrice').value);
+    const discount = parseInt(document.getElementById('editProductDiscount').value) || 0;
+    const rating = parseInt(document.getElementById('editProductRating').value);
+    const badge = document.getElementById('editProductBadge').value.trim();
+    const description = document.getElementById('editProductDescription').value.trim();
+    
+    if (!name || !category || isNaN(price) || !description) {
+        showNotification('يرجى ملء جميع الحقول المطلوبة', 'warning');
+        return null;
+    }
+    
+    return {
+        name,
+        category,
+        price,
+        discount,
+        rating,
+        badge,
+        description
+    };
+}
+
+function closeEditModal() {
+    document.getElementById('editModal').style.display = 'none';
+    editingProductId = null;
+    document.getElementById('editImagePreview').innerHTML = '';
+    document.getElementById('editProductForm').reset();
+}
+
+async function confirmClearAll() {
+    if (!confirm('⚠️ تحذير: هل أنت متأكد من حذف جميع المنتجات؟ لا يمكن التراجع عن هذا الإجراء!')) {
+        return;
+    }
+    
+    if (!confirm('هذا الإجراء سيحذف جميع المنتجات نهائياً. هل تريد المتابعة؟')) {
+        return;
+    }
+    
+    showLoading();
+    
+    try {
+        const deletePromises = allProducts.map(async (product) => {
+            // Delete from Firestore
+            await window.deleteDoc(window.doc(window.db, "products", product.id));
             
-            // Fill edit form
-            document.getElementById('editProductId').value = productId;
-            document.getElementById('editProductName').value = product.name;
-            document.getElementById('editProductCategory').value = product.category;
-            document.getElementById('editProductPrice').value = product.price;
-            document.getElementById('editProductDiscount').value = product.discount || 0;
-            document.getElementById('editProductRating').value = product.rating;
-            document.getElementById('editProductBadge').value = product.badge || '';
-            document.getElementById('editProductDescription').value = product.description;
-            
-            // Show current image
-            const editImagePreview = document.getElementById('editImagePreview');
+            // Delete image from Storage if exists
             if (product.image) {
-                editImagePreview.innerHTML = `
-                    <p>الصورة الحالية:</p>
-                    <img src="${product.image}" alt="${product.name}">
-                `;
-            } else {
-                editImagePreview.innerHTML = '<p>لا توجد صورة حالية</p>';
-            }
-            
-            // Show modal
-            document.getElementById('editModal').style.display = 'block';
-        }
-
-        async function updateProduct() {
-            const formData = getEditFormData();
-            if (!formData) return;
-            
-            showLoading();
-            
-            try {
-                let imageUrl = '';
-                
-                // Upload new image if selected
-                const imageFile = document.getElementById('editProductImage').files[0];
-                if (imageFile) {
-                    imageUrl = await uploadImage(imageFile);
-                    
-                    // Delete old image
-                    const oldProduct = allProducts.find(p => p.id === editingProductId);
-                    if (oldProduct && oldProduct.image) {
-                        try {
-                            const oldImageRef = window.ref(window.storage, oldProduct.image);
-                            await window.deleteObject(oldImageRef);
-                        } catch (error) {
-                            console.log('Old image deletion failed:', error);
-                        }
-                    }
-                } else {
-                    // Keep existing image
-                    const existingProduct = allProducts.find(p => p.id === editingProductId);
-                    imageUrl = existingProduct.image || '';
+                try {
+                    const imageRef = window.ref(window.storage, product.image);
+                    await window.deleteObject(imageRef);
+                } catch (error) {
+                    console.warn('Image deletion failed:', error);
                 }
-                
-                // Update product in Firestore
-                const productData = {
-                    ...formData,
-                    image: imageUrl,
-                    updatedAt: new Date()
-                };
-                
-                await window.updateDoc(window.doc(window.db, "products", editingProductId), productData);
-                
-                showNotification('تم تحديث المنتج بنجاح', 'success');
-                closeEditModal();
-                loadProducts();
-                
-            } catch (error) {
-                console.error('Error updating product:', error);
-                showNotification('فشل في تحديث المنتج', 'error');
-            } finally {
-                hideLoading();
             }
-        }
+        });
+        
+        await Promise.all(deletePromises);
+        
+        showNotification('تم حذف جميع المنتجات بنجاح', 'success');
+        await loadProducts();
+        
+    } catch (error) {
+        console.error('Error clearing all products:', error);
+        showNotification('فشل في حذف المنتجات: ' + error.message, 'error');
+    } finally {
+        hideLoading();
+    }
+}
 
-        function getEditFormData() {
-            const name = document.getElementById('editProductName').value.trim();
-            const category = document.getElementById('editProductCategory').value;
-            const price = parseFloat(document.getElementById('editProductPrice').value);
-            const discount = parseInt(document.getElementById('editProductDiscount').value) || 0;
-            const rating = parseInt(document.getElementById('editProductRating').value);
-            const badge = document.getElementById('editProductBadge').value.trim();
-            const description = document.getElementById('editProductDescription').value.trim();
-            
-            if (!name || !category || !price || !description) {
-                showNotification('يرجى ملء جميع الحقول المطلوبة', 'warning');
-                return null;
-            }
-            
-            return {
-                name,
-                category,
-                price,
-                discount,
-                rating,
-                badge,
-                description
-            };
-        }
+function exportProducts() {
+    if (allProducts.length === 0) {
+        showNotification('لا توجد منتجات للتصدير', 'warning');
+        return;
+    }
+    
+    const csvContent = generateCSV();
+    downloadCSV(csvContent, 'products.csv');
+    showNotification('تم تصدير البيانات بنجاح', 'success');
+}
 
-        function closeEditModal() {
-            document.getElementById('editModal').style.display = 'none';
-            editingProductId = null;
-            document.getElementById('editImagePreview').innerHTML = '';
-        }
+function generateCSV() {
+    const headers = ['اسم المنتج', 'التصنيف', 'السعر', 'الخصم', 'التقييم', 'الوصف', 'الشارة', 'رابط الصورة'];
+    const rows = allProducts.map(product => [
+        product.name,
+        categoryNames[product.category],
+        product.price,
+        product.discount || 0,
+        product.rating,
+        product.description,
+        product.badge || '',
+        product.image || ''
+    ]);
+    
+    const csvContent = [headers, ...rows]
+        .map(row => row.map(field => `"${String(field).replace(/"/g, '""')}"`).join(','))
+        .join('\n');
+    
+    return '\ufeff' + csvContent; // Add BOM for Arabic support
+}
 
-        async function confirmClearAll() {
-            if (!confirm('⚠️ تحذير: هل أنت متأكد من حذف جميع المنتجات؟ لا يمكن التراجع عن هذا الإجراء!')) {
-                return;
-            }
-            
-            if (!confirm('هذا الإجراء سيحذف جميع المنتجات نهائياً. هل تريد المتابعة؟')) {
-                return;
-            }
-            
-            showLoading();
-            
-            try {
-                // Delete all products
-                const deletePromises = allProducts.map(async (product) => {
-                    // Delete from Firestore
-                    await window.deleteDoc(window.doc(window.db, "products", product.id));
-                    
-                    // Delete image from Storage if exists
-                    if (product.image) {
-                        try {
-                            const imageRef = window.ref(window.storage, product.image);
-                            await window.deleteObject(imageRef);
-                        } catch (error) {
-                            console.log('Image deletion failed:', error);
-                        }
-                    }
-                });
-                
-                await Promise.all(deletePromises);
-                
-                showNotification('تم حذف جميع المنتجات بنجاح', 'success');
-                loadProducts();
-                
-            } catch (error) {
-                console.error('Error clearing all products:', error);
-                showNotification('فشل في حذف المنتجات', 'error');
-            } finally {
-                hideLoading();
-            }
-        }
+function downloadCSV(content, filename) {
+    const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
-        function exportProducts() {
-            if (allProducts.length === 0) {
-                showNotification('لا توجد منتجات للتصدير', 'warning');
-                return;
-            }
-            
-            const csvContent = generateCSV();
-            downloadCSV(csvContent, 'products.csv');
-            showNotification('تم تصدير البيانات بنجاح', 'success');
-        }
+// Utility Functions
+function resetForm() {
+    document.getElementById('productForm').reset();
+    document.getElementById('imagePreview').innerHTML = '';
+}
 
-        function generateCSV() {
-            const headers = ['اسم المنتج', 'التصنيف', 'السعر', 'الخصم', 'التقييم', 'الوصف', 'الشارة'];
-            const rows = allProducts.map(product => [
-                product.name,
-                categoryNames[product.category],
-                product.price,
-                product.discount || 0,
-                product.rating,
-                product.description,
-                product.badge || ''
-            ]);
-            
-            const csvContent = [headers, ...rows]
-                .map(row => row.map(field => `"${field}"`).join(','))
-                .join('\n');
-            
-            return '\ufeff' + csvContent; // Add BOM for Arabic support
-        }
-
-        function downloadCSV(content, filename) {
-            const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            const url = URL.createObjectURL(blob);
-            link.setAttribute('href', url);
-            link.setAttribute('download', filename);
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        // Utility Functions
-        function resetForm() {
-            document.getElementById('productForm').reset();
-            document.getElementById('imagePreview').innerHTML = '';
-        }
-
-        function previewImage(event) {
-            const file = event.target.files[0];
-            const preview = document.getElementById('imagePreview');
-            
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.innerHTML = `
-                        <p>معاينة الصورة:</p>
-                        <img src="${e.target.result}" alt="معاينة">
-                    `;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                preview.innerHTML = '';
-            }
-        }
-
-        function previewEditImage(event) {
-            const file = event.target.files[0];
-            const preview = document.getElementById('editImagePreview');
-            
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.innerHTML = `
-                        <p>الصورة الجديدة:</p>
-                        <img src="${e.target.result}" alt="معاينة">
-                    `;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `notification ${type}`;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 4000);
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('editModal');
-            if (event.target === modal) {
-                closeEditModal();
-            }
+function previewImage(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('imagePreview');
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `
+                <p>معاينة الصورة:</p>
+                <img src="${e.target.result}" alt="معاينة">
+            `;
         };
-    </script>
+        reader.readAsDataURL(file);
+    } else {
+        preview.innerHTML = '';
+    }
+}
+
+function previewEditImage(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('editImagePreview');
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `
+                <p>الصورة الجديدة:</p>
+                <img src="${e.target.result}" alt="معاينة">
+            `;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function showNotification(message, type = 'success') {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.className = `notification ${type}`;
+    notification.classList.add('show');
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 4000);
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('editModal');
+    if (event.target === modal) {
+        closeEditModal();
+    }
+};
+</script>
 </body>
 </html>
