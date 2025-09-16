@@ -1421,20 +1421,31 @@
         }
 
         // وظيفة جديدة: استيراد المنتجات من الموقع
-        async function importFromWebsite() {
-            if (!confirm('هل تريد استيراد المنتجات من الموقع الرئيسي؟')) {
+         async function importFromWebsite() {
+        if (!confirm('هل تريد استيراد المنتجات من الموقع الرئيسي؟')) {
+            return;
+        }
+        
+        showLoading();
+        
+        try {
+            // التحقق من Firestore أولاً
+            const querySnapshot = await window.getDocs(window.query(
+                window.collection(window.db, "products"),
+                window.orderBy('createdAt', 'desc')
+            ));
+            
+            if (!querySnapshot.empty) {
+                showNotification('المنتجات متاحة بالفعل في Firestore.', 'success');
+                await loadProducts();
                 return;
             }
             
-            showLoading();
-            
+            // محاولة جلب من products.json إذا كان Firestore فارغًا
             try {
-                // افتراض: جلب من endpoint JSON في الموقع (عدّل URL إذا كان مختلفًا)
-                // إذا كان الموقع يستخدم Firebase، فهي تُحمل تلقائيًا من loadProducts()
-                // هنا، نحاول جلب بيانات افتراضية أو من URL
-                const response = await fetch('https://rawad-store.github.io/products.json'); // افتراض endpoint؛ عدّل إذا كان موجودًا
+                const response = await fetch('https://rawad-store.github.io/products.json');
                 if (!response.ok) {
-                    throw new Error('لا يمكن جلب البيانات من الموقع. تأكد من أن المنتجات في Firestore.');
+                    throw new Error('لا يمكن جلب البيانات من products.json');
                 }
                 const websiteProducts = await response.json();
                 
@@ -1443,9 +1454,9 @@
                     const productData = {
                         name: product.name || '',
                         category: product.category || 'books',
-                        price: product.price || 0,
-                        discount: product.discount || 0,
-                        rating: product.rating || 5,
+                        price: parseFloat(product.price) || 0,
+                        discount: parseInt(product.discount) || 0,
+                        rating: parseInt(product.rating) || 5,
                         badge: product.badge || '',
                         description: product.description || '',
                         image: product.image || null,
@@ -1456,16 +1467,20 @@
                 }
                 
                 showNotification(`تم استيراد ${websiteProducts.length} منتج بنجاح`, 'success');
-                await loadProducts();
-                
-            } catch (error) {
-                console.error('Error importing products:', error);
-                showNotification('فشل في استيراد المنتجات: ' + error.message + '. المنتجات قد تكون متاحة تلقائيًا من Firestore.', 'error');
-                // إذا فشل، اقترح إضافة يدويًا أو التحقق من Firebase
-            } finally {
-                hideLoading();
+            } catch (fetchError) {
+                console.warn('Fetch failed, relying on Firestore:', fetchError);
+                showNotification('لم يتم العثور على products.json. تأكد من أن المنتجات في Firestore أو أضفها يدويًا.', 'warning');
             }
+            
+            await loadProducts();
+            
+        } catch (error) {
+            console.error('Error importing products:', error);
+            showNotification('فشل في استيراد المنتجات: ' + error.message, 'error');
+        } finally {
+            hideLoading();
         }
+    }
 
         async function deleteProduct(productId) {
             if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
