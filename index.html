@@ -2465,11 +2465,10 @@
         let currentSearchTerm = '';
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-        let customerData = JSON.parse(localStorage.getItem('customerData')) || {
+        let customerData = {
             name: '',
             customDate: '',
             customTime: '',
-            address: '',
             notes: ''
         };
 
@@ -2548,7 +2547,7 @@
             allProducts = [
                 {
                     id: '1',
-                    name: 'كتاب الرياضيات - الصف الأول الثانوي',
+                    name: 'كتاب الرياضيات - - الصف الأول الثانوي',
                     category: 'books',
                     price: 85.0,
                     discount: 10,
@@ -2865,9 +2864,10 @@
 
         function checkout() {
             if (cart.length === 0) {
-                showNotification('السلة فارغة', 'warning');
+                showNotification('السلة فارغة!', 'warning');
                 return;
             }
+
             showCustomerForm();
         }
 
@@ -3036,110 +3036,202 @@
             }
         };
 
-        // Customer Form Functions
+        // Customer Form functions
         function showCustomerForm() {
             const formHtml = `
-                <div id="customerFormOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; z-index: 10000; font-family: 'Cairo', sans-serif;">
-                    <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); width: 90%; max-width: 500px; text-align: center; max-height: 90vh; overflow-y: auto;">
-                        <h2 style="color: #2c3e50; margin-bottom: 25px; font-size: 24px;">📝 بيانات الطلب</h2>
+                <div id="customerFormOverlay" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.7);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 10000;
+                    font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                ">
+                    <div style="
+                        background: white;
+                        padding: 30px;
+                        border-radius: 15px;
+                        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                        width: 90%;
+                        max-width: 500px;
+                        text-align: center;
+                        max-height: 90vh;
+                        overflow-y: auto;
+                    ">
+                        <h2 style="color: #2c3e50; margin-bottom: 25px; font-size: 24px;">
+                            📝 بيانات الطلب
+                        </h2>
+                        
                         <div style="margin-bottom: 20px; text-align: right;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">👤 اسم العميل:</label>
-                            <input type="text" id="customerNameInput" value="${customerData.name}" placeholder="اكتب اسمك هنا..." style="width: 100%; padding: 12px; border: 2px solid #bdc3c7; border-radius: 8px; font-size: 16px; box-sizing: border-box; text-align: right;" oninput="validateName(this)">
-                            <small style="color: #e74c3c; display: none;" id="nameError">يرجى إدخال اسم صحيح (أحرف فقط)</small>
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">
+                                👤 اسم العميل:
+                            </label>
+                            <input type="text" id="customerNameInput" value="${customerData.name}" 
+                                   placeholder="اكتب اسمك هنا..." style="
+                                width: 100%;
+                                padding: 12px;
+                                border: 2px solid #bdc3c7;
+                                border-radius: 8px;
+                                font-size: 16px;
+                                box-sizing: border-box;
+                                text-align: right;
+                                font-family: 'Cairo', sans-serif;
+                            ">
+                            <small style="color: #e74c3c; display: none;" id="nameError">يرجى إدخال اسم العميل</small>
                         </div>
+
                         <div style="margin-bottom: 20px; text-align: right;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">🏠 العنوان:</label>
-                            <input type="text" id="customerAddressInput" value="${customerData.address || 'أمام سنترال الصوة - بالمجمع'}" placeholder="اكتب عنوان التسليم..." style="width: 100%; padding: 12px; border: 2px solid #bdc3c7; border-radius: 8px; font-size: 16px; box-sizing: border-box; text-align: right;">
-                            <small style="color: #7f8c8d; font-size: 12px;">اترك فارغاً لاستخدام العنوان الافتراضي</small>
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">
+                                📅 التاريخ (اختياري):
+                            </label>
+                            <input type="date" id="customDateInput" value="${customerData.customDate}" style="
+                                width: 100%;
+                                padding: 12px;
+                                border: 2px solid #bdc3c7;
+                                border-radius: 8px;
+                                font-size: 16px;
+                                box-sizing: border-box;
+                                font-family: 'Cairo', sans-serif;
+                            ">
+                            <small style="color: #7f8c8d; font-size: 12px;">
+                                اتركه فارغاً لاستخدام التاريخ الحالي
+                            </small>
                         </div>
+
                         <div style="margin-bottom: 20px; text-align: right;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">📅 التاريخ (اختياري):</label>
-                            <input type="date" id="customDateInput" value="${customerData.customDate}" style="width: 100%; padding: 12px; border: 2px solid #bdc3c7; border-radius: 8px; font-size: 16px; box-sizing: border-box;">
-                            <small style="color: #7f8c8d; font-size: 12px;">اترك فارغاً لاستخدام التاريخ الحالي</small>
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">
+                                🕒 الوقت (اختياري):
+                            </label>
+                            <input type="time" id="customTimeInput" value="${customerData.customTime}" style="
+                                width: 100%;
+                                padding: 12px;
+                                border: 2px solid #bdc3c7;
+                                border-radius: 8px;
+                                font-size: 16px;
+                                box-sizing: border-box;
+                                font-family: 'Cairo', sans-serif;
+                            ">
+                            <small style="color: #7f8c8d; font-size: 12px;">
+                                اتركه فارغاً لاستخدام الوقت الحالي
+                            </small>
                         </div>
-                        <div style="margin-bottom: 20px; text-align: right;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">🕒 الوقت (اختياري):</label>
-                            <input type="time" id="customTimeInput" value="${customerData.customTime}" style="width: 100%; padding: 12px; border: 2px solid #bdc3c7; border-radius: 8px; font-size: 16px; box-sizing: border-box;">
-                            <small style="color: #7f8c8d; font-size: 12px;">اترك فارغاً لاستخدام الوقت الحالي</small>
-                        </div>
+
                         <div style="margin-bottom: 30px; text-align: right;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">✏️ ملاحظات (اختياري):</label>
-                            <textarea id="customerNotesInput" placeholder="اكتب أي تعليمات إضافية..." style="width: 100%; padding: 12px; border: 2px solid #bdc3c7; border-radius: 8px; font-size: 16px; box-sizing: border-box; min-height: 80px; resize: vertical; text-align: right;">${customerData.notes}</textarea>
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #34495e;">
+                                ✏️ ملاحظات (اختياري):
+                            </label>
+                            <textarea id="customerNotesInput" placeholder="اكتب أي تعليمات إضافية..." style="
+                                width: 100%;
+                                padding: 12px;
+                                border: 2px solid #bdc3c7;
+                                border-radius: 8px;
+                                font-size: 16px;
+                                box-sizing: border-box;
+                                min-height: 80px;
+                                resize: vertical;
+                                text-align: right;
+                                font-family: 'Cairo', sans-serif;
+                            ">${customerData.notes}</textarea>
                         </div>
+
                         <div style="display: flex; gap: 15px; justify-content: center;">
-                            <button onclick="submitCustomerForm()" style="background: #27ae60; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#2ecc71'" onmouseout="this.style.backgroundColor='#27ae60'">✅ متابعة الطلب</button>
-                            <button onclick="closeCustomerForm()" style="background: #e74c3c; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#c0392b'" onmouseout="this.style.backgroundColor='#e74c3c'">❌ إلغاء</button>
+                            <button onclick="submitCustomerForm()" style="
+                                background: #27ae60;
+                                color: white;
+                                border: none;
+                                padding: 12px 25px;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-size: 16px;
+                                font-weight: bold;
+                                transition: all 0.3s;
+                                font-family: 'Cairo', sans-serif;
+                            " onmouseover="this.style.backgroundColor='#2ecc71'" 
+                               onmouseout="this.style.backgroundColor='#27ae60'">
+                                ✅ متابعة الطلب
+                            </button>
+                            
+                            <button onclick="closeCustomerForm()" style="
+                                background: #e74c3c;
+                                color: white;
+                                border: none;
+                                padding: 12px 25px;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                font-size: 16px;
+                                font-weight: bold;
+                                transition: all 0.3s;
+                                font-family: 'Cairo', sans-serif;
+                            " onmouseover="this.style.backgroundColor='#c0392b'" 
+                               onmouseout="this.style.backgroundColor='#e74c3c'">
+                                ❌ إلغاء
+                            </button>
                         </div>
                     </div>
                 </div>
             `;
+
             document.body.insertAdjacentHTML('beforeend', formHtml);
+            
+            // التركيز على حقل الاسم
             document.getElementById('customerNameInput').focus();
-            saveFormData();
-        }
-
-        function closeCustomerForm() {
-            const overlay = document.getElementById('customerFormOverlay');
-            if (overlay) overlay.remove();
-        }
-
-        function validateName(input) {
+            
+            // إضافة مستمعين للأحداث للتحقق من الصحة أثناء الكتابة
+            const nameInput = document.getElementById('customerNameInput');
             const nameError = document.getElementById('nameError');
-            const regex = /^[أ-يa-zA-Z\s]+$/;
-            if (!input.value.trim() || !regex.test(input.value)) {
-                input.style.borderColor = '#e74c3c';
-                nameError.style.display = 'block';
-                return false;
-            } else {
-                input.style.borderColor = '#bdc3c7';
-                nameError.style.display = 'none';
-                return true;
-            }
-        }
-
-        function saveFormData() {
-            const inputs = ['customerNameInput', 'customerAddressInput', 'customDateInput', 'customTimeInput', 'customerNotesInput'];
-            inputs.forEach(id => {
-                const input = document.getElementById(id);
-                if (input) {
-                    input.addEventListener('input', () => {
-                        customerData[id.replace('Input', '')] = input.value;
-                        try {
-                            localStorage.setItem('customerData', JSON.stringify(customerData));
-                        } catch (e) {
-                            console.error('Failed to save form data', e);
-                        }
-                    });
+            
+            nameInput.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    this.style.borderColor = '#bdc3c7';
+                    nameError.style.display = 'none';
                 }
             });
         }
 
+        function closeCustomerForm() {
+            const overlay = document.getElementById('customerFormOverlay');
+            if (overlay) {
+                overlay.remove();
+            }
+        }
+
         function submitCustomerForm() {
             const nameInput = document.getElementById('customerNameInput');
-            const addressInput = document.getElementById('customerAddressInput');
             const dateInput = document.getElementById('customDateInput');
             const timeInput = document.getElementById('customTimeInput');
             const notesInput = document.getElementById('customerNotesInput');
             const nameError = document.getElementById('nameError');
 
-            if (!validateName(nameInput)) {
+            // التحقق من إدخال الاسم
+            if (!nameInput.value.trim()) {
+                nameInput.style.borderColor = '#e74c3c';
+                nameError.style.display = 'block';
                 nameInput.focus();
                 return;
             }
 
+            // حفظ البيانات
             customerData.name = nameInput.value.trim();
-            customerData.address = addressInput.value.trim() || 'أمام سنترال الصوة - بالمجمع';
             customerData.customDate = dateInput.value;
             customerData.customTime = timeInput.value;
             customerData.notes = notesInput.value.trim();
-
+            
+            // حفظ البيانات في localStorage
             try {
                 localStorage.setItem('customerData', JSON.stringify(customerData));
             } catch (e) {
                 console.error('Failed to save customer data', e);
             }
 
+            // إغلاق النموذج
             closeCustomerForm();
+
+            // متابعة عملية الشراء
             proceedWithCheckout();
         }
 
@@ -3150,24 +3242,45 @@
             let now = new Date();
             let date, time;
 
+            // استخدام التاريخ المخصص أو الحالي
             if (customerData.customDate) {
                 const customDate = new Date(customerData.customDate);
-                date = customDate.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                date = customDate.toLocaleDateString('ar-EG', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
             } else {
-                date = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                date = now.toLocaleDateString('ar-EG', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
             }
 
+            // استخدام الوقت المخصص أو الحالي
             if (customerData.customTime) {
+                // تحويل الوقت من صيغة 24 ساعة إلى 12 ساعة
                 const [hours, minutes] = customerData.customTime.split(':');
                 const timeObj = new Date();
                 timeObj.setHours(parseInt(hours), parseInt(minutes));
-                time = timeObj.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: true });
+                time = timeObj.toLocaleTimeString('ar-EG', { 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    hour12: true 
+                });
             } else {
-                time = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: true });
+                time = now.toLocaleTimeString('ar-EG', { 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    hour12: true 
+                });
             }
 
             let message = `🌟 مرحباً بكم بمتجر الرواد يا ${customerName}! 🌟\n\n`;
-            message += `📅 التاريخ: ${date}\n🕒 الوقت: ${time}\n🏠 العنوان: ${customerData.address}\n\n`;
+            message += `📅 التاريخ: ${date}\n🕒 الوقت: ${time}\n\n`;
             message += `🛒 تفاصيل طلبك:\n\n`;
 
             let total = 0;
@@ -3181,33 +3294,39 @@
 
                 message += `✨ ${index + 1}. ${item.name}\n`;
                 message += `   🔢 الكمية: ${item.quantity}\n`;
+
                 if (item.discount > 0) {
-                    message += `   💲 السعر الأصلي: ${itemTotalBeforeDiscount.toFixed(2)} جنيه\n`;
-                    message += `   🎉 بعد الخصم: ${itemTotal.toFixed(2)} جنيه\n`;
-                    message += `   💰 التوفير: ${(itemTotalBeforeDiscount - itemTotal).toFixed(2)} جنيه\n`;
+                    message += `   💲 السعر الأصلي: ${itemTotalBeforeDiscount} جنيه\n`;
+                    message += `   🎉 بعد الخصم: ${itemTotal} جنيه\n`;
+                    message += `   💰 التوفير: ${itemTotalBeforeDiscount - itemTotal} جنيه\n`;
                 } else {
-                    message += `   💲 السعر: ${itemTotal.toFixed(2)} جنيه\n`;
+                    message += `   💲 السعر: ${itemTotal} جنيه\n`;
                 }
+
                 message += `\n`;
             });
 
-            message += `📊 الإجمالي قبل الخصم: ${totalBeforeDiscount.toFixed(2)} جنيه\n`;
-            message += `🎊 الإجمالي بعد الخصم: ${total.toFixed(2)} جنيه\n`;
+            message += `📊 الإجمالي قبل الخصم: ${totalBeforeDiscount} جنيه\n`;
+            message += `🎊 الإجمالي بعد الخصم: ${total} جنيه\n`;
+
             if (totalBeforeDiscount > total) {
-                message += `🌟 وفرت معنا: ${(totalBeforeDiscount - total).toFixed(2)} جنيه 🌟\n`;
+                message += `🌟 وفرت معنا: ${totalBeforeDiscount - total} جنيه 🌟\n`;
             }
 
             if (customerData.notes) {
                 message += `\n✏️ ملاحظات العميل: ${customerData.notes}\n`;
             }
 
-            message += `\nشكراً يا ${customerName} على ثقتك بنا ❤️😊`;
+            message += `\n🏠 العنوان: أمام سنترال الصوة - بالمجمع\n\n`;
+            message += `شكراً يا ${customerName} على ثقتك بنا ❤️😊`;
 
             const whatsappUrl = `https://wa.me/201126630356?text=${encodeURIComponent(message)}`;
+
+            // حل لتجنب popup blocker: إنشاء عنصر <a> مخفي ومحاكاة نقرة
             var link = document.createElement('a');
             link.href = whatsappUrl;
             link.target = '_blank';
-            link.rel = 'noopener noreferrer';
+            link.rel = 'noopener noreferrer'; // للأمان
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -3215,7 +3334,37 @@
             hideLoading();
             closeCart();
             showNotification('تم توجيهك إلى واتساب لإتمام الطلب', 'success');
+            
+            // مسح السلة بعد إتمام الطلب
             clearCart();
+        }
+
+        function clearCustomerData() {
+            customerData = {
+                name: '',
+                customDate: '',
+                customTime: '',
+                notes: ''
+            };
+            
+            try {
+                localStorage.removeItem('customerData');
+            } catch (e) {
+                console.error('Failed to clear customer data', e);
+            }
+            
+            showNotification('تم مسح البيانات المحفوظة', 'success');
+        }
+
+        function loadCustomerData() {
+            const savedData = localStorage.getItem('customerData');
+            if (savedData) {
+                try {
+                    customerData = JSON.parse(savedData);
+                } catch (e) {
+                    console.error('Failed to parse saved customer data', e);
+                }
+            }
         }
 
         // Initialize the application
@@ -3224,6 +3373,9 @@
             updateCartCount();
             updateWishlistCount();
             
+            // Load customer data
+            loadCustomerData();
+
             // Load products
             setTimeout(() => {
                 loadProductsFromFirebase();
