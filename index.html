@@ -26,6 +26,14 @@
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     
+    <!-- PWA Support -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1e3d59">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="مكتبة الرواد">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/rawad-store/rawad-store.github.io/main/preview.jpg">
+
     <style>
         /* CSS Variables for consistent theming */
         :root {
@@ -1980,6 +1988,61 @@
                 height: 40px;
             }
         }
+
+        /* Additional Modern Features: Parallax Effect for Hero */
+        .hero {
+            background-attachment: fixed; /* Parallax scrolling */
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary-color: #3498db;
+                --secondary-color: #e67e22;
+                --light-color: #2c3e50;
+                --dark-color: #ecf0f1;
+                --gray-100: #34495e;
+                --gray-200: #2c3e50;
+                --gray-300: #2c3e50;
+                --gray-400: #34495e;
+                --gray-500: #7f8c8d;
+                --gray-600: #bdc3c7;
+                --gray-700: #ecf0f1;
+                --gray-800: #f8f9fa;
+                --gray-900: #ffffff;
+            }
+
+            body {
+                background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+                color: #ecf0f1;
+            }
+
+            .header-top {
+                background: linear-gradient(135deg, #34495e, #2c3e50);
+            }
+
+            .header-main {
+                background: rgba(44, 62, 80, 0.95);
+            }
+
+            .product-card {
+                background: rgba(44, 62, 80, 0.95);
+                color: #ecf0f1;
+            }
+        }
+
+        /* Accessibility Improvements */
+        .btn:focus,
+        .nav-link:focus,
+        .search-input:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        /* Performance: Lazy Loading Placeholder */
+        img {
+            loading: lazy;
+        }
     </style>
 </head>
 <body>
@@ -3913,4 +3976,3 @@ document.addEventListener('DOMContentLoaded', function() {
  </script>
 </body>
 </html>
-
