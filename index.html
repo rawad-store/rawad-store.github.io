@@ -2892,47 +2892,39 @@ function animateProductCards() {
     }, 100);
 }
 
-        // 3. إدارة السلة
+            // 3. إدارة السلة
 let cart = [];
 let wishlist = [];
-let currentFilter = 'all';
-
-function addToCart(productId) {
+let currentFilter = 'all';function addToCart(productId) {
     const product = products.find(p => p.id === productId);
-    if (!product) return;
-    
-    // حساب السعر بعد الخصم
-    const discountPercentage = product.discount > 0 
-            ? product.price - (product.price * product.discount / 100)
-            : product.price;
-    
-    const existingItem = cart.find(item => item.id === productId);
-    
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({
-            id: product.id,
-            name: product.name,
-            price: discountedPrice, // السعر بعد الخصم
-            originalPrice: product.price, // السعر الأصلي
-            discount: discountPercentage, // نسبة الخصم
-            category: product.category,
-            quantity: 1
-        });
-    }
-    
-    updateCartCount();
-    saveToLocalStorage();
-    showNotification(`تم إضافة "${product.name}" إلى السلة`, 'success');
-    
-    // تحديث عرض السلة إذا كانت مفتوحة
-    if (document.getElementById('cartModal').classList.contains('active')) {
-        updateCartDisplay();
-    }
+    if (!product) return;// حساب السعر بعد الخصم
+const discountPercentage = product.discount || 0;
+const discountedPrice = product.price - (product.price * discountPercentage / 100);
+
+const existingItem = cart.find(item => item.id === productId);
+
+if (existingItem) {
+    existingItem.quantity += 1;
+} else {
+    cart.push({
+        id: product.id,
+        name: product.name,
+        price: discountedPrice, // السعر بعد الخصم
+        originalPrice: product.price, // السعر الأصلي
+        discount: discountPercentage, // نسبة الخصم
+        category: product.category,
+        quantity: 1
+    });
 }
 
-function removeFromCart(productId) {
+updateCartCount();
+saveToLocalStorage();
+showNotification(`تم إضافة "${product.name}" إلى السلة`, 'success');
+
+// تحديث عرض السلة إذا كانت مفتوحة
+if (document.getElementById('cartModal').classList.contains('active')) {
+    updateCartDisplay();
+}}function removeFromCart(productId) {
     const itemIndex = cart.findIndex(item => item.id === productId);
     if (itemIndex > -1) {
         if (cart[itemIndex].quantity > 1) {
@@ -2944,93 +2936,77 @@ function removeFromCart(productId) {
         updateCartDisplay();
         saveToLocalStorage();
     }
-}
-
-function clearCart() {
-    if (cart.length === 0) return;
-    
-    if (confirm('هل أنت متأكد من إفراغ السلة؟')) {
-        cart = [];
-        updateCartCount();
-        updateCartDisplay();
-        saveToLocalStorage();
-        showNotification('تم إفراغ السلة', 'info');
-    }
-}
-
-function updateCartCount() {
+}function clearCart() {
+    if (cart.length === 0) return;if (confirm('هل أنت متأكد من إفراغ السلة؟')) {
+    cart = [];
+    updateCartCount();
+    updateCartDisplay();
+    saveToLocalStorage();
+    showNotification('تم إفراغ السلة', 'info');
+}}function updateCartCount() {
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     const cartCountElement = document.getElementById('cartCount');
     if (cartCountElement) {
         cartCountElement.textContent = totalItems;
     }
-}
-
-function updateCartDisplay() {
+}function updateCartDisplay() {
     const cartItems = document.getElementById('cartItems');
-    const cartFooter = document.getElementById('cartFooter');
-    
-    if (cart.length === 0) {
-        cartItems.innerHTML = `
-            <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
-                <i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">سلة التسوق فارغة</h4>
-                <p style="margin-bottom: 1.5rem;">ابدأ بإضافة منتجات إلى سلتك</p>
-                <button class="btn btn-primary" onclick="closeCart()">
-                    <i class="fas fa-shopping-bag"></i>
-                    متابعة التسوق
-                </button>
+    const cartFooter = document.getElementById('cartFooter');if (cart.length === 0) {
+    cartItems.innerHTML = `
+        <div style="text-align: center; padding: 2rem; color: var(--gray-500);">
+            <i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+            <h4 style="margin-bottom: 0.8rem; color: var(--primary-color);">سلة التسوق فارغة</h4>
+            <p style="margin-bottom: 1.5rem;">ابدأ بإضافة منتجات إلى سلتك</p>
+            <button class="btn btn-primary" onclick="closeCart()">
+                <i class="fas fa-shopping-bag"></i>
+                متابعة التسوق
+            </button>
+        </div>
+    `;
+    cartFooter.style.display = 'none';
+} else {
+    cartItems.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <div class="cart-item-image">
+                ${getCategoryIcon(item.category)}
             </div>
-        `;
-        cartFooter.style.display = 'none';
-    } else {
-        cartItems.innerHTML = cart.map(item => `
-            <div class="cart-item">
-                <div class="cart-item-image">
-                    ${getCategoryIcon(item.category)}
-                </div>
-                <div class="cart-item-info">
-                    <div class="cart-item-title">${item.name}</div>
-                    ${item.discount > 0 ? `
-                        <div class="cart-item-price">
-                            <span style="text-decoration: line-through; color: var(--gray-500); margin-left: 0.5rem; font-size: 0.9rem;">
-                                ${item.originalPrice} جنيه
-                            </span>
-                            <span style="color: var(--accent-color); font-weight: bold;">
-                                ${item.price.toFixed(2)} جنيه للقطعة
-                            </span>
-                            <span style="background: var(--accent-color); color: white; padding: 0.2rem 0.5rem; border-radius: 0.3rem; font-size: 0.8rem; margin-right: 0.5rem;">
-                                خصم ${item.discount}%
-                            </span>
-                        </div>
-                    ` : `
-                        <div class="cart-item-price">${item.price.toFixed(2)} جنيه للقطعة</div>
-                    `}
-                </div>
-                <div class="cart-item-controls">
-                    <div class="quantity-controls">
-                        <button class="quantity-btn" onclick="removeFromCart(${item.id})">-</button>
-                        <span class="quantity-display">${item.quantity}</span>
-                        <button class="quantity-btn plus" onclick="addToCart(${item.id})">+</button>
+            <div class="cart-item-info">
+                <div class="cart-item-title">${item.name}</div>
+                ${item.discount > 0 ? `
+                    <div class="cart-item-price">
+                        <span style="text-decoration: line-through; color: var(--gray-500); margin-left: 0.5rem; font-size: 0.9rem;">
+                            ${item.originalPrice} جنيه
+                        </span>
+                        <span style="color: var(--accent-color); font-weight: bold;">
+                            ${item.price.toFixed(2)} جنيه للقطعة
+                        </span>
+                        <span style="background: var(--accent-color); color: white; padding: 0.2rem 0.5rem; border-radius: 0.3rem; font-size: 0.8rem; margin-right: 0.5rem;">
+                            خصم ${item.discount}%
+                        </span>
                     </div>
-                    <div class="cart-item-total">${(item.price * item.quantity).toFixed(2)} جنيه</div>
-                </div>
+                ` : `
+                    <div class="cart-item-price">${item.price.toFixed(2)} جنيه للقطعة</div>
+                `}
             </div>
-        `).join('');
-        
-        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        document.getElementById('cartTotal').textContent = total.toFixed(2);
-        cartFooter.style.display = 'block';
-    }
-}
-
-function showCart() {
+            <div class="cart-item-controls">
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="removeFromCart(${item.id})">-</button>
+                    <span class="quantity-display">${item.quantity}</span>
+                    <button class="quantity-btn plus" onclick="addToCart(${item.id})">+</button>
+                </div>
+                <div class="cart-item-total">${(item.price * item.quantity).toFixed(2)} جنيه</div>
+            </div>
+        </div>
+    `).join('');
+    
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    document.getElementById('cartTotal').textContent = total.toFixed(2);
+    cartFooter.style.display = 'block';
+}}function showCart() {
     updateCartDisplay();
     document.getElementById('cartModal').classList.add('active');
     document.body.style.overflow = 'hidden';
-}
-
-function closeCart() {
+}function closeCart() {
     document.getElementById('cartModal').classList.remove('active');
     document.body.style.overflow = 'auto';
 }
@@ -3937,3 +3913,4 @@ document.addEventListener('DOMContentLoaded', function() {
  </script>
 </body>
 </html>
+
