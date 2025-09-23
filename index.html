@@ -2966,12 +2966,12 @@ let products = [
 // 2. دوال المساعدة
 function getCategoryIcon(category) {
     const icons = {
-        'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;"></i>',
-        'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;"></i>',
-        'bags': '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: #28a745;"></i>',
-        'gifts': '<i class="fas fa-gift" style="font-size: 2.5rem; color: #ffc107;"></i>'
+        'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;" aria-hidden="true"></i>',
+        'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;" aria-hidden="true"></i>',
+        'bags': '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: #28a745;" aria-hidden="true"></i>',
+        'gifts': '<i class="fas fa-gift" style="font-size: 2.5rem; color: #ffc107;" aria-hidden="true"></i>'
     };
-    return icons[category] || '<i class="fas fa-box" style="font-size: 2.5rem; color: #a0aec0;"></i>';
+    return icons[category] || '<i class="fas fa-box" style="font-size: 2.5rem; color: #a0aec0;" aria-hidden="true"></i>';
 }
 
 function loadProducts(category = 'all') {
@@ -2981,7 +2981,7 @@ function loadProducts(category = 'all') {
     let filteredProducts = category === 'all' ? products : products.filter(p => p.category === category);
 
     if (filteredProducts.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);"><i class="fas fa-box-open" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i><h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لا توجد منتجات في هذا التصنيف حالياً</h3><p style="margin-bottom: 1.5rem;">سيتم إضافة منتجات جديدة قريباً</p><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن المنتجات المتاحة" class="btn btn-primary" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> استفسر عن المنتجات</a></div>';
+        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);"><i class="fas fa-box-open" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;" aria-hidden="true"></i><h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لا توجد منتجات في هذا التصنيف حالياً</h3><p style="margin-bottom: 1.5rem;">سيتم إضافة منتجات جديدة قريباً</p><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن المنتجات المتاحة" class="btn btn-primary" target="_blank" rel="noopener"><i class="fab fa-whatsapp" aria-hidden="true"></i> استفسر عن المنتجات</a></div>';
         return;
     }
 
@@ -2993,19 +2993,19 @@ function loadProducts(category = 'all') {
         return `
         <div class="product-card fade-in" data-category="${product.category}">
             <div class="product-image">
-                ${product.image ? `<img src="${product.image}" alt="${product.name}" loading="lazy">` : getCategoryIcon(product.category)}
-                ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+                ${product.image ? `<img src="${product.image}" alt="${product.name} - صورة المنتج" loading="lazy">` : getCategoryIcon(product.category)}
+                ${product.badge ? `<span class="product-badge" aria-label="علامة مميزة: ${product.badge}">${product.badge}</span>` : ''}
             </div>
             <div class="product-info">
                 <h3 class="product-title">${product.name}</h3>
                 <div class="product-price">
                     ${product.discount > 0 ? `
-                        <span class="discount-badge">خصم ${product.discount}%</span>
-                        <span class="original-price">${product.price.toFixed(2)} جنيه</span>
+                        <span class="discount-badge" aria-label="خصم ${product.discount}%">خصم ${product.discount}%</span>
+                        <span class="original-price" aria-label="السعر الأصلي">${product.price.toFixed(2)} جنيه</span>
                     ` : ''}
-                    ${finalPrice.toFixed(2)} جنيه
+                    <span aria-label="السعر النهائي">${finalPrice.toFixed(2)} جنيه</span>
                 </div>
-                <div class="product-rating">
+                <div class="product-rating" role="img" aria-label="تقييم ${product.rating} من 5 نجوم">
                     <div class="stars">
                         ${'★'.repeat(product.rating)}${'☆'.repeat(5-product.rating)}
                     </div>
@@ -3013,11 +3013,11 @@ function loadProducts(category = 'all') {
                 </div>
                 <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1.2rem; line-height: 1.5;">${product.description}</p>
                 <div class="product-actions">
-                    <button class="add-to-cart" onclick="addToCart(${product.id})">
-                        <i class="fas fa-cart-plus"></i> أضف للسلة
+                    <button class="add-to-cart" onclick="addToCart(${product.id})" aria-label="إضافة ${product.name} إلى السلة">
+                        <i class="fas fa-cart-plus" aria-hidden="true"></i> أضف للسلة
                     </button>
-                    <button class="wishlist-btn" onclick="toggleWishlist(${product.id})" title="إضافة للمفضلة">
-                        <i class="fas fa-heart"></i>
+                    <button class="wishlist-btn" onclick="toggleWishlist(${product.id})" title="إضافة للمفضلة" aria-label="إضافة ${product.name} إلى المفضلة">
+                        <i class="fas fa-heart" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -3059,6 +3059,28 @@ function animateProductCards() {
         });
     }, 100);
 }
+
+function addToCart(productId) {
+    alert(`تم إضافة المنتج رقم ${productId} إلى السلة`);
+}
+
+function toggleWishlist(productId) {
+    const btn = event.target.closest('.wishlist-btn');
+    btn.classList.toggle('active');
+    btn.title = btn.classList.contains('active') ? 'إزالة من المفضلة' : 'إضافة للمفضلة';
+    btn.setAttribute('aria-label', btn.classList.contains('active') ? 'إزالة من المفضلة' : 'إضافة للمفضلة');
+    
+    if (btn.classList.contains('active')) {
+        alert(`تم إضافة المنتج رقم ${productId} إلى المفضلة`);
+    } else {
+        alert(`تم إزالة المنتج رقم ${productId} من المفضلة`);
+    }
+}
+
+// 3. تهيئة الصفحة عند التحميل
+document.addEventListener('DOMContentLoaded', function() {
+    loadProducts();
+});
         
         // 3. إدارة السلة
         let cart = [];
