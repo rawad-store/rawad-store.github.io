@@ -178,6 +178,12 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .form-container {
             background: white;
             padding: 2rem;
@@ -863,9 +869,30 @@
             border-color: var(--primary-color);
         }
 
-        .page-btn:hover {
+        .page-btn:hover:not(:disabled) {
             background: var(--primary-light);
             color: white;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-color);
+            margin-top: 2rem;
+        }
+
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
         }
 
         @media (max-width: 768px) {
@@ -899,31 +926,50 @@
         [dir="rtl"] .fa {
             transform: scaleX(-1);
         }
+
+        /* تحسينات إضافية للوصولية */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
     </style>
 </head>
 <body>
-    <div class="login-modal" id="loginModal">
+    <div class="login-modal" id="loginModal" role="dialog" aria-labelledby="loginTitle" aria-hidden="true">
         <div class="login-content">
             <div class="login-header">
-                <h2>تسجيل الدخول</h2>
+                <h2 id="loginTitle">تسجيل الدخول</h2>
                 <p>أدخل بياناتك للوصول إلى النظام</p>
             </div>
             <div class="login-form-group">
                 <label for="username">اسم المستخدم</label>
-                <input type="text" id="username" placeholder="أدخل اسم المستخدم" required>
+                <input type="text" id="username" placeholder="أدخل اسم المستخدم" required aria-describedby="usernameError">
+                <div class="error-message" id="usernameError"></div>
             </div>
             <div class="login-form-group">
                 <label for="password">كلمة المرور</label>
-                <input type="password" id="password" placeholder="أدخل كلمة المرور" required>
+                <input type="password" id="password" placeholder="أدخل كلمة المرور" required aria-describedby="passwordError">
+                <div class="error-message" id="passwordError"></div>
             </div>
-            <button class="btn btn-primary login-btn" onclick="login()">تسجيل الدخول</button>
-            <button class="btn btn-secondary login-btn" onclick="changePassword()">تغيير كلمة المرور</button>
+            <button class="btn btn-primary login-btn" onclick="login()" aria-label="تسجيل الدخول">
+                <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+            </button>
+            <button class="btn btn-secondary login-btn" onclick="changePassword()" aria-label="تغيير كلمة المرور">
+                <i class="fas fa-key"></i> تغيير كلمة المرور
+            </button>
         </div>
     </div>
 
-    <div class="container hidden" id="mainContent">
+    <div class="container hidden" id="mainContent" role="main">
         <header>
-            <button class="theme-toggle" onclick="toggleTheme()">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="تبديل الثيم">
                 <i class="fas fa-moon"></i>
             </button>
             <h1>نظام إدارة المنتجات - مكتبة الرواد</h1>
@@ -931,75 +977,76 @@
         </header>
 
         <div class="admin-actions">
-            <button class="btn btn-primary" onclick="showProductForm()">
+            <button class="btn btn-primary" onclick="showProductForm()" aria-label="إضافة منتج جديد">
                 <i class="fas fa-plus"></i> إضافة منتج جديد
             </button>
-            <button class="btn btn-success" onclick="syncWithMainPage()">
+            <button class="btn btn-success" onclick="syncWithMainPage()" aria-label="مزامنة مع الصفحة الرئيسية">
                 <i class="fas fa-sync"></i> مزامنة مع الصفحة الرئيسية
             </button>
-            <button class="btn btn-info" onclick="showCodeModal()">
+            <button class="btn btn-info" onclick="showCodeModal()" aria-label="نسخ أكواد المنتجات">
                 <i class="fas fa-code"></i> نسخ أكواد المنتجات
             </button>
-            <button class="btn btn-warning" onclick="addSampleProducts()">
+            <button class="btn btn-warning" onclick="addSampleProducts()" aria-label="إضافة منتجات نموذجية">
                 <i class="fas fa-download"></i> إضافة منتجات نموذجية
             </button>
-            <button class="btn btn-danger" onclick="clearAllProducts()">
+            <button class="btn btn-danger" onclick="clearAllProducts()" aria-label="حذف جميع المنتجات">
                 <i class="fas fa-trash"></i> حذف جميع المنتجات
             </button>
-            <button class="btn btn-secondary" onclick="exportProducts()">
+            <button class="btn btn-secondary" onclick="exportProducts()" aria-label="تصدير المنتجات">
                 <i class="fas fa-file-export"></i> تصدير المنتجات
             </button>
-            <button class="btn btn-secondary" onclick="importProducts()">
+            <button class="btn btn-secondary" onclick="importProducts()" aria-label="استيراد المنتجات">
                 <i class="fas fa-file-import"></i> استيراد المنتجات
             </button>
-            <button class="btn btn-secondary" onclick="window.location.href='index.html'">
+            <button class="btn btn-secondary" onclick="window.location.href='index.html'" aria-label="العودة للمتجر">
                 <i class="fas fa-home"></i> العودة للمتجر
             </button>
-            <button class="btn btn-danger logout-btn" onclick="logout()">
+            <button class="btn btn-danger logout-btn" onclick="logout()" aria-label="تسجيل الخروج">
                 <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
             </button>
         </div>
 
-        <div class="form-container hidden" id="productForm">
+        <div class="form-container hidden" id="productForm" role="form" aria-labelledby="formTitle">
             <h2 class="form-title" id="formTitle">إضافة منتج جديد</h2>
             
             <div class="form-group">
                 <label for="productName">اسم المنتج</label>
-                <input type="text" id="productName" required placeholder="أدخل اسم المنتج">
+                <input type="text" id="productName" required placeholder="أدخل اسم المنتج" aria-describedby="nameError">
                 <div class="error-message" id="nameError"></div>
             </div>
             
             <div class="form-group">
                 <label for="productPrice">السعر الأصلي (جنيه)</label>
-                <input type="number" id="productPrice" min="0" required placeholder="أدخل السعر الأصلي">
+                <input type="number" id="productPrice" min="0" step="0.01" required placeholder="أدخل السعر الأصلي" aria-describedby="priceError">
                 <div class="error-message" id="priceError"></div>
             </div>
             
             <div class="form-group">
                 <label for="productDiscount">نسبة الخصم (%)</label>
-                <input type="number" id="productDiscount" min="0" max="100" value="0" placeholder="أدخل نسبة الخصم">
+                <input type="number" id="productDiscount" min="0" max="100" value="0" placeholder="أدخل نسبة الخصم" aria-describedby="discountError">
                 <div class="error-message" id="discountError"></div>
             </div>
             
             <div class="form-group">
                 <label for="productCategory">التصنيف</label>
-                <select id="productCategory" required>
+                <select id="productCategory" required aria-describedby="categoryError">
                     <option value="books">الكتب الدراسية</option>
                     <option value="stationery">المستلزمات المكتبية</option>
                     <option value="bags">الحقائب المدرسية</option>
                     <option value="gifts">الهدايا</option>
                 </select>
+                <div class="error-message" id="categoryError"></div>
             </div>
             
             <div class="form-group">
                 <label for="productDescription">الوصف</label>
-                <textarea id="productDescription" required placeholder="أدخل وصف المنتج"></textarea>
+                <textarea id="productDescription" required placeholder="أدخل وصف المنتج" aria-describedby="descError"></textarea>
                 <div class="error-message" id="descError"></div>
             </div>
             
             <div class="form-group">
                 <label for="productRating">التقييم (من 5)</label>
-                <input type="number" id="productRating" min="1" max="5" value="4" required>
+                <input type="number" id="productRating" min="1" max="5" step="0.1" value="4" required aria-describedby="ratingError">
                 <div class="error-message" id="ratingError"></div>
             </div>
             
@@ -1010,20 +1057,20 @@
             
             <div class="form-group">
                 <label>صورة المنتج</label>
-                <div class="image-upload-container" id="imageUploadContainer">
+                <div class="image-upload-container" id="imageUploadContainer" role="region" aria-label="رفع صورة المنتج">
                     <label for="productImage" class="image-upload-label">
                         <i class="fas fa-cloud-upload-alt"></i>
                         انقر أو اسحب لرفع صورة المنتج
-                        <input type="file" id="productImage" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                        <input type="file" id="productImage" accept="image/*" style="display: none;" onchange="handleImageUpload(event)" aria-label="اختيار صورة">
                     </label>
                     <p class="image-size-warning">الحجم الأقصى للصورة: 5MB، الأبعاد: 2000x2000 بكسل</p>
                     <div class="url-image-input hidden">
                         <label for="imageUrl">أو أدخل رابط الصورة (URL):</label>
-                        <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg" onchange="handleUrlImage()">
+                        <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg" onchange="handleUrlImage()" aria-label="إدخال رابط الصورة">
                     </div>
-                    <div class="image-preview" id="imagePreview">
+                    <div class="image-preview" id="imagePreview" role="img" aria-label="معاينة الصورة">
                         <img id="previewImage" src="" alt="معاينة الصورة">
-                        <button type="button" class="remove-image-btn" onclick="removeImage()">
+                        <button type="button" class="remove-image-btn" onclick="removeImage()" aria-label="إزالة الصورة">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
@@ -1034,36 +1081,36 @@
             <input type="hidden" id="productImageData">
             
             <div class="form-actions">
-                <button class="btn btn-success" onclick="saveProduct()">
+                <button class="btn btn-success" onclick="saveProduct()" aria-label="حفظ المنتج">
                     <i class="fas fa-save"></i> حفظ المنتج
                 </button>
-                <button class="btn btn-danger" onclick="hideProductForm()">
+                <button class="btn btn-danger" onclick="hideProductForm()" aria-label="إلغاء">
                     <i class="fas fa-times"></i> إلغاء
                 </button>
             </div>
         </div>
 
-        <div class="products-section">
-            <h2 class="section-title">المنتجات الحالية</h2>
+        <div class="products-section" role="region" aria-labelledby="productsTitle">
+            <h2 class="section-title" id="productsTitle">المنتجات الحالية</h2>
             
             <div class="search-container">
-                <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن منتج..." oninput="filterProducts()">
-                <button class="btn btn-info" onclick="clearSearch()">
+                <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن منتج..." oninput="debouncedFilterProducts()" aria-label="البحث عن منتج">
+                <button class="btn btn-info" onclick="clearSearch()" aria-label="مسح البحث">
                     <i class="fas fa-times"></i> مسح البحث
                 </button>
             </div>
             
-            <div class="filter-buttons">
-                <button class="filter-btn active" onclick="setCategoryFilter('all')">الكل</button>
-                <button class="filter-btn" onclick="setCategoryFilter('books')">الكتب الدراسية</button>
-                <button class="filter-btn" onclick="setCategoryFilter('stationery')">المستلزمات المكتبية</button>
-                <button class="filter-btn" onclick="setCategoryFilter('bags')">الحقائب المدرسية</button>
-                <button class="filter-btn" onclick="setCategoryFilter('gifts')">الهدايا</button>
+            <div class="filter-buttons" role="tablist">
+                <button class="filter-btn active" onclick="setCategoryFilter('all')" role="tab" aria-selected="true" aria-controls="productsList" tabindex="0">الكل</button>
+                <button class="filter-btn" onclick="setCategoryFilter('books')" role="tab" aria-selected="false" aria-controls="productsList" tabindex="-1">الكتب الدراسية</button>
+                <button class="filter-btn" onclick="setCategoryFilter('stationery')" role="tab" aria-selected="false" aria-controls="productsList" tabindex="-1">المستلزمات المكتبية</button>
+                <button class="filter-btn" onclick="setCategoryFilter('bags')" role="tab" aria-selected="false" aria-controls="productsList" tabindex="-1">الحقائب المدرسية</button>
+                <button class="filter-btn" onclick="setCategoryFilter('gifts')" role="tab" aria-selected="false" aria-controls="productsList" tabindex="-1">الهدايا</button>
             </div>
 
             <div class="sort-container">
                 <label for="sortSelect">فرز حسب:</label>
-                <select id="sortSelect" class="sort-select" onchange="sortProducts()">
+                <select id="sortSelect" class="sort-select" onchange="sortProducts()" aria-label="فرز المنتجات">
                     <option value="name-asc">الاسم (أ - ي)</option>
                     <option value="name-desc">الاسم (ي - أ)</option>
                     <option value="price-asc">السعر (أقل إلى أعلى)</option>
@@ -1072,83 +1119,81 @@
                 </select>
             </div>
 
-            <div class="products-count" id="productsCount"></div>
+            <div class="products-count" id="productsCount" aria-live="polite"></div>
 
-            <div class="loading-spinner" id="loadingSpinner">
+            <div class="loading-spinner" id="loadingSpinner" aria-live="polite">
                 <i class="fas fa-spinner"></i>
                 <p>جاري التحميل...</p>
             </div>
             
-            <div class="products-grid" id="productsList">
-                <!-- سيتم ملؤها بواسطة JavaScript -->
-            </div>
+            <div class="products-grid" id="productsList" role="list"></div>
 
-            <div class="pagination" id="pagination"></div>
+            <div class="pagination" id="pagination" role="navigation" aria-label="تصفح الصفحات"></div>
         </div>
 
-        <div class="footer">
+        <footer class="footer" role="contentinfo">
             <p>© 2025 نظام إدارة المنتجات - مكتبة الرواد. جميع الحقوق محفوظة.</p>
             <p>تم التطوير بواسطة فريق مكتبة الرواد المتخصص</p>
             <p>
                 <a href="#" style="color: var(--primary-color); text-decoration: none;">سياسة الخصوصية</a> | 
                 <a href="#" style="color: var(--primary-color); text-decoration: none;">شروط الخدمة</a>
             </p>
-        </div>
+        </footer>
     </div>
 
-    <div class="notification" id="notification">
+    <div class="notification" id="notification" role="alert" aria-live="assertive">
         <i class="fas fa-check-circle"></i>
         <span id="notificationMessage"></span>
-        <button class="close-btn" onclick="hideNotification()">
+        <button class="close-btn" onclick="hideNotification()" aria-label="إغلاق الإشعار">
             <i class="fas fa-times"></i>
         </button>
     </div>
 
-    <div class="code-modal" id="codeModal">
+    <div class="code-modal" id="codeModal" role="dialog" aria-labelledby="codeTitle" aria-hidden="true">
         <div class="code-content">
             <div class="code-header">
-                <h2>أكواد المنتجات</h2>
-                <button class="close-btn" onclick="hideCodeModal()">
+                <h2 id="codeTitle">أكواد المنتجات</h2>
+                <button class="close-btn" onclick="hideCodeModal()" aria-label="إغلاق نافذة الأكواد">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
-            <div class="code-tabs">
-                <div class="code-tab active" data-tab="jsCode">كود JavaScript</div>
-                <div class="code-tab" data-tab="htmlCode">كود HTML للصفحة</div>
+            <div class="code-tabs" role="tablist">
+                <div class="code-tab active" data-tab="jsCode" role="tab" aria-selected="true" aria-controls="jsCode" tabindex="0">كود JavaScript</div>
+                <div class="code-tab" data-tab="htmlCode" role="tab" aria-selected="false" aria-controls="htmlCode" tabindex="-1">كود HTML للصفحة</div>
             </div>
             
-            <div class="code-section active" id="jsCode">
+            <div class="code-section active" id="jsCode" role="tabpanel">
                 <div class="code-body" id="jsCodeContent">
                     <!-- سيتم ملؤها بواسطة JavaScript -->
                 </div>
                 <div class="code-actions">
-                    <button class="btn btn-info copy-btn" onclick="copyCode('jsCodeContent', this)">
+                    <button class="btn btn-info copy-btn" onclick="copyCode('jsCodeContent', this)" aria-label="نسخ كود JavaScript">
                         <i class="fas fa-copy"></i> نسخ كود JavaScript
                     </button>
                 </div>
             </div>
             
-            <div class="code-section" id="htmlCode">
+            <div class="code-section" id="htmlCode" role="tabpanel">
                 <div class="code-body" id="htmlCodeContent">
                     <!-- سيتم ملؤها بواسطة JavaScript -->
                 </div>
                 <div class="code-actions">
-                    <button class="btn btn-info copy-btn" onclick="copyCode('htmlCodeContent', this)">
+                    <button class="btn btn-info copy-btn" onclick="copyCode('htmlCodeContent', this)" aria-label="نسخ كود HTML">
                         <i class="fas fa-copy"></i> نسخ كود HTML
                     </button>
                 </div>
             </div>
             
             <div class="code-actions">
-                <button class="btn btn-danger" onclick="hideCodeModal()">
+                <button class="btn btn-danger" onclick="hideCodeModal()" aria-label="إغلاق">
                     <i class="fas fa-times"></i> إغلاق
                 </button>
             </div>
         </div>
     </div>
 
-    <input type="file" id="importFile" style="display: none;" accept=".json" onchange="handleImport(event)">
+    <input type="file" id="importFile" style="display: none;" accept=".json" onchange="handleImport(event)" aria-label="استيراد ملف JSON">
 
     <script>
         // تهيئة التطبيق
@@ -1172,6 +1217,12 @@
                 tab.addEventListener('click', function() {
                     switchCodeTab(this.getAttribute('data-tab'));
                 });
+                tab.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        switchCodeTab(this.getAttribute('data-tab'));
+                    }
+                });
             });
 
             // دعم drag and drop للصور
@@ -1179,6 +1230,16 @@
             imageUploadContainer.addEventListener('dragover', handleDragOver);
             imageUploadContainer.addEventListener('dragleave', handleDragLeave);
             imageUploadContainer.addEventListener('drop', handleDrop);
+
+            // تحسين: إضافة keyboard navigation للفلاتر
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
         });
 
         // المتغيرات العامة
@@ -1187,7 +1248,8 @@
         let currentSort = 'name-asc';
         let isLoggedIn = false;
         let currentPage = 1;
-        const itemsPerPage = 8; // تحسين: pagination لعرض 8 عناصر لكل صفحة
+        const itemsPerPage = 8;
+        let searchTimeout; // للـ debounce
 
         // بيانات تسجيل الدخول (يمكن تخصيصها)
         const defaultCredentials = { username: 'admin', password: 'password' };
@@ -1231,19 +1293,57 @@
         // عرض شاشة تسجيل الدخول
         function showLoginModal() {
             document.getElementById('loginModal').style.display = 'flex';
+            document.getElementById('loginModal').setAttribute('aria-hidden', 'false');
             document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('username').focus();
         }
 
         // إخفاء شاشة تسجيل الدخول
         function hideLoginModal() {
             document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('loginModal').setAttribute('aria-hidden', 'true');
         }
 
-        // تسجيل الدخول
+        // تسجيل الدخول مع تحقق محسن
         function login() {
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
-            const credentials = JSON.parse(localStorage.getItem('credentials'));
+            const credentials = JSON.parse(localStorage.getItem('credentials') || '{}');
+
+            const usernameEl = document.getElementById('username');
+            const passwordEl = document.getElementById('password');
+            const usernameError = document.getElementById('usernameError');
+            const passwordError = document.getElementById('passwordError');
+
+            // مسح الأخطاء السابقة
+            usernameEl.classList.remove('validation-error');
+            passwordEl.classList.remove('validation-error');
+            if (usernameError) usernameError.style.display = 'none';
+            if (passwordError) passwordError.style.display = 'none';
+
+            let isValid = true;
+
+            if (!username) {
+                isValid = false;
+                usernameEl.classList.add('validation-error');
+                if (usernameError) {
+                    usernameError.textContent = 'اسم المستخدم مطلوب';
+                    usernameError.style.display = 'block';
+                }
+            }
+
+            if (!password) {
+                isValid = false;
+                passwordEl.classList.add('validation-error');
+                if (passwordError) {
+                    passwordError.textContent = 'كلمة المرور مطلوبة';
+                    passwordError.style.display = 'block';
+                }
+            }
+
+            if (!isValid) {
+                return;
+            }
 
             if (username === credentials.username && password === credentials.password) {
                 isLoggedIn = true;
@@ -1254,17 +1354,22 @@
                 loadProducts();
             } else {
                 showNotification('اسم المستخدم أو كلمة المرور غير صحيحة', 'error');
+                passwordEl.value = ''; // أمان: مسح كلمة المرور
+                passwordEl.focus();
             }
         }
 
         // تغيير كلمة المرور
         function changePassword() {
             const newPassword = prompt('أدخل كلمة المرور الجديدة:');
-            if (newPassword) {
+            if (newPassword && newPassword.length >= 4) { // تحسين: حد أدنى للطول
                 const credentials = JSON.parse(localStorage.getItem('credentials'));
                 credentials.password = newPassword;
                 localStorage.setItem('credentials', JSON.stringify(credentials));
                 showNotification('تم تغيير كلمة المرور بنجاح', 'success');
+                document.getElementById('password').value = ''; // مسح الحقل
+            } else if (newPassword) {
+                showNotification('كلمة المرور يجب أن تكون 4 أحرف على الأقل', 'error');
             }
         }
 
@@ -1510,18 +1615,20 @@
 
         // تعقيم المدخلات لمنع XSS
         function sanitizeInput(input) {
-            return input.replace(/[<>"'&]/g, '');
+            const div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML;
         }
 
-        // التحقق من صحة النموذج
+        // التحقق من صحة النموذج مع تحسينات
         function validateForm() {
             let isValid = true;
             const fields = [
-                { id: 'productName', errorId: 'nameError', msg: 'اسم المنتج مطلوب' },
-                { id: 'productPrice', errorId: 'priceError', msg: 'السعر مطلوب ويجب أن يكون إيجابياً' },
-                { id: 'productCategory', errorId: null, msg: 'التصنيف مطلوب' },
-                { id: 'productDescription', errorId: 'descError', msg: 'الوصف مطلوب' },
-                { id: 'productRating', errorId: 'ratingError', msg: 'التقييم يجب أن يكون بين 1 و5' }
+                { id: 'productName', errorId: 'nameError', msg: 'اسم المنتج مطلوب', validate: val => val.trim().length > 0 },
+                { id: 'productPrice', errorId: 'priceError', msg: 'السعر مطلوب ويجب أن يكون إيجابياً', validate: val => !isNaN(val) && parseFloat(val) >= 0 },
+                { id: 'productCategory', errorId: 'categoryError', msg: 'التصنيف مطلوب', validate: val => val !== '' },
+                { id: 'productDescription', errorId: 'descError', msg: 'الوصف مطلوب', validate: val => val.trim().length > 0 },
+                { id: 'productRating', errorId: 'ratingError', msg: 'التقييم يجب أن يكون بين 1 و5', validate: val => !isNaN(val) && parseFloat(val) >= 1 && parseFloat(val) <= 5 }
             ];
 
             fields.forEach(field => {
@@ -1530,13 +1637,7 @@
                 input.classList.remove('validation-error');
                 if (errorEl) errorEl.style.display = 'none';
 
-                let fieldValid = true;
-                if (field.id === 'productName' && !input.value.trim()) fieldValid = false;
-                if (field.id === 'productPrice' && (isNaN(input.value) || parseFloat(input.value) < 0)) fieldValid = false;
-                if (field.id === 'productCategory' && !input.value) fieldValid = false;
-                if (field.id === 'productDescription' && !input.value.trim()) fieldValid = false;
-                if (field.id === 'productRating' && (isNaN(input.value) || input.value < 1 || input.value > 5)) fieldValid = false;
-
+                const fieldValid = field.validate(input.value);
                 if (!fieldValid) {
                     isValid = false;
                     input.classList.add('validation-error');
@@ -1544,6 +1645,7 @@
                         errorEl.textContent = field.msg;
                         errorEl.style.display = 'block';
                     }
+                    input.focus(); // التركيز على أول خطأ
                 }
             });
 
@@ -1565,10 +1667,13 @@
             const loadingSpinner = document.getElementById('loadingSpinner');
             const productsCount = document.getElementById('productsCount');
             const pagination = document.getElementById('pagination');
-            const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
+            let products = JSON.parse(localStorage.getItem('rawad-products')) || [];
+
+            // تحسين: التحقق من سلامة البيانات
+            products = products.filter(p => p && p.id && p.name); // إزالة المنتجات الفاسدة
 
             loadingSpinner.style.display = 'block';
-            productsList.style.display = 'none';
+            productsList.innerHTML = '';
             pagination.innerHTML = '';
 
             setTimeout(() => {
@@ -1590,11 +1695,11 @@
 
                 if (filteredProducts.length === 0) {
                     productsList.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-box-open"></i>
+                        <div class="empty-state" role="status">
+                            <i class="fas fa-box-open" aria-hidden="true"></i>
                             <h3>لا توجد منتجات حالياً</h3>
                             <p>لم يتم إضافة أي منتجات بعد. قم بإضافة منتجات جديدة لبدء إدارة متجرك.</p>
-                            <button class="btn btn-primary" onclick="showProductForm()">
+                            <button class="btn btn-primary" onclick="showProductForm()" aria-label="إضافة منتج جديد">
                                 <i class="fas fa-plus"></i> إضافة منتج جديد
                             </button>
                         </div>
@@ -1606,43 +1711,64 @@
                             : product.price;
                             
                         return `
-                        <div class="product-card">
-                            ${product.badge ? `<span class="product-badge">${sanitizeInput(product.badge)}</span>` : ''}
+                        <article class="product-card" role="listitem">
+                            ${product.badge ? `<span class="product-badge" aria-label="علامة مميزة: ${sanitizeInput(product.badge)}">${sanitizeInput(product.badge)}</span>` : ''}
                             <div class="product-image">
-                                ${product.image ? `<img src="${product.image}" alt="${sanitizeInput(product.name)}" loading="lazy">` : getCategoryIcon(product.category)}
+                                ${product.image ? `<img src="${sanitizeInput(product.image)}" alt="${sanitizeInput(product.name)} - صورة المنتج" loading="lazy">` : getCategoryIcon(product.category)}
                             </div>
                             <div class="product-info">
                                 <h3 class="product-title">${sanitizeInput(product.name)}</h3>
                                 <div class="product-price">
                                     ${product.discount > 0 ? `
-                                        <span class="discount-badge">خصم ${product.discount}%</span>
-                                        <span class="original-price">${product.price.toFixed(2)} جنيه</span>
+                                        <span class="discount-badge" aria-label="خصم ${product.discount}%">خصم ${product.discount}%</span>
+                                        <span class="original-price" aria-label="السعر الأصلي">${product.price.toFixed(2)} جنيه</span>
                                     ` : ''}
-                                    ${finalPrice.toFixed(2)} جنيه
+                                    <span aria-label="السعر النهائي">${finalPrice.toFixed(2)} جنيه</span>
                                 </div>
-                                <span class="product-category">${getCategoryName(product.category)}</span>
-                                <div class="product-rating">
+                                <span class="product-category" aria-label="التصنيف">${getCategoryName(product.category)}</span>
+                                <div class="product-rating" role="img" aria-label="تقييم ${product.rating} من 5 نجوم">
                                     ${generateStarRating(product.rating)}
                                     <span class="rating-text">(${product.rating}.0)</span>
                                 </div>
                                 <p class="product-description">${sanitizeInput(product.description)}</p>
                                 <div class="product-actions">
-                                    <button class="btn btn-primary btn-sm" onclick="editProduct(${product.id})">
+                                    <button class="btn btn-primary btn-sm" onclick="editProduct(${product.id})" aria-label="تعديل ${sanitizeInput(product.name)}">
                                         <i class="fas fa-edit"></i> تعديل
                                     </button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">
+                                    <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})" aria-label="حذف ${sanitizeInput(product.name)}">
                                         <i class="fas fa-trash"></i> حذف
                                     </button>
                                 </div>
                             </div>
-                        </div>
+                        </article>
                         `;
                     }).join('');
                 }
 
-                // إنشاء pagination
+                // تحسين: إنشاء pagination مع أزرار سابق/التالي
                 if (totalPages > 1) {
-                    for (let i = 1; i <= totalPages; i++) {
+                    // زر سابق
+                    if (currentPage > 1) {
+                        const prevBtn = document.createElement('button');
+                        prevBtn.className = 'page-btn';
+                        prevBtn.textContent = 'السابق';
+                        prevBtn.onclick = () => {
+                            currentPage--;
+                            loadProducts();
+                        };
+                        pagination.appendChild(prevBtn);
+                    }
+
+                    // أرقام الصفحات
+                    const maxVisiblePages = 5;
+                    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+                    if (endPage - startPage + 1 < maxVisiblePages) {
+                        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                    }
+
+                    for (let i = startPage; i <= endPage; i++) {
                         const btn = document.createElement('button');
                         btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
                         btn.textContent = i;
@@ -1652,10 +1778,28 @@
                         };
                         pagination.appendChild(btn);
                     }
+
+                    // زر التالي
+                    if (currentPage < totalPages) {
+                        const nextBtn = document.createElement('button');
+                        nextBtn.className = 'page-btn';
+                        nextBtn.textContent = 'التالي';
+                        nextBtn.onclick = () => {
+                            currentPage++;
+                            loadProducts();
+                        };
+                        pagination.appendChild(nextBtn);
+                    }
                 }
 
                 loadingSpinner.style.display = 'none';
                 productsList.style.display = 'grid';
+
+                // تحسين: التركيز على أول منتج بعد التحميل
+                if (paginatedProducts.length > 0) {
+                    const firstProduct = productsList.querySelector('.product-card');
+                    if (firstProduct) firstProduct.focus();
+                }
             }, 500);
         }
 
@@ -1678,7 +1822,7 @@
         // حدث فرز المنتجات
         function sortProducts() {
             currentSort = document.getElementById('sortSelect').value;
-            currentPage = 1; // إعادة تعيين الصفحة
+            currentPage = 1;
             loadProducts();
         }
 
@@ -1687,9 +1831,9 @@
             let stars = '';
             for (let i = 1; i <= 5; i++) {
                 if (i <= rating) {
-                    stars += '<i class="fas fa-star"></i>';
+                    stars += '<i class="fas fa-star" aria-hidden="true"></i>';
                 } else {
-                    stars += '<i class="far fa-star"></i>';
+                    stars += '<i class="far fa-star" aria-hidden="true"></i>';
                 }
             }
             return stars;
@@ -1713,6 +1857,7 @@
             document.querySelector('.url-image-input').classList.add('hidden');
             clearValidationErrors();
             document.getElementById('productForm').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('productName').focus(); // التركيز على أول حقل
         }
 
         // إخفاء نموذج المنتج
@@ -1730,7 +1875,7 @@
             });
         }
 
-        // معالجة رفع الصورة
+        // معالجة رفع الصورة مع تحسين error handling
         function handleImageUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1758,14 +1903,22 @@
                 reader.onload = function(e) {
                     document.getElementById('productImageData').value = e.target.result;
                     document.getElementById('previewImage').src = e.target.result;
+                    document.getElementById('previewImage').alt = 'معاينة صورة المنتج';
                     document.getElementById('imagePreview').style.display = 'block';
+                    showNotification('تم رفع الصورة بنجاح', 'success');
+                };
+                reader.onerror = function() {
+                    showNotification('خطأ في قراءة الملف', 'error');
                 };
                 reader.readAsDataURL(file);
+            };
+            img.onerror = function() {
+                showNotification('خطأ في تحميل الصورة', 'error');
             };
             img.src = URL.createObjectURL(file);
         }
 
-        // معالجة رابط الصورة
+        // معالجة رابط الصورة مع تحقق
         function handleUrlImage() {
             const url = document.getElementById('imageUrl').value.trim();
             if (url) {
@@ -1773,9 +1926,25 @@
                     showNotification('رابط غير صالح لصورة', 'error');
                     return;
                 }
-                document.getElementById('productImageData').value = url;
-                document.getElementById('previewImage').src = url;
-                document.getElementById('imagePreview').style.display = 'block';
+                // تحسين: اختبار الرابط بـ fetch
+                fetch(url, { method: 'HEAD' })
+                    .then(response => {
+                        if (response.ok) {
+                            document.getElementById('productImageData').value = url;
+                            document.getElementById('previewImage').src = url;
+                            document.getElementById('previewImage').alt = 'معاينة صورة المنتج من الرابط';
+                            document.getElementById('imagePreview').style.display = 'block';
+                            showNotification('تم تحميل الصورة من الرابط بنجاح', 'success');
+                        } else {
+                            throw new Error('رابط غير صالح');
+                        }
+                    })
+                    .catch(() => {
+                        showNotification('تعذر الوصول إلى الرابط، لكن سيتم حفظه كما هو', 'warning');
+                        document.getElementById('productImageData').value = url;
+                        document.getElementById('previewImage').src = url;
+                        document.getElementById('imagePreview').style.display = 'block';
+                    });
             }
         }
 
@@ -1806,6 +1975,7 @@
             document.getElementById('imagePreview').style.display = 'none';
             document.getElementById('productImage').value = '';
             document.getElementById('imageUrl').value = '';
+            showNotification('تم إزالة الصورة', 'info');
         }
 
         // حفظ المنتج مع تحقق محسن
@@ -1821,7 +1991,7 @@
             const discount = parseInt(document.getElementById('productDiscount').value) || 0;
             const category = document.getElementById('productCategory').value;
             const description = sanitizeInput(document.getElementById('productDescription').value.trim());
-            const rating = parseInt(document.getElementById('productRating').value);
+            const rating = parseFloat(document.getElementById('productRating').value);
             const badge = sanitizeInput(document.getElementById('productBadge').value.trim());
             const imageData = document.getElementById('productImageData').value;
             
@@ -1875,7 +2045,7 @@
             loadProducts();
         }
 
-        // تعديل منتج - مع التمرير إلى الأعلى مباشرة
+        // تعديل منتج
         function editProduct(id) {
             const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
             const product = products.find(p => p.id === id);
@@ -1895,6 +2065,7 @@
                 
                 if (product.image) {
                     document.getElementById('previewImage').src = product.image;
+                    document.getElementById('previewImage').alt = `صورة ${product.name}`;
                     document.getElementById('imagePreview').style.display = 'block';
                     if (product.image.startsWith('http')) {
                         document.querySelector('.url-image-input').classList.remove('hidden');
@@ -1906,7 +2077,7 @@
                 
                 clearValidationErrors();
                 document.getElementById('productForm').scrollIntoView({ behavior: 'smooth' });
-                document.getElementById('productName').focus(); // التركيز على أول حقل
+                document.getElementById('productName').focus();
             }
         }
 
@@ -1932,22 +2103,24 @@
             }
         }
 
-        // تصدير المنتجات
+        // تصدير المنتجات مع تحقق
         function exportProducts() {
             const products = JSON.parse(localStorage.getItem('rawad-products')) || [];
             if (products.length === 0) {
                 showNotification('لا توجد منتجات لتصديرها', 'error');
                 return;
             }
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute('href', dataStr);
-            downloadAnchor.setAttribute('download', 'products.json');
-            downloadAnchor.click();
-            showNotification('تم تصدير المنتجات بنجاح');
+            if (confirm('هل تريد تصدير جميع المنتجات؟')) {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 2));
+                const downloadAnchor = document.createElement('a');
+                downloadAnchor.setAttribute('href', dataStr);
+                downloadAnchor.setAttribute('download', `rawad-products-${new Date().toISOString().split('T')[0]}.json`);
+                downloadAnchor.click();
+                showNotification(`تم تصدير ${products.length} منتج بنجاح`);
+            }
         }
 
-        // استيراد المنتجات
+        // استيراد المنتجات مع تحقق محسن
         function importProducts() {
             document.getElementById('importFile').click();
         }
@@ -1956,27 +2129,42 @@
             const file = event.target.files[0];
             if (!file) return;
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const importedProducts = JSON.parse(e.target.result);
-                    if (!Array.isArray(importedProducts)) {
-                        throw new Error('الملف غير صالح');
+            if (!file.name.endsWith('.json')) {
+                showNotification('يرجى اختيار ملف JSON فقط', 'error');
+                return;
+            }
+
+            if (confirm('هل تريد استيراد هذا الملف؟ سيتم دمج المنتجات الجديدة مع الحالية.')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedProducts = JSON.parse(e.target.result);
+                        if (!Array.isArray(importedProducts)) {
+                            throw new Error('الملف يجب أن يحتوي على مصفوفة من المنتجات');
+                        }
+                        // التحقق من سلامة البيانات المستوردة
+                        const validImports = importedProducts.filter(p => p && p.name && p.category);
+                        if (validImports.length !== importedProducts.length) {
+                            showNotification(`تم استيراد ${validImports.length} من ${importedProducts.length} منتج صالح`, 'warning');
+                        }
+                        // دمج مع المنتجات الحالية
+                        let currentProducts = JSON.parse(localStorage.getItem('rawad-products')) || [];
+                        const mergedProducts = [...currentProducts, ...validImports];
+                        // إعادة ترقيم IDs
+                        mergedProducts.forEach((p, index) => { if (!p.id) p.id = currentProducts.length + index + 1; });
+                        localStorage.setItem('rawad-products', JSON.stringify(mergedProducts));
+                        showNotification(`تم استيراد ${validImports.length} منتج بنجاح (تم الاحتفاظ بالمنتجات الحالية)`);
+                        currentPage = 1;
+                        loadProducts();
+                    } catch (err) {
+                        showNotification('خطأ في استيراد الملف: ' + err.message, 'error');
                     }
-                    // دمج مع المنتجات الحالية دون حذف
-                    let currentProducts = JSON.parse(localStorage.getItem('rawad-products')) || [];
-                    const mergedProducts = [...currentProducts, ...importedProducts];
-                    // إعادة ترقيم IDs إذا لزم
-                    mergedProducts.forEach((p, index) => { if (!p.id) p.id = index + 1; });
-                    localStorage.setItem('rawad-products', JSON.stringify(mergedProducts));
-                    showNotification('تم استيراد المنتجات بنجاح (تم الاحتفاظ بالمنتجات الحالية)');
-                    currentPage = 1;
-                    loadProducts();
-                } catch (err) {
-                    showNotification('خطأ في استيراد الملف: ' + err.message, 'error');
-                }
-            };
-            reader.readAsText(file);
+                };
+                reader.onerror = function() {
+                    showNotification('خطأ في قراءة الملف', 'error');
+                };
+                reader.readAsText(file);
+            }
             event.target.value = '';
         }
 
@@ -1985,11 +2173,14 @@
             showNotification('تمت المزامنة بنجاح مع الصفحة الرئيسية');
         }
 
-        // تصفية المنتجات حسب البحث
-        function filterProducts() {
-            currentSearchTerm = document.getElementById('searchInput').value;
-            currentPage = 1;
-            loadProducts();
+        // تصفية المنتجات حسب البحث مع debounce
+        function debouncedFilterProducts() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                currentSearchTerm = document.getElementById('searchInput').value;
+                currentPage = 1;
+                loadProducts();
+            }, 300);
         }
 
         // مسح البحث
@@ -2000,16 +2191,23 @@
             loadProducts();
         }
 
-        // تعيين تصنيف الفلتر
+        // تعيين تصنيف الفلتر مع تحديث aria
         function setCategoryFilter(category) {
             currentCategoryFilter = category;
             currentPage = 1;
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
+                btn.setAttribute('aria-selected', 'false');
+                btn.setAttribute('tabindex', '-1');
             });
-            const activeBtn = document.querySelector(`.filter-btn[onclick="setCategoryFilter('${category}')"]`);
+            const activeBtn = Array.from(document.querySelectorAll('.filter-btn')).find(btn => 
+                btn.getAttribute('onclick').includes(`setCategoryFilter('${category}')`)
+            );
             if (activeBtn) {
                 activeBtn.classList.add('active');
+                activeBtn.setAttribute('aria-selected', 'true');
+                activeBtn.setAttribute('tabindex', '0');
+                activeBtn.focus();
             }
             loadProducts();
         }
@@ -2030,11 +2228,13 @@
             document.getElementById('htmlCodeContent').textContent = htmlCode;
             
             document.getElementById('codeModal').classList.add('active');
+            document.getElementById('codeModal').setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
             
             document.querySelectorAll('.copy-btn').forEach(btn => {
                 btn.classList.remove('copied');
             });
+            document.querySelector('.code-tab.active').focus();
         }
 
         // توليد كود JavaScript (محسن للتوافق)
@@ -2050,12 +2250,12 @@ let products = ${JSON.stringify(products, null, 4)};
 // 2. دوال المساعدة
 function getCategoryIcon(category) {
     const icons = {
-        'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;"></i>',
-        'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;"></i>',
-        'bags': '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: #28a745;"></i>',
-        'gifts': '<i class="fas fa-gift" style="font-size: 2.5rem; color: #ffc107;"></i>'
+        'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;" aria-hidden="true"></i>',
+        'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;" aria-hidden="true"></i>',
+        'bags': '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: #28a745;" aria-hidden="true"></i>',
+        'gifts': '<i class="fas fa-gift" style="font-size: 2.5rem; color: #ffc107;" aria-hidden="true"></i>'
     };
-    return icons[category] || '<i class="fas fa-box" style="font-size: 2.5rem; color: #a0aec0;"></i>';
+    return icons[category] || '<i class="fas fa-box" style="font-size: 2.5rem; color: #a0aec0;" aria-hidden="true"></i>';
 }
 
 function loadProducts(category = 'all') {
@@ -2065,7 +2265,7 @@ function loadProducts(category = 'all') {
     let filteredProducts = category === 'all' ? products : products.filter(p => p.category === category);
 
     if (filteredProducts.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);"><i class="fas fa-box-open" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;"></i><h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لا توجد منتجات في هذا التصنيف حالياً</h3><p style="margin-bottom: 1.5rem;">سيتم إضافة منتجات جديدة قريباً</p><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن المنتجات المتاحة" class="btn btn-primary" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> استفسر عن المنتجات</a></div>';
+        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500);"><i class="fas fa-box-open" style="font-size: 3.5rem; margin-bottom: 1rem; opacity: 0.5;" aria-hidden="true"></i><h3 style="color: var(--primary-color); margin-bottom: 0.8rem;">لا توجد منتجات في هذا التصنيف حالياً</h3><p style="margin-bottom: 1.5rem;">سيتم إضافة منتجات جديدة قريباً</p><a href="https://wa.me/+201126630356?text=أريد الاستفسار عن المنتجات المتاحة" class="btn btn-primary" target="_blank" rel="noopener"><i class="fab fa-whatsapp" aria-hidden="true"></i> استفسر عن المنتجات</a></div>';
         return;
     }
 
@@ -2077,19 +2277,19 @@ function loadProducts(category = 'all') {
         return \`
         <div class="product-card fade-in" data-category="\${product.category}">
             <div class="product-image">
-                \${product.image ? \`<img src="\${product.image}" alt="\${product.name}" loading="lazy">\` : getCategoryIcon(product.category)}
-                \${product.badge ? \`<span class="product-badge">\${product.badge}</span>\` : ''}
+                \${product.image ? \`<img src="\${product.image}" alt="\${product.name} - صورة المنتج" loading="lazy">\` : getCategoryIcon(product.category)}
+                \${product.badge ? \`<span class="product-badge" aria-label="علامة مميزة: \${product.badge}">\${product.badge}</span>\` : ''}
             </div>
             <div class="product-info">
                 <h3 class="product-title">\${product.name}</h3>
                 <div class="product-price">
                     \${product.discount > 0 ? \`
-                        <span class="discount-badge">خصم \${product.discount}%</span>
-                        <span class="original-price">\${product.price.toFixed(2)} جنيه</span>
+                        <span class="discount-badge" aria-label="خصم \${product.discount}%">خصم \${product.discount}%</span>
+                        <span class="original-price" aria-label="السعر الأصلي">\${product.price.toFixed(2)} جنيه</span>
                     \` : ''}
-                    \${finalPrice.toFixed(2)} جنيه
+                    <span aria-label="السعر النهائي">\${finalPrice.toFixed(2)} جنيه</span>
                 </div>
-                <div class="product-rating">
+                <div class="product-rating" role="img" aria-label="تقييم \${product.rating} من 5 نجوم">
                     <div class="stars">
                         \${'★'.repeat(product.rating)}\${'☆'.repeat(5-product.rating)}
                     </div>
@@ -2097,11 +2297,11 @@ function loadProducts(category = 'all') {
                 </div>
                 <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1.2rem; line-height: 1.5;">\${product.description}</p>
                 <div class="product-actions">
-                    <button class="add-to-cart" onclick="addToCart(\${product.id})">
-                        <i class="fas fa-cart-plus"></i> أضف للسلة
+                    <button class="add-to-cart" onclick="addToCart(\${product.id})" aria-label="إضافة \${product.name} إلى السلة">
+                        <i class="fas fa-cart-plus" aria-hidden="true"></i> أضف للسلة
                     </button>
-                    <button class="wishlist-btn" onclick="toggleWishlist(\${product.id})" title="إضافة للمفضلة">
-                        <i class="fas fa-heart"></i>
+                    <button class="wishlist-btn" onclick="toggleWishlist(\${product.id})" title="إضافة للمفضلة" aria-label="إضافة \${product.name} إلى المفضلة">
+                        <i class="fas fa-heart" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -2152,6 +2352,7 @@ function toggleWishlist(productId) {
     const btn = event.target.closest('.wishlist-btn');
     btn.classList.toggle('active');
     btn.title = btn.classList.contains('active') ? 'إزالة من المفضلة' : 'إضافة للمفضلة';
+    btn.setAttribute('aria-label', btn.classList.contains('active') ? 'إزالة من المفضلة' : 'إضافة للمفضلة');
     
     if (btn.classList.contains('active')) {
         alert(\`تم إضافة المنتج رقم \${productId} إلى المفضلة\`);
@@ -2173,40 +2374,40 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- هيكل HTML الخاص بقسم المنتجات -->
 <!-- ================================================== -->
 
-<section class="section" id="products">
+<section class="section" id="products" role="region" aria-labelledby="productsSectionTitle">
     <div class="container">
-        <h2 class="section-title">منتجاتنا المميزة</h2>
+        <h2 class="section-title" id="productsSectionTitle">منتجاتنا المميزة</h2>
         
-        <div class="products-filter">
-            <button class="filter-btn active" onclick="filterProducts('all')">الكل</button>
-            <button class="filter-btn" onclick="filterProducts('books')">الكتب</button>
-            <button class="filter-btn" onclick="filterProducts('stationery')">المستلزمات</button>
-            <button class="filter-btn" onclick="filterProducts('bags')">الحقائب</button>
-            <button class="filter-btn" onclick="filterProducts('gifts')">الهدايا</button>
+        <div class="products-filter" role="tablist">
+            <button class="filter-btn active" onclick="filterProducts('all')" role="tab" aria-selected="true" aria-controls="productsGrid" tabindex="0">الكل</button>
+            <button class="filter-btn" onclick="filterProducts('books')" role="tab" aria-selected="false" aria-controls="productsGrid" tabindex="-1">الكتب</button>
+            <button class="filter-btn" onclick="filterProducts('stationery')" role="tab" aria-selected="false" aria-controls="productsGrid" tabindex="-1">المستلزمات</button>
+            <button class="filter-btn" onclick="filterProducts('bags')" role="tab" aria-selected="false" aria-controls="productsGrid" tabindex="-1">الحقائب</button>
+            <button class="filter-btn" onclick="filterProducts('gifts')" role="tab" aria-selected="false" aria-controls="productsGrid" tabindex="-1">الهدايا</button>
         </div>
 
-        <div class="products-grid" id="productsGrid">
+        <div class="products-grid" id="productsGrid" role="list">
             ${products.map(product => {
                 const finalPrice = product.discount > 0 
                     ? product.price - (product.price * product.discount / 100)
                     : product.price;
                     
                 return `
-            <div class="product-card fade-in" data-category="${product.category}">
+            <article class="product-card fade-in" data-category="${product.category}" role="listitem">
                 <div class="product-image">
-                    ${product.image ? `<img src="${product.image}" alt="${sanitizeInput(product.name)}" loading="lazy">` : getCategoryIcon(product.category)}
-                    ${product.badge ? `<span class="product-badge">${sanitizeInput(product.badge)}</span>` : ''}
+                    ${product.image ? `<img src="${sanitizeInput(product.image)}" alt="${sanitizeInput(product.name)} - صورة المنتج" loading="lazy">` : getCategoryIcon(product.category)}
+                    ${product.badge ? `<span class="product-badge" aria-label="علامة مميزة: ${sanitizeInput(product.badge)}">${sanitizeInput(product.badge)}</span>` : ''}
                 </div>
                 <div class="product-info">
                     <h3 class="product-title">${sanitizeInput(product.name)}</h3>
                     <div class="product-price">
                         ${product.discount > 0 ? `
-                            <span class="discount-badge">خصم ${product.discount}%</span>
-                            <span class="original-price">${product.price.toFixed(2)} جنيه</span>
+                            <span class="discount-badge" aria-label="خصم ${product.discount}%">خصم ${product.discount}%</span>
+                            <span class="original-price" aria-label="السعر الأصلي">${product.price.toFixed(2)} جنيه</span>
                         ` : ''}
-                        ${finalPrice.toFixed(2)} جنيه
+                        <span aria-label="السعر النهائي">${finalPrice.toFixed(2)} جنيه</span>
                     </div>
-                    <div class="product-rating">
+                    <div class="product-rating" role="img" aria-label="تقييم ${product.rating} من 5 نجوم">
                         <div class="stars">
                             ${'★'.repeat(product.rating)}${'☆'.repeat(5-product.rating)}
                         </div>
@@ -2214,15 +2415,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1.2rem; line-height: 1.5;">${sanitizeInput(product.description)}</p>
                     <div class="product-actions">
-                        <button class="add-to-cart" onclick="addToCart(${product.id})">
-                            <i class="fas fa-cart-plus"></i> أضف للسلة
+                        <button class="add-to-cart" onclick="addToCart(${product.id})" aria-label="إضافة ${sanitizeInput(product.name)} إلى السلة">
+                            <i class="fas fa-cart-plus" aria-hidden="true"></i> أضف للسلة
                         </button>
-                        <button class="wishlist-btn" onclick="toggleWishlist(${product.id})" title="إضافة للمفضلة">
-                            <i class="fas fa-heart"></i>
+                        <button class="wishlist-btn" onclick="toggleWishlist(${product.id})" title="إضافة للمفضلة" aria-label="إضافة ${sanitizeInput(product.name)} إلى المفضلة">
+                            <i class="fas fa-heart" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
-            </div>
+            </article>
                 `;
             }).join('')}
         </div>
@@ -2233,10 +2434,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // إخفاء نافذة الأكواد
         function hideCodeModal() {
             document.getElementById('codeModal').classList.remove('active');
+            document.getElementById('codeModal').setAttribute('aria-hidden', 'true');
             document.body.style.overflow = 'auto';
         }
 
-        // نسخ الأكواد
+        // نسخ الأكواد مع fallback محسن
         function copyCode(elementId, btnElement) {
             const codeContent = document.getElementById(elementId);
             const textToCopy = codeContent.textContent;
@@ -2261,11 +2463,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const textArea = document.createElement('textarea');
             textArea.value = text;
             textArea.style.position = 'fixed';
+            textArea.style.left = '-9999px';
             textArea.style.opacity = 0;
             document.body.appendChild(textArea);
             
             try {
                 textArea.select();
+                textArea.setSelectionRange(0, 99999); // للدعم في المتصفحات المتنقلة
                 const successful = document.execCommand('copy');
                 if (successful) {
                     showNotification('تم نسخ الأكواد بنجاح', 'success');
@@ -2284,21 +2488,28 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // التبديل بين تبويبات الأكواد
+        // التبديل بين تبويبات الأكواد مع aria
         function switchCodeTab(tabId) {
             document.querySelectorAll('.code-section').forEach(tab => {
                 tab.classList.remove('active');
+                tab.setAttribute('aria-hidden', 'true');
             });
             
             document.querySelectorAll('.code-tab').forEach(tab => {
                 tab.classList.remove('active');
+                tab.setAttribute('aria-selected', 'false');
+                tab.setAttribute('tabindex', '-1');
             });
             
             document.getElementById(tabId).classList.add('active');
+            document.getElementById(tabId).setAttribute('aria-hidden', 'false');
             
             const activeTab = document.querySelector(`.code-tab[data-tab="${tabId}"]`);
             if (activeTab) {
                 activeTab.classList.add('active');
+                activeTab.setAttribute('aria-selected', 'true');
+                activeTab.setAttribute('tabindex', '0');
+                activeTab.focus();
             }
         }
 
@@ -2310,10 +2521,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             notification.className = `notification notification-${type}`;
             notification.innerHTML = `
-                <i class="fas ${icon}"></i>
+                <i class="fas ${icon}" aria-hidden="true"></i>
                 <span id="notificationMessage">${sanitizeInput(message)}</span>
-                <button class="close-btn" onclick="hideNotification()">
-                    <i class="fas fa-times"></i>
+                <button class="close-btn" onclick="hideNotification()" aria-label="إغلاق الإشعار">
+                    <i class="fas fa-times" aria-hidden="true"></i>
                 </button>
             `;
             notification.classList.add('show');
@@ -2331,12 +2542,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // الحصول على أيقونة التصنيف
         function getCategoryIcon(category) {
             const icons = {
-                'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;"></i>',
-                'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;"></i>',
-                'bags': '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: #28a745;"></i>',
-                'gifts': '<i class="fas fa-gift" style="font-size: 2.5rem; color: #ffc107;"></i>'
+                'books': '<i class="fas fa-book" style="font-size: 2.5rem; color: #1e3d59;" aria-hidden="true"></i>',
+                'stationery': '<i class="fas fa-pen" style="font-size: 2.5rem; color: #ff6b35;" aria-hidden="true"></i>',
+                'bags': '<i class="fas fa-briefcase" style="font-size: 2.5rem; color: #28a745;" aria-hidden="true"></i>',
+                'gifts': '<i class="fas fa-gift" style="font-size: 2.5rem; color: #ffc107;" aria-hidden="true"></i>'
             };
-            return icons[category] || '<i class="fas fa-box" style="font-size: 2.5rem; color: #a0aec0;"></i>';
+            return icons[category] || '<i class="fas fa-box" style="font-size: 2.5rem; color: #a0aec0;" aria-hidden="true"></i>';
         }
 
         // الحصول على اسم التصنيف
