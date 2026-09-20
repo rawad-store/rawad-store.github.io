@@ -1252,7 +1252,7 @@
         let searchTimeout; // للـ debounce
 
         // بيانات تسجيل الدخول (يمكن تخصيصها)
-        const defaultCredentials = { username: 'admin', password: 'password' };
+        const defaultCredentials = { username: 'admin', password: 'admin' };
         if (!localStorage.getItem('credentials')) {
             localStorage.setItem('credentials', JSON.stringify(defaultCredentials));
         }
