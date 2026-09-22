@@ -114,7 +114,7 @@
             </div>
             <div class="field" id="fieldPass">
                 <label for="password">كلمة المرور</label>
-                <input type="password" id="password" autocomplete="current-password" placeholder="TarekMt@010525">
+                <input type="password" id="password" autocomplete="current-password" placeholder="••••">
                 <span class="error">مطلوب</span>
             </div>
             <button type="button" class="btn btn-primary btn-block" onclick="login()" style="margin-bottom:.5rem">
@@ -540,7 +540,7 @@
             const c = JSON.parse(localStorage.getItem('rawad-admin-credentials') || 'null');
             if (c && c.username && c.password) return c;
         } catch (e) {}
-        const def = { username: 'admin', password: 'admin' };
+        const def = { username: 'admin', password: 'TarekMt@010525' };
         localStorage.setItem('rawad-admin-credentials', JSON.stringify(def));
         return def;
     }
