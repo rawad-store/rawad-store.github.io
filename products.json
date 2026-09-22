@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-09-22T06:43:28.000Z",
+  "updatedAt": "2026-09-22T07:28:46.863Z",
   "products": [
     {
       "id": 1,
       "name": "طقم أقلام تظليل",
-      "price": 55,
-      "discount": 10,
+      "price": 0,
+      "discount": 0,
       "category": "stationery",
       "description": "مجموعة أقلام عالية الجودة",
       "rating": 5,
