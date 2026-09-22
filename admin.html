@@ -117,11 +117,8 @@
                 <input type="password" id="password" autocomplete="current-password" placeholder="••••">
                 <span class="error">مطلوب</span>
             </div>
-            <button type="button" class="btn btn-primary btn-block" onclick="login()" style="margin-bottom:.5rem">
+            <button type="button" class="btn btn-primary btn-block" onclick="login()">
                 <i class="fas fa-sign-in-alt"></i> دخول
-            </button>
-            <button type="button" class="btn btn-ghost btn-block" onclick="changePassword()">
-                <i class="fas fa-key"></i> تغيير كلمة المرور
             </button>
         </div>
     </div>
@@ -375,7 +372,6 @@
         URL.revokeObjectURL(a.href);
     }
 
-    /* ---------- نشر مباشر على GitHub (اختياري) ---------- */
     function getGithubConfig() {
         try {
             const c = JSON.parse(localStorage.getItem(GITHUB_CONFIG_KEY) || 'null');
@@ -519,69 +515,71 @@
         }, 350);
     }
 
-  function syncLocal() {
-    const products = readProducts();
-    const updatedAt = writeProducts(products);
-    if (syncChannel && updatedAt) {
-        try { 
-            syncChannel.postMessage({ type: 'products-updated', at: updatedAt, force: true }); 
-        } catch (e) {}
+    function syncLocal() {
+        const products = readProducts();
+        const updatedAt = writeProducts(products);
+        if (syncChannel && updatedAt) {
+            try { 
+                syncChannel.postMessage({ type: 'products-updated', at: updatedAt, force: true }); 
+            } catch (e) {}
+        }
+        showToast('تمت مزامنة هذا الجهاز (' + products.length + ' منتج)', 'success');
     }
-    showToast('تمت مزامنة هذا الجهاز (' + products.length + ' منتج)', 'success');
-}
 
-function updateLastUpdatedLabel() {
-    const el = document.getElementById('lastUpdatedLabel');
-    if (!el) return;
-    const at = localStorage.getItem(STORAGE_UPDATED_KEY);
-    el.textContent = at ? ('آخر تعديل محلي: ' + new Date(at).toLocaleString('ar-EG')) : '';
-}
-
-function getCredentials() {
-    // كلمة السر ثابتة ولا يمكن تغييرها
-    const def = { 
-        username: 'admin', 
-        password: 'TarekMt@010525' 
-    };
-    localStorage.setItem('rawad-admin-credentials', JSON.stringify(def));
-    return def;
-}
-
-function login() {
-    const u = document.getElementById('username').value.trim();
-    const p = document.getElementById('password').value;
-    
-    document.getElementById('fieldUser').classList.toggle('invalid', !u);
-    document.getElementById('fieldPass').classList.toggle('invalid', !p);
-    
-    if (!u || !p) return;
-    
-    const cred = getCredentials();
-    
-    if (u === cred.username && p === cred.password) {
-        localStorage.setItem('rawad-admin-logged', '1');
-        document.getElementById('loginModal').classList.add('hidden');
-        document.getElementById('mainContent').classList.remove('hidden');
-        showToast('مرحباً بك', 'success');
-        renderList();
-    } else {
-        showToast('بيانات غير صحيحة', 'error');
-        document.getElementById('password').value = '';
+    function updateLastUpdatedLabel() {
+        const el = document.getElementById('lastUpdatedLabel');
+        if (!el) return;
+        const at = localStorage.getItem(STORAGE_UPDATED_KEY);
+        el.textContent = at ? ('آخر تعديل محلي: ' + new Date(at).toLocaleString('ar-EG')) : '';
     }
-}
 
-function changePassword() {
-    showToast('غير مسموح بتغيير كلمة المرور', 'error');
-}
+    function getCredentials() {
+        // كلمة السر ثابتة ولا يمكن تغييرها أبداً
+        const def = { 
+            username: 'admin', 
+            password: 'TarekMt@010525' 
+        };
+        localStorage.setItem('rawad-admin-credentials', JSON.stringify(def));
+        return def;
+    }
 
-function logout() {
-    if (!confirm('تسجيل الخروج؟')) return;
-    localStorage.setItem('rawad-admin-logged', '0');
-    document.getElementById('mainContent').classList.add('hidden');
-    document.getElementById('loginModal').classList.remove('hidden');
-    showToast('تم الخروج', 'info');
-}
+    function login() {
+        const u = document.getElementById('username').value.trim();
+        const p = document.getElementById('password').value;
         
+        document.getElementById('fieldUser').classList.toggle('invalid', !u);
+        document.getElementById('fieldPass').classList.toggle('invalid', !p);
+        
+        if (!u || !p) return;
+        
+        const cred = getCredentials();
+        
+        if (u === cred.username && p === cred.password) {
+            localStorage.setItem('rawad-admin-logged', '1');
+            document.getElementById('loginModal').classList.add('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+            showToast('مرحباً بك', 'success');
+            renderList();
+        } else {
+            showToast('بيانات غير صحيحة', 'error');
+            document.getElementById('password').value = '';
+        }
+    }
+
+    function changePassword() {
+        showToast('غير مسموح بتغيير كلمة المرور', 'error');
+    }
+
+    function logout() {
+        if (!confirm('تسجيل الخروج؟')) return;
+        localStorage.setItem('rawad-admin-logged', '0');
+        document.getElementById('mainContent').classList.add('hidden');
+        document.getElementById('loginModal').classList.remove('hidden');
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        showToast('تم الخروج', 'info');
+    }
+
     function applyTheme(t) {
         document.documentElement.setAttribute('data-theme', t);
         const icon = document.getElementById('themeIcon');
@@ -844,6 +842,19 @@ function logout() {
         reader.readAsText(file);
     }
 
+    function checkLoginStatus() {
+        const isLogged = localStorage.getItem('rawad-admin-logged') === '1';
+        if (isLogged) {
+            document.getElementById('loginModal').classList.add('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+            renderList();
+        } else {
+            document.getElementById('loginModal').classList.remove('hidden');
+            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('username').focus();
+        }
+    }
+
     function init() {
         applyTheme(localStorage.getItem('rawad-admin-theme') || 'light');
         document.getElementById('footerYear').textContent = new Date().getFullYear();
@@ -876,11 +887,8 @@ function logout() {
         window.addEventListener('storage', e => { if (e.key === STORAGE_KEY) renderList(); });
         if (syncChannel) syncChannel.onmessage = ev => { if (ev.data && ev.data.type === 'products-updated') renderList(); };
 
-        if (localStorage.getItem('rawad-admin-logged') === '1') {
-            document.getElementById('loginModal').classList.add('hidden');
-            document.getElementById('mainContent').classList.remove('hidden');
-            renderList();
-        } else document.getElementById('username').focus();
+        // التحقق الإجباري من تسجيل الدخول
+        checkLoginStatus();
     }
     document.addEventListener('DOMContentLoaded', init);
     </script>
