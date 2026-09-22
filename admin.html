@@ -519,69 +519,69 @@
         }, 350);
     }
 
-    function syncLocal() {
-        const products = readProducts();
-        const updatedAt = writeProducts(products);
-        if (syncChannel && updatedAt) {
-            try { syncChannel.postMessage({ type: 'products-updated', at: updatedAt, force: true }); } catch (e) {}
-        }
-        showToast('تمت مزامنة هذا الجهاز (' + products.length + ' منتج)', 'success');
-    }
-
-    function updateLastUpdatedLabel() {
-        const el = document.getElementById('lastUpdatedLabel');
-        if (!el) return;
-        const at = localStorage.getItem(STORAGE_UPDATED_KEY);
-        el.textContent = at ? ('آخر تعديل محلي: ' + new Date(at).toLocaleString('ar-EG')) : '';
-    }
-
-    function getCredentials() {
-        try {
-            const c = JSON.parse(localStorage.getItem('rawad-admin-credentials') || 'null');
-            if (c && c.username && c.password) return c;
+  function syncLocal() {
+    const products = readProducts();
+    const updatedAt = writeProducts(products);
+    if (syncChannel && updatedAt) {
+        try { 
+            syncChannel.postMessage({ type: 'products-updated', at: updatedAt, force: true }); 
         } catch (e) {}
-        const def = { username: 'admin', password: 'TarekMt@010525' };
-        localStorage.setItem('rawad-admin-credentials', JSON.stringify(def));
-        return def;
     }
+    showToast('تمت مزامنة هذا الجهاز (' + products.length + ' منتج)', 'success');
+}
 
-    function login() {
-        const u = document.getElementById('username').value.trim();
-        const p = document.getElementById('password').value;
-        document.getElementById('fieldUser').classList.toggle('invalid', !u);
-        document.getElementById('fieldPass').classList.toggle('invalid', !p);
-        if (!u || !p) return;
-        const cred = getCredentials();
-        if (u === cred.username && p === cred.password) {
-            localStorage.setItem('rawad-admin-logged', '1');
-            document.getElementById('loginModal').classList.add('hidden');
-            document.getElementById('mainContent').classList.remove('hidden');
-            showToast('مرحباً بك', 'success');
-            renderList();
-        } else {
-            showToast('بيانات غير صحيحة', 'error');
-            document.getElementById('password').value = '';
-        }
+function updateLastUpdatedLabel() {
+    const el = document.getElementById('lastUpdatedLabel');
+    if (!el) return;
+    const at = localStorage.getItem(STORAGE_UPDATED_KEY);
+    el.textContent = at ? ('آخر تعديل محلي: ' + new Date(at).toLocaleString('ar-EG')) : '';
+}
+
+function getCredentials() {
+    // كلمة السر ثابتة ولا يمكن تغييرها
+    const def = { 
+        username: 'admin', 
+        password: 'TarekMt@010525' 
+    };
+    localStorage.setItem('rawad-admin-credentials', JSON.stringify(def));
+    return def;
+}
+
+function login() {
+    const u = document.getElementById('username').value.trim();
+    const p = document.getElementById('password').value;
+    
+    document.getElementById('fieldUser').classList.toggle('invalid', !u);
+    document.getElementById('fieldPass').classList.toggle('invalid', !p);
+    
+    if (!u || !p) return;
+    
+    const cred = getCredentials();
+    
+    if (u === cred.username && p === cred.password) {
+        localStorage.setItem('rawad-admin-logged', '1');
+        document.getElementById('loginModal').classList.add('hidden');
+        document.getElementById('mainContent').classList.remove('hidden');
+        showToast('مرحباً بك', 'success');
+        renderList();
+    } else {
+        showToast('بيانات غير صحيحة', 'error');
+        document.getElementById('password').value = '';
     }
+}
 
-    function changePassword() {
-        const next = prompt('كلمة المرور الجديدة (4 أحرف على الأقل):');
-        if (next == null) return;
-        if (next.length < 4) { showToast('قصيرة جداً', 'error'); return; }
-        const cred = getCredentials();
-        cred.password = next;
-        localStorage.setItem('rawad-admin-credentials', JSON.stringify(cred));
-        showToast('تم التحديث', 'success');
-    }
+function changePassword() {
+    showToast('غير مسموح بتغيير كلمة المرور', 'error');
+}
 
-    function logout() {
-        if (!confirm('تسجيل الخروج؟')) return;
-        localStorage.setItem('rawad-admin-logged', '0');
-        document.getElementById('mainContent').classList.add('hidden');
-        document.getElementById('loginModal').classList.remove('hidden');
-        showToast('تم الخروج', 'info');
-    }
-
+function logout() {
+    if (!confirm('تسجيل الخروج؟')) return;
+    localStorage.setItem('rawad-admin-logged', '0');
+    document.getElementById('mainContent').classList.add('hidden');
+    document.getElementById('loginModal').classList.remove('hidden');
+    showToast('تم الخروج', 'info');
+}
+        
     function applyTheme(t) {
         document.documentElement.setAttribute('data-theme', t);
         const icon = document.getElementById('themeIcon');
