@@ -72,11 +72,6 @@
     <link rel="dns-prefetch" href="//wa.me">
 
     <style>
-        /* ==========================================================
-           مكتبة الرواد — نظام التصميم
-           اللوحة: حبر أزرق عميق (الكتب والأقلام) + أصفر قطيفي دافئ
-           (ورق الكراسات) على خلفية ورقية باردة.
-           ========================================================== */
         :root {
             --brand-800: #0a2f41;
             --brand-700: #0d3b4f;
@@ -237,7 +232,6 @@
             pointer-events: none;
         }
 
-        /* ===== الأزرار ===== */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -280,7 +274,6 @@
 
         .btn-block { width: 100%; }
 
-        /* ===== شريط الإعلان ===== */
         .announcement {
             background: var(--accent-500);
             color: #3b2405;
@@ -303,7 +296,6 @@
             line-height: 1;
         }
 
-        /* ===== الشريط العلوي ===== */
         .header-top {
             background: var(--brand-800);
             color: var(--on-dark);
@@ -341,7 +333,6 @@
         .social-link.map:hover { background: var(--accent-600); }
         .location-text { opacity: .85; }
 
-        /* ===== الهيدر ===== */
         .header-main {
             position: sticky;
             top: 0;
@@ -514,7 +505,6 @@
         .whatsapp-header span { display: none; }
         @media (min-width: 640px) { .whatsapp-header span { display: inline; } }
 
-        /* ===== التنقل ===== */
         .navbar { background: var(--brand-700); position: relative; z-index: 250; }
         .navbar .container { display: flex; align-items: center; }
         .nav-menu { display: flex; list-style: none; flex-wrap: wrap; }
@@ -580,7 +570,6 @@
             font-weight: 700;
         }
 
-        /* ===== الواجهة الرئيسية ===== */
         .hero {
             position: relative;
             overflow: hidden;
@@ -649,7 +638,6 @@
         .hero-stat strong { display: block; font-size: var(--step-1); font-weight: 900; color: var(--accent-500); }
         .hero-stat span { font-size: .76rem; opacity: .85; }
 
-        /* ===== شريط المزايا ===== */
         .trust-bar { background: var(--surface); border-bottom: 1px solid var(--line); }
         .trust-grid {
             display: grid;
@@ -670,7 +658,6 @@
         .trust-item strong { display: block; font-size: var(--step--1); }
         .trust-item span { font-size: .75rem; color: var(--text-mute); }
 
-        /* ===== الأقسام ===== */
         .section { padding: clamp(2.5rem, 5vw, 4rem) 0; }
         .section-alt { background: var(--bg-alt); }
         .section-surface { background: var(--surface); }
@@ -686,7 +673,6 @@
         }
         .section-sub { color: var(--text-mute); margin-top: .7rem; font-size: var(--step--1); }
 
-        /* ===== التصنيفات ===== */
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -731,7 +717,6 @@
             font-weight: 700;
         }
 
-        /* ===== شريط أدوات المنتجات ===== */
         .products-toolbar {
             display: flex;
             flex-wrap: wrap;
@@ -770,7 +755,6 @@
         }
         .results-count { font-size: var(--step--1); color: var(--text-mute); font-weight: 600; }
 
-        /* ===== بطاقات المنتجات ===== */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
@@ -935,7 +919,6 @@
         }
         @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
 
-        /* ===== الخدمات ===== */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
@@ -968,7 +951,6 @@
         .service-card h3 { color: var(--text); font-size: var(--step-1); margin-bottom: .8rem; }
         .service-card p { color: var(--text-mute); margin-bottom: 1.4rem; font-size: var(--step--1); }
 
-        /* ===== العروض ===== */
         .offers { background: var(--brand-800); color: var(--on-dark); position: relative; overflow: hidden; }
         .offers::before {
             content: '';
@@ -1007,7 +989,6 @@
             font-size: .76rem;
         }
 
-        /* ===== التواصل ===== */
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -1110,7 +1091,6 @@
         .social-card:nth-child(3) { background: var(--instagram); }
         .social-card:hover { transform: translateY(-4px); filter: brightness(1.08); }
 
-        /* ===== التذييل ===== */
         .site-footer {
             background: var(--brand-800);
             color: rgba(234, 243, 247, .78);
@@ -1181,7 +1161,6 @@
         .policy-links a { color: #fff; text-decoration: none; margin: 0 .5rem; }
         .policy-links a:hover { color: var(--accent-500); }
 
-        /* ===== العناصر العائمة ===== */
         .whatsapp-float {
             position: fixed;
             inset-block-end: calc(22px + env(safe-area-inset-bottom, 0px));
@@ -1230,7 +1209,6 @@
         .scroll-to-top.show { display: grid; }
         .scroll-to-top:hover { background: var(--brand-600); color: #fff; }
 
-        /* ===== النوافذ ===== */
         .modal {
             position: fixed;
             inset: 0;
@@ -1290,7 +1268,6 @@
         .modal-body { padding: 1.2rem 1.35rem; overflow-y: auto; flex: 1; }
         .modal-footer { padding: 1.05rem 1.35rem; border-top: 1px solid var(--line); background: var(--surface-2); }
 
-        /* ===== عناصر السلة ===== */
         .cart-list { list-style: none; display: grid; gap: .7rem; }
         .cart-item {
             display: flex;
@@ -1382,7 +1359,6 @@
         }
         .delivery-hint.qualified { background: var(--success-soft); color: var(--success); }
 
-        /* ===== العرض السريع ===== */
         .quickview-media {
             aspect-ratio: 16 / 10;
             border-radius: var(--r-md);
@@ -1405,7 +1381,6 @@
         }
         .chip.accent { background: var(--accent-100); color: var(--accent-700); }
 
-        /* ===== النماذج ===== */
         .field { margin-bottom: 1.05rem; }
         .field label { display: block; margin-bottom: .45rem; font-weight: 700; font-size: var(--step--1); color: var(--text-soft); }
         .field input, .field textarea {
@@ -1428,7 +1403,6 @@
         .form-actions { display: flex; gap: .7rem; flex-wrap: wrap; }
         .form-actions .btn { flex: 1 1 140px; }
 
-        /* ===== التنبيهات ===== */
         .toast-stack {
             position: fixed;
             top: calc(1rem + env(safe-area-inset-top, 0px));
@@ -1457,7 +1431,6 @@
         .toast-warning { background: var(--accent-500); color: #3b2405; }
         .toast-error { background: var(--danger); }
 
-        /* ===== حالة الاتصال ===== */
         .offline-bar {
             position: fixed;
             inset-block-start: 0;
@@ -1474,7 +1447,6 @@
         }
         .offline-bar.show { transform: translateY(0); }
 
-        /* ===== التحميل ===== */
         #loadingOverlay {
             position: fixed;
             inset: 0;
@@ -1496,7 +1468,6 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ===== دعوة التثبيت ===== */
         .install-prompt {
             position: fixed;
             inset-block-end: 0;
@@ -1527,18 +1498,15 @@
         .install-prompt .install-yes { background: var(--accent-500); color: #3b2405; }
         .install-prompt .install-no { background: rgba(255, 255, 255, .16); color: #fff; }
 
-        /* ===== الكشف عند التمرير ===== */
         .reveal { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
         .reveal.visible { opacity: 1; transform: none; }
 
-        /* ===== شريط التمرير ===== */
         ::-webkit-scrollbar { width: 9px; height: 9px; }
         ::-webkit-scrollbar-track { background: var(--surface-3); }
         ::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: var(--r-pill); }
         ::-webkit-scrollbar-thumb:hover { background: var(--brand-500); }
         ::selection { background: var(--accent-500); color: #3b2405; }
 
-        /* ===== الاستجابة ===== */
         @media (max-width: 880px) {
             .header-main .container { flex-wrap: wrap; }
             .logo-text p { display: none; }
@@ -1613,13 +1581,11 @@
         </div>
     </noscript>
 
-    <!-- شريط الترحيب -->
     <div class="announcement" id="announcementBar" role="status" hidden>
         <span>📚 أهلاً بكم في مكتبة الرواد — كل ما تحتاجه في مكان واحد 🎁</span>
         <button type="button" onclick="closeAnnouncement()" aria-label="إغلاق شريط الترحيب">&times;</button>
     </div>
 
-    <!-- Header Top -->
     <div class="header-top">
         <div class="container">
             <div class="contact-info">
@@ -1654,7 +1620,6 @@
         </div>
     </div>
 
-    <!-- Header Main -->
     <header class="header-main">
         <div class="container">
             <a class="logo" href="#home" aria-label="مكتبة الرواد - الصفحة الرئيسية">
@@ -1708,7 +1673,6 @@
         </div>
     </header>
 
-    <!-- Navigation -->
     <nav class="navbar" aria-label="القائمة الرئيسية">
         <div class="container">
             <button class="mobile-menu-toggle" type="button" onclick="toggleMobileMenu()" aria-label="فتح قائمة التنقل" aria-expanded="false" aria-controls="navMenu">
@@ -1768,7 +1732,6 @@
     </nav>
 
     <main id="main">
-        <!-- Hero -->
         <section class="hero" id="home">
             <div class="container">
                 <div class="hero-content">
@@ -1803,7 +1766,6 @@
             </div>
         </section>
 
-        <!-- شريط المزايا -->
         <div class="trust-bar">
             <div class="container">
                 <div class="trust-grid">
@@ -1839,7 +1801,6 @@
             </div>
         </div>
 
-        <!-- Categories -->
         <section class="section" id="categories">
             <div class="container">
                 <div class="section-head">
@@ -1875,7 +1836,6 @@
             </div>
         </section>
 
-        <!-- Products -->
         <section class="section section-alt" id="products">
             <div class="container">
                 <div class="section-head">
@@ -1909,7 +1869,6 @@
             </div>
         </section>
 
-        <!-- Services -->
         <section class="section" id="services">
             <div class="container">
                 <div class="section-head">
@@ -1945,7 +1904,6 @@
             </div>
         </section>
 
-        <!-- Offers -->
         <section class="section offers" id="offers">
             <div class="container">
                 <div class="section-head">
@@ -1980,7 +1938,6 @@
             </div>
         </section>
 
-        <!-- Contact -->
         <section class="section" id="contact">
             <div class="container">
                 <div class="section-head">
@@ -2058,7 +2015,6 @@
         </section>
     </main>
 
-    <!-- Footer -->
     <footer class="site-footer">
         <div class="container">
             <div class="footer-grid">
@@ -2147,7 +2103,6 @@
         </div>
     </footer>
 
-    <!-- Floating -->
     <a href="https://wa.me/+201126630356?text=مرحباً، أريد الاستفسار عن خدماتكم" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="التواصل عبر واتساب">
         <i class="fab fa-whatsapp" aria-hidden="true"></i>
     </a>
@@ -2155,7 +2110,6 @@
         <i class="fas fa-chevron-up" aria-hidden="true"></i>
     </button>
 
-    <!-- Cart Modal -->
     <div class="modal" id="cartModal" role="dialog" aria-labelledby="cartModalTitle" aria-modal="true" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
@@ -2178,7 +2132,6 @@
         </div>
     </div>
 
-    <!-- Wishlist Modal -->
     <div class="modal" id="wishlistModal" role="dialog" aria-labelledby="wishlistModalTitle" aria-modal="true" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
@@ -2201,7 +2154,6 @@
         </div>
     </div>
 
-    <!-- Quick View Modal -->
     <div class="modal" id="quickViewModal" role="dialog" aria-labelledby="quickViewTitle" aria-modal="true" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
@@ -2214,7 +2166,6 @@
         </div>
     </div>
 
-    <!-- Customer Form Modal -->
     <div class="modal" id="customerModal" role="dialog" aria-labelledby="customerModalTitle" aria-modal="true" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
@@ -2262,7 +2213,6 @@
         </div>
     </div>
 
-    <!-- Loading -->
     <div id="loadingOverlay" role="status" aria-live="polite">
         <div>
             <div class="loading-spinner"></div>
@@ -2270,7 +2220,6 @@
         </div>
     </div>
 
-    <!-- PWA Install Prompt -->
     <div class="install-prompt" id="installPrompt" role="region" aria-label="تثبيت التطبيق">
         <span>ثبّت المتجر على جهازك للوصول السريع</span>
         <button class="install-yes" type="button" onclick="installPWA()">تثبيت</button>
@@ -2279,237 +2228,31 @@
 
     <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="false"></div>
     <script>
-    /* ==========================================================
-       1) بيانات المنتجات — مكتبة الرواد
-       ========================================================== */
     const PRODUCT_1_IMAGE = "";
 
     const DEFAULT_PRODUCTS = [
-        {
-            "id": 1,
-            "name": "طقم أقلام تظليل",
-            "price": 55,
-            "discount": 10,
-            "category": "stationery",
-            "description": "مجموعة أقلام عالية الجودة",
-            "rating": 5,
-            "badge": "جديد",
-            "image": PRODUCT_1_IMAGE
-        },
-        {
-            "id": 2,
-            "name": "مجموعة أقلام متنوعة",
-            "price": 0,
-            "discount": 0,
-            "category": "stationery",
-            "description": "مجموعة أقلام عالية الجودة - متنوع",
-            "rating": 5,
-            "badge": "الأكثر مبيعاً",
-            "image": ""
-        },
-        {
-            "id": 3,
-            "name": "حقيبة مدرسية - تصميم عصري",
-            "price": 0,
-            "discount": 0,
-            "category": "bags",
-            "description": "حقيبة مدرسية بتصميم عصري ومقاومة للماء",
-            "rating": 5,
-            "badge": "مميز",
-            "image": ""
-        },
-        {
-            "id": 4,
-            "name": "دفتر ملاحظات",
-            "price": 0,
-            "discount": 0,
-            "category": "stationery",
-            "description": "دفتر ملاحظات متنوع",
-            "rating": 4,
-            "badge": "",
-            "image": ""
-        },
-        {
-            "id": 5,
-            "name": "كشكول وكراس",
-            "price": 0,
-            "discount": 0,
-            "category": "books",
-            "description": "تشكيلات متنوعة ومميزة",
-            "rating": 5,
-            "badge": "",
-            "image": ""
-        },
-        {
-            "id": 6,
-            "name": "هدايا قيمة",
-            "price": 0,
-            "discount": 0,
-            "category": "gifts",
-            "description": "هدايا مميزة ومتنوعة",
-            "rating": 5,
-            "badge": "مميز",
-            "image": ""
-        },
-        {
-            "id": 7,
-            "name": "اكسسوارات",
-            "price": 0,
-            "discount": 0,
-            "category": "gifts",
-            "description": "تشكيلة متنوعة",
-            "rating": 4,
-            "badge": "جديد",
-            "image": ""
-        },
-        {
-            "id": 8,
-            "name": "فولدرات وحافظات",
-            "price": 0,
-            "discount": 0,
-            "category": "stationery",
-            "description": "متنوع",
-            "rating": 4,
-            "badge": "رائع",
-            "image": ""
-        },
-        {
-            "id": 9,
-            "name": "ورق تصوير",
-            "price": 0,
-            "discount": 0,
-            "category": "stationery",
-            "description": "ممتاز",
-            "rating": 4,
-            "badge": "جودة",
-            "image": ""
-        },
-        {
-            "id": 10,
-            "name": "قاموس عربي إنجليزي",
-            "price": 0,
-            "discount": 0,
-            "category": "books",
-            "description": "قاموس شامل ومحدث",
-            "rating": 5,
-            "badge": "مميز",
-            "image": ""
-        },
-        {
-            "id": 11,
-            "name": "حقيبة كمبيوتر",
-            "price": 0,
-            "discount": 0,
-            "category": "bags",
-            "description": "مناسبة لأجهزة اللابتوب",
-            "rating": 4,
-            "badge": "جديد",
-            "image": ""
-        },
-        {
-            "id": 12,
-            "name": "أقلام تخطيط",
-            "price": 0,
-            "discount": 0,
-            "category": "stationery",
-            "description": "مجموعة ألوان متنوعة",
-            "rating": 4,
-            "badge": "",
-            "image": ""
-        },
-        {
-            "id": 13,
-            "name": "مجموعة أدوات هندسية",
-            "price": 0,
-            "discount": 0,
-            "category": "stationery",
-            "description": "أدوات دقيقة ومتينة",
-            "rating": 5,
-            "badge": "جودة",
-            "image": ""
-        },
-        {
-            "id": 14,
-            "name": "كتاب القصص المصورة",
-            "price": 0,
-            "discount": 0,
-            "category": "books",
-            "description": "قصص تعليمية ممتعة",
-            "rating": 4,
-            "badge": "",
-            "image": ""
-        },
-        {
-            "id": 15,
-            "name": "حافظة مستندات",
-            "price": 0,
-            "discount": 0,
-            "category": "stationery",
-            "description": "متينة وتصميم عملي",
-            "rating": 4,
-            "badge": "",
-            "image": ""
-        },
-        {
-            "id": 16,
-            "name": "مجموعة هدايا تخرج",
-            "price": 0,
-            "discount": 0,
-            "category": "gifts",
-            "description": "هدايا مميزة للخريجين",
-            "rating": 5,
-            "badge": "مميز",
-            "image": ""
-        },
-        {
-            "id": 17,
-            "name": "حقيبة رياضية",
-            "price": 0,
-            "discount": 0,
-            "category": "bags",
-            "description": "مناسبة للرياضة والأنشطة",
-            "rating": 4,
-            "badge": "جديد",
-            "image": ""
-        },
-        {
-            "id": 18,
-            "name": "موسوعة علمية",
-            "price": 0,
-            "discount": 0,
-            "category": "books",
-            "description": "شاملة ومفصلة",
-            "rating": 5,
-            "badge": "الأكثر مبيعاً",
-            "image": ""
-        },
-        {
-            "id": 19,
-            "name": "طابع وزينة",
-            "price": 0,
-            "discount": 0,
-            "category": "gifts",
-            "description": "تشكيلة متنوعة من الزينة",
-            "rating": 4,
-            "badge": "",
-            "image": ""
-        },
-        {
-            "id": 20,
-            "name": "مجموعة ألوان فنية",
-            "price": 0,
-            "discount": 0,
-            "category": "stationery",
-            "description": "ألوان عالية الجودة",
-            "rating": 5,
-            "badge": "جديد",
-            "image": ""
-        }
+        { "id": 1, "name": "طقم أقلام تظليل", "price": 55, "discount": 10, "category": "stationery", "description": "مجموعة أقلام عالية الجودة", "rating": 5, "badge": "جديد", "image": PRODUCT_1_IMAGE },
+        { "id": 2, "name": "مجموعة أقلام متنوعة", "price": 0, "discount": 0, "category": "stationery", "description": "مجموعة أقلام عالية الجودة - متنوع", "rating": 5, "badge": "الأكثر مبيعاً", "image": "" },
+        { "id": 3, "name": "حقيبة مدرسية - تصميم عصري", "price": 0, "discount": 0, "category": "bags", "description": "حقيبة مدرسية بتصميم عصري ومقاومة للماء", "rating": 5, "badge": "مميز", "image": "" },
+        { "id": 4, "name": "دفتر ملاحظات", "price": 0, "discount": 0, "category": "stationery", "description": "دفتر ملاحظات متنوع", "rating": 4, "badge": "", "image": "" },
+        { "id": 5, "name": "كشكول وكراس", "price": 0, "discount": 0, "category": "books", "description": "تشكيلات متنوعة ومميزة", "rating": 5, "badge": "", "image": "" },
+        { "id": 6, "name": "هدايا قيمة", "price": 0, "discount": 0, "category": "gifts", "description": "هدايا مميزة ومتنوعة", "rating": 5, "badge": "مميز", "image": "" },
+        { "id": 7, "name": "اكسسوارات", "price": 0, "discount": 0, "category": "gifts", "description": "تشكيلة متنوعة", "rating": 4, "badge": "جديد", "image": "" },
+        { "id": 8, "name": "فولدرات وحافظات", "price": 0, "discount": 0, "category": "stationery", "description": "متنوع", "rating": 4, "badge": "رائع", "image": "" },
+        { "id": 9, "name": "ورق تصوير", "price": 0, "discount": 0, "category": "stationery", "description": "ممتاز", "rating": 4, "badge": "جودة", "image": "" },
+        { "id": 10, "name": "قاموس عربي إنجليزي", "price": 0, "discount": 0, "category": "books", "description": "قاموس شامل ومحدث", "rating": 5, "badge": "مميز", "image": "" },
+        { "id": 11, "name": "حقيبة كمبيوتر", "price": 0, "discount": 0, "category": "bags", "description": "مناسبة لأجهزة اللابتوب", "rating": 4, "badge": "جديد", "image": "" },
+        { "id": 12, "name": "أقلام تخطيط", "price": 0, "discount": 0, "category": "stationery", "description": "مجموعة ألوان متنوعة", "rating": 4, "badge": "", "image": "" },
+        { "id": 13, "name": "مجموعة أدوات هندسية", "price": 0, "discount": 0, "category": "stationery", "description": "أدوات دقيقة ومتينة", "rating": 5, "badge": "جودة", "image": "" },
+        { "id": 14, "name": "كتاب القصص المصورة", "price": 0, "discount": 0, "category": "books", "description": "قصص تعليمية ممتعة", "rating": 4, "badge": "", "image": "" },
+        { "id": 15, "name": "حافظة مستندات", "price": 0, "discount": 0, "category": "stationery", "description": "متينة وتصميم عملي", "rating": 4, "badge": "", "image": "" },
+        { "id": 16, "name": "مجموعة هدايا تخرج", "price": 0, "discount": 0, "category": "gifts", "description": "هدايا مميزة للخريجين", "rating": 5, "badge": "مميز", "image": "" },
+        { "id": 17, "name": "حقيبة رياضية", "price": 0, "discount": 0, "category": "bags", "description": "مناسبة للرياضة والأنشطة", "rating": 4, "badge": "جديد", "image": "" },
+        { "id": 18, "name": "موسوعة علمية", "price": 0, "discount": 0, "category": "books", "description": "شاملة ومفصلة", "rating": 5, "badge": "الأكثر مبيعاً", "image": "" },
+        { "id": 19, "name": "طابع وزينة", "price": 0, "discount": 0, "category": "gifts", "description": "تشكيلة متنوعة من الزينة", "rating": 4, "badge": "", "image": "" },
+        { "id": 20, "name": "مجموعة ألوان فنية", "price": 0, "discount": 0, "category": "stationery", "description": "ألوان عالية الجودة", "rating": 5, "badge": "جديد", "image": "" }
     ];
 
-    /* ==========================================================
-       1-ب) قراءة منتجات لوحة التحكم من التخزين المشترك
-       ========================================================== */
     const PRODUCTS_KEY = 'rawad-products';
     const PRODUCTS_UPDATED_KEY = 'rawad-products-updated-at';
     const REMOTE_CACHE_KEY = 'rawad-products-remote';
@@ -2538,7 +2281,6 @@
         };
     }
 
-    // منتجات لوحة التحكم المحفوظة على نفس الجهاز (معاينة حية أثناء التعديل من admin.html)
     function loadStoredProducts() {
         try {
             const raw = localStorage.getItem(PRODUCTS_KEY);
@@ -2552,7 +2294,6 @@
         }
     }
 
-    // نسخة مخزّنة مؤقتاً من آخر products.json تم جلبه من الإنترنت (تعمل بلا اتصال)
     function loadRemoteCache() {
         try {
             const raw = localStorage.getItem(REMOTE_CACHE_KEY);
@@ -2575,7 +2316,6 @@
         }
     }
 
-    // يقبل صيغتين: مصفوفة قديمة، أو { updatedAt, products:[...] } الحديثة
     function parseProductsPayload(data) {
         if (Array.isArray(data)) {
             if (!isValidProductList(data)) return null;
@@ -2590,9 +2330,6 @@
 
     let products = loadStoredProducts() || loadRemoteCache() || DEFAULT_PRODUCTS;
 
-    /* ==========================================================
-       2) إعدادات عامة وحالة التطبيق
-       ========================================================== */
     const STORE = {
         whatsapp: '201126630356',
         address: 'أمام سنترال الصوة - بالمجمع',
@@ -2606,8 +2343,6 @@
         bags:       { icon: 'fa-briefcase', label: 'الحقائب المدرسية' },
         gifts:      { icon: 'fa-gift',      label: 'الهدايا' }
     };
-
-    const FILTER_LABELS = { all: 'الكل', books: 'الكتب', stationery: 'المستلزمات', bags: 'الحقائب', gifts: 'الهدايا' };
 
     const SYNC_CHANNEL_NAME = 'rawad-store-sync';
     let syncChannel = null;
@@ -2624,11 +2359,9 @@
     let currentSearch = '';
     let suggestionIndex = -1;
     let lastFocused = null;
+    let modalFocusHandler = null;
     let customerData = { name: '', phone: '', customDate: '', customTime: '', notes: '' };
 
-    /* ==========================================================
-       3) أدوات مساعدة
-       ========================================================== */
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
@@ -2718,9 +2451,6 @@
         }
     }
 
-    /* ==========================================================
-       4) الإشعارات
-       ========================================================== */
     function showNotification(message, type = 'info') {
         const stack = $('#toastStack');
         if (!stack) return;
@@ -2741,9 +2471,12 @@
         while (stack.children.length > 4) stack.firstElementChild.remove();
     }
 
-    /* ==========================================================
-       5) النوافذ المنبثقة + حبس التركيز
-       ========================================================== */
+    function getFocusable(modal) {
+        return Array.from(modal.querySelectorAll(
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )).filter(el => el.offsetParent !== null || el === document.activeElement);
+    }
+
     function openModal(id) {
         const modal = document.getElementById(id);
         if (!modal) return;
@@ -2751,8 +2484,26 @@
         modal.classList.add('active');
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
-        const focusable = modal.querySelector('button, [href], input, select, textarea');
-        if (focusable) setTimeout(() => focusable.focus(), 120);
+
+        const focusable = getFocusable(modal);
+        if (focusable.length) setTimeout(() => focusable[0].focus(), 80);
+
+        if (modalFocusHandler) document.removeEventListener('keydown', modalFocusHandler);
+        modalFocusHandler = (e) => {
+            if (e.key !== 'Tab') return;
+            const items = getFocusable(modal);
+            if (!items.length) return;
+            const first = items[0];
+            const last = items[items.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        };
+        document.addEventListener('keydown', modalFocusHandler);
     }
 
     function closeModal(id) {
@@ -2760,28 +2511,17 @@
         if (!modal) return;
         modal.classList.remove('active');
         modal.setAttribute('aria-hidden', 'true');
+        if (modalFocusHandler) {
+            document.removeEventListener('keydown', modalFocusHandler);
+            modalFocusHandler = null;
+        }
         if (!$$('.modal.active').length) document.body.style.overflow = '';
-        if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
-    }
-
-    function trapFocus(event) {
-        const modal = $$('.modal.active').pop();
-        if (!modal || event.key !== 'Tab') return;
-        const items = Array.from(modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
-            .filter(el => !el.disabled && el.offsetParent !== null);
-        if (!items.length) return;
-        const first = items[0];
-        const last = items[items.length - 1];
-        if (event.shiftKey && document.activeElement === first) {
-            event.preventDefault(); last.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-            event.preventDefault(); first.focus();
+        if (lastFocused && typeof lastFocused.focus === 'function') {
+            lastFocused.focus();
+            lastFocused = null;
         }
     }
 
-    /* ==========================================================
-       6) عرض المنتجات
-       ========================================================== */
     function getVisibleProducts() {
         let list = products.slice();
 
@@ -2959,9 +2699,6 @@
         if (stat) stat.textContent = products.length;
     }
 
-    /* ==========================================================
-       7) البحث
-       ========================================================== */
     let searchTimer = null;
 
     function handleSearchInput(event) {
@@ -3051,9 +2788,6 @@
         renderProducts();
     }
 
-    /* ==========================================================
-       8) السلة
-       ========================================================== */
     function bumpBadge(id) {
         const el = $(id);
         if (!el) return;
@@ -3087,7 +2821,7 @@
         bumpBadge('#cartCount');
         saveToLocalStorage();
         showNotification(`تمت إضافة "${product.name}" إلى السلة`, 'success');
-        if ($('#cartModal').classList.contains('active')) renderCart();
+        if ($('#cartModal') && $('#cartModal').classList.contains('active')) renderCart();
     }
 
     function setQuantity(productId, delta) {
@@ -3205,9 +2939,6 @@
     function showCart() { renderCart(); openModal('cartModal'); }
     function closeCart() { closeModal('cartModal'); }
 
-    /* ==========================================================
-       9) المفضلة
-       ========================================================== */
     function toggleWishlist(productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
@@ -3225,7 +2956,7 @@
         updateWishlistCount();
         saveToLocalStorage();
         syncWishlistButtons();
-        if ($('#wishlistModal').classList.contains('active')) renderWishlist();
+        if ($('#wishlistModal') && $('#wishlistModal').classList.contains('active')) renderWishlist();
     }
 
     function syncWishlistButtons() {
@@ -3314,9 +3045,6 @@
     function showWishlistModal() { renderWishlist(); openModal('wishlistModal'); }
     function closeWishlist() { closeModal('wishlistModal'); }
 
-    /* ==========================================================
-       10) عرض سريع للمنتج
-       ========================================================== */
     function openQuickView(productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
@@ -3365,9 +3093,6 @@
         copyText(`${text}\n${url}`);
     }
 
-    /* ==========================================================
-       11) إتمام الطلب
-       ========================================================== */
     function checkout() {
         if (!cart.length) {
             showNotification('السلة فارغة، أضف منتجاً أولاً', 'error');
@@ -3484,9 +3209,6 @@
         if (saved) customerData = Object.assign(customerData, saved);
     }
 
-    /* ==========================================================
-       12) الوضع الليلي
-       ========================================================== */
     function applyTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         const icon = $('#themeIcon');
@@ -3509,9 +3231,6 @@
         applyTheme(saved || (prefersDark ? 'dark' : 'light'));
     }
 
-    /* ==========================================================
-       13) واجهة عامة: قائمة، تمرير، ساعات العمل
-       ========================================================== */
     function toggleMobileMenu() {
         const menu = $('#navMenu');
         const toggle = $('.mobile-menu-toggle');
@@ -3551,9 +3270,8 @@
         const el = $('#openNow');
         if (!el) return;
         const now = new Date();
-        const day = now.getDay(); // 0=أحد ... 5=جمعة ... 6=سبت
+        const day = now.getDay();
         const minutes = now.getHours() * 60 + now.getMinutes();
-        // الجمعة: 14:00–22:00 ، باقي الأيام (سبت–خميس): 07:00–22:00
         const open = day === 5
             ? (minutes >= 14 * 60 && minutes < 22 * 60)
             : (minutes >= 7 * 60 && minutes < 22 * 60);
@@ -3619,9 +3337,6 @@
         onScroll();
     }
 
-    /* ==========================================================
-       13-ب) التزامن الحي مع لوحة التحكم
-       ========================================================== */
     function applyProducts(list, toastMsg) {
         products = list;
         cart = cart.filter(item => products.some(p => p.id === item.id));
@@ -3633,13 +3348,12 @@
         updateCategoryCounts();
         renderProducts();
         syncWishlistButtons();
-        if ($('#cartModal').classList.contains('active')) renderCart();
-        if ($('#wishlistModal').classList.contains('active')) renderWishlist();
+        if ($('#cartModal') && $('#cartModal').classList.contains('active')) renderCart();
+        if ($('#wishlistModal') && $('#wishlistModal').classList.contains('active')) renderWishlist();
 
         if (toastMsg) showNotification(toastMsg, 'info');
     }
 
-    // تحديث فوري من لوحة التحكم إن كانت مفتوحة على *نفس هذا الجهاز/المتصفح*
     function reloadProductsFromAdmin(showToast) {
         const stored = loadStoredProducts();
         if (!stored) return false;
@@ -3647,8 +3361,6 @@
         return true;
     }
 
-    // جلب أحدث نسخة منشورة من products.json عبر الإنترنت — هذا ما يجعل التحديث
-    // الذي يُنشر من لوحة التحكم على أي جهاز يظهر على كل الأجهزة الأخرى (كمبيوتر/هاتف)
     async function fetchRemoteProducts() {
         if (!('fetch' in window)) return null;
         const controller = ('AbortController' in window) ? new AbortController() : null;
@@ -3682,7 +3394,6 @@
 
         saveRemoteCache(remote.list, remote.updatedAt);
 
-        // لا نستبدل معاينة حية من لوحة التحكم مفتوحة على هذا الجهاز نفسه
         if (loadStoredProducts()) return false;
 
         applyProducts(remote.list, showToast ? 'تم تحديث المنتجات من الموقع' : null);
@@ -3700,24 +3411,16 @@
             };
         }
 
-        // 1) معاينة فورية لو كانت لوحة التحكم على نفس الجهاز
         reloadProductsFromAdmin(false);
-        // 2) جلب النسخة المنشورة فعلياً على الإنترنت — يعمل على كل جهاز (كمبيوتر أو هاتف)
         syncFromRemote(false);
 
-        // إعادة الجلب عند عودة التبويب للواجهة (مفيد جداً للهاتف عند فتح التطبيق مجدداً)
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') syncFromRemote(false);
         });
-        // إعادة الجلب عند عودة الاتصال بالإنترنت
         window.addEventListener('online', () => syncFromRemote(true));
-        // تحديث دوري كل 5 دقائق طالما الصفحة مفتوحة
         setInterval(() => syncFromRemote(false), 5 * 60 * 1000);
     }
 
-    /* ==========================================================
-       14) PWA
-       ========================================================== */
     let deferredPrompt = null;
 
     function initPWA() {
@@ -3748,9 +3451,6 @@
         safeSet('rawad-install-dismissed', true);
     }
 
-    /* ==========================================================
-       15) ربط الأحداث والتشغيل
-       ========================================================== */
     function initEvents() {
         const searchInput = $('#searchInput');
         if (searchInput) {
@@ -3782,7 +3482,6 @@
                 e.preventDefault();
                 if (searchInput) searchInput.focus();
             }
-            trapFocus(e);
         });
 
         $$('.category-card').forEach(card => {
@@ -3843,9 +3542,6 @@
         setInterval(updateOpenStatus, 60000);
     }
 
-    /* ==========================================================
-       16) شبكة أمان: لا تترك الصفحة بيضاء أبداً
-       ========================================================== */
     function showFatal(error) {
         console.error(error);
         const box = document.createElement('div');
@@ -3870,7 +3566,6 @@
         }
     });
 
-    // لا يعمل Service Worker إلا على http/https، ويُتجاهل عند فتح الملف محلياً
     if ('serviceWorker' in navigator && location.protocol.startsWith('http') && !/[?&]nosw=1/.test(location.search)) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js')
@@ -3879,7 +3574,6 @@
         });
     }
 
-    // للطوارئ: افتح الصفحة بالرابط ‎?nosw=1‎ لإلغاء أي Service Worker قديم عالق
     if (/[?&]nosw=1/.test(location.search) && 'serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations()
             .then(list => list.forEach(r => r.unregister()))
