@@ -1,0 +1,225 @@
+{
+  "updatedAt": "2026-09-29T18:10:00.000Z",
+  "products": [
+    {
+      "id": 1,
+      "name": "طقم أقلام تظليل",
+      "price": 55,
+      "discount": 10,
+      "category": "stationery",
+      "description": "طقم أقلام تظليل بألوان متعددة وحبر سائل ناعم — مثالي للمراجعة وتلوين النصوص",
+      "rating": 5,
+      "badge": "جديد",
+      "image": ""
+    },
+    {
+      "id": 2,
+      "name": "مجموعة أقلام متنوعة",
+      "price": 48,
+      "discount": 0,
+      "category": "stationery",
+      "description": "مجموعة أقلام جاف ورصاص بألوان وأحجام مختلفة — جودة عالية للاستخدام اليومي",
+      "rating": 5,
+      "badge": "الأكثر مبيعاً",
+      "image": ""
+    },
+    {
+      "id": 3,
+      "name": "حقيبة مدرسية - تصميم عصري",
+      "price": 0,
+      "discount": 0,
+      "category": "bags",
+      "description": "حقيبة مدرسية بتصميم عصري ومقاومة للماء، جيوب متعددة وظهر مريح — السعر حسب المقاس واللون",
+      "rating": 5,
+      "badge": "مميز",
+      "image": ""
+    },
+    {
+      "id": 4,
+      "name": "دفتر ملاحظات",
+      "price": 28,
+      "discount": 0,
+      "category": "stationery",
+      "description": "دفاتر ملاحظات بأحجام وأنواع ورق مختلفة (مسطر / مربعات / أبيض) — غلاف مقوى",
+      "rating": 4,
+      "badge": "",
+      "image": ""
+    },
+    {
+      "id": 5,
+      "name": "كشكول وكراس",
+      "price": 35,
+      "discount": 5,
+      "category": "books",
+      "description": "تشكيلات كشاكيل وكراسات دراسية لمراحل مختلفة — غلاف متين وورق أبيض",
+      "rating": 5,
+      "badge": "",
+      "image": ""
+    },
+    {
+      "id": 6,
+      "name": "هدايا قيمة",
+      "price": 0,
+      "discount": 0,
+      "category": "gifts",
+      "description": "تشكيلة هدايا مميزة للمناسبات والأعياد — يمكن تخصيص العبوة حسب الطلب",
+      "rating": 5,
+      "badge": "مميز",
+      "image": ""
+    },
+    {
+      "id": 7,
+      "name": "اكسسوارات",
+      "price": 0,
+      "discount": 0,
+      "category": "gifts",
+      "description": "اكسسوارات مكتبية وزينة متنوعة (مشابك، دبابيس، ملصقات، حاملات أقلام)",
+      "rating": 4,
+      "badge": "جديد",
+      "image": ""
+    },
+    {
+      "id": 8,
+      "name": "فولدرات وحافظات",
+      "price": 42,
+      "discount": 0,
+      "category": "stationery",
+      "description": "فولدرات وحافظات بلاستيكية وكرتونية بأحجام A4 وA5 — شفافة وملونة",
+      "rating": 4,
+      "badge": "رائع",
+      "image": ""
+    },
+    {
+      "id": 9,
+      "name": "ورق تصوير",
+      "price": 95,
+      "discount": 0,
+      "category": "stationery",
+      "description": "رزمة ورق تصوير A4 وزن 80 جم — بياض عالي ومناسب للطابعات والتصوير",
+      "rating": 4,
+      "badge": "جودة",
+      "image": ""
+    },
+    {
+      "id": 10,
+      "name": "قاموس عربي إنجليزي",
+      "price": 85,
+      "discount": 10,
+      "category": "books",
+      "description": "قاموس عربي–إنجليزي شامل ومحدّث مع أمثلة واستخدامات شائعة للطلاب",
+      "rating": 5,
+      "badge": "مميز",
+      "image": ""
+    },
+    {
+      "id": 11,
+      "name": "حقيبة كمبيوتر",
+      "price": 0,
+      "discount": 0,
+      "category": "bags",
+      "description": "حقائب لابتوب بأحجام 13 و15 بوصة — حماية مبطنة وجيب إكسسوارات — السعر حسب المقاس",
+      "rating": 4,
+      "badge": "جديد",
+      "image": ""
+    },
+    {
+      "id": 12,
+      "name": "أقلام تخطيط",
+      "price": 32,
+      "discount": 0,
+      "category": "stationery",
+      "description": "أقلام تخطيط (ماركر) بألوان متنوعة ورأس دقيق أو عريض — للكتابة على الورق والسبورة",
+      "rating": 4,
+      "badge": "",
+      "image": ""
+    },
+    {
+      "id": 13,
+      "name": "مجموعة أدوات هندسية",
+      "price": 58,
+      "discount": 0,
+      "category": "stationery",
+      "description": "طقم هندسة كامل: مسطرة، مثلثات، منقلة، برجل — معدن وبلاستيك متين",
+      "rating": 5,
+      "badge": "جودة",
+      "image": ""
+    },
+    {
+      "id": 14,
+      "name": "كتاب القصص المصورة",
+      "price": 45,
+      "discount": 0,
+      "category": "books",
+      "description": "قصص مصورة تعليمية ممتعة للأطفال — رسوم واضحة ولغة بسيطة",
+      "rating": 4,
+      "badge": "",
+      "image": ""
+    },
+    {
+      "id": 15,
+      "name": "حافظة مستندات",
+      "price": 38,
+      "discount": 0,
+      "category": "stationery",
+      "description": "حافظة مستندات بسحاب أو كبّاس — مناسبة للأوراق والشهادات بحجم A4",
+      "rating": 4,
+      "badge": "",
+      "image": ""
+    },
+    {
+      "id": 16,
+      "name": "مجموعة هدايا تخرج",
+      "price": 0,
+      "discount": 0,
+      "category": "gifts",
+      "description": "باقات هدايا تخرج مميزة (دفاتر، أقلام فاخرة، إطارات) — تُجهّز حسب الطلب",
+      "rating": 5,
+      "badge": "مميز",
+      "image": ""
+    },
+    {
+      "id": 17,
+      "name": "حقيبة رياضية",
+      "price": 0,
+      "discount": 0,
+      "category": "bags",
+      "description": "حقائب رياضية خفيفة ومقاومة للماء — مناسبة للنادي والأنشطة المدرسية",
+      "rating": 4,
+      "badge": "جديد",
+      "image": ""
+    },
+    {
+      "id": 18,
+      "name": "موسوعة علمية",
+      "price": 145,
+      "discount": 15,
+      "category": "books",
+      "description": "موسوعة علمية مصوّرة شاملة — مناسبة للطلاب والمهتمين بالعلوم العامة",
+      "rating": 5,
+      "badge": "الأكثر مبيعاً",
+      "image": ""
+    },
+    {
+      "id": 19,
+      "name": "طابع وزينة",
+      "price": 22,
+      "discount": 0,
+      "category": "gifts",
+      "description": "تشكيلة طوابع وأدوات زينة للمشاريع المدرسية والكروت اليدوية",
+      "rating": 4,
+      "badge": "",
+      "image": ""
+    },
+    {
+      "id": 20,
+      "name": "مجموعة ألوان فنية",
+      "price": 72,
+      "discount": 8,
+      "category": "stationery",
+      "description": "ألوان مائية أو خشبية أو فلوماستر عالية الجودة — علب بأحجام متعددة",
+      "rating": 5,
+      "badge": "جديد",
+      "image": ""
+    }
+  ]
+}
