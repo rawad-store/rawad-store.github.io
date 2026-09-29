@@ -4,8 +4,8 @@
     {
       "id": 1,
       "name": "طقم أقلام تظليل",
-      "price": 55,
-      "discount": 10,
+      "price": 0,
+      "discount": 0,
       "category": "stationery",
       "description": "مجموعة أقلام عالية الجودة",
       "rating": 5,
